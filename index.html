@@ -2035,6 +2035,31 @@ html{background:var(--bg);}
   .inc-input-qty{width:65px;}
   #inc-modal-ovl > div, #schema-modal-ovl > div{padding:20px 16px;}
 }
+
+.bev-calc-panel{background:rgba(0,30,40,0.6);border:1px solid rgba(0,212,176,0.25);border-radius:14px;padding:16px;margin-top:10px}
+.bev-calc-hdr{font-size:11px;font-weight:700;color:#00e8c8;letter-spacing:0.08em;text-transform:uppercase;margin-bottom:12px;display:flex;align-items:center;gap:8px}
+.bev-calc-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+@media(max-width:500px){.bev-calc-grid{grid-template-columns:1fr}}
+.bev-drk-list{display:flex;flex-direction:column;gap:3px;max-height:260px;overflow-y:auto}
+.bev-drk-btn{background:transparent;border:1px solid rgba(0,212,176,0.12);border-radius:7px;padding:7px 10px;color:#b0e8dc;font-size:11px;cursor:pointer;display:flex;align-items:center;justify-content:space-between;transition:all 0.15s;text-align:left;font-family:inherit}
+.bev-drk-btn:hover{background:rgba(0,212,176,0.07);border-color:rgba(0,212,176,0.3)}
+.bev-drk-btn.active{background:rgba(0,212,176,0.12);border-color:#00d4b0;color:#fff}
+.bev-drk-tag{font-size:9px;color:rgba(0,212,176,0.4);background:rgba(0,212,176,0.06);padding:2px 6px;border-radius:20px}
+.bev-drk-btn.active .bev-drk-tag{color:#00d4b0}
+.bev-calc-right{display:flex;flex-direction:column;gap:8px}
+.bev-stack-row{display:flex;align-items:center;gap:8px;margin-bottom:4px}
+.bev-sbtn{width:28px;height:28px;border-radius:6px;background:rgba(0,212,176,0.08);border:1px solid rgba(0,212,176,0.25);color:#00d4b0;font-size:16px;cursor:pointer;display:flex;align-items:center;justify-content:center}
+.bev-sbtn:hover{background:rgba(0,212,176,0.18)}
+.bev-scnt{font-size:1.6rem;font-weight:800;color:#00e8c8;min-width:42px;text-align:center;font-family:var(--mono,'DM Mono',monospace)}
+.bev-ing-tbl{width:100%;border-collapse:collapse;font-size:12px}
+.bev-ing-tbl tr{border-bottom:1px solid rgba(0,212,176,0.07)}
+.bev-ing-tbl td{padding:6px 3px}
+.bev-ing-name{color:#c0ece4}
+.bev-ing-tot{color:#00e8c8;text-align:right;font-family:var(--mono,'DM Mono',monospace)}
+.bev-ing-s{color:#00d4b0;text-align:right;font-family:var(--mono,'DM Mono',monospace);font-size:11px}
+.bev-grape{background:rgba(255,180,0,0.06);border:1px solid rgba(255,180,0,0.2);border-radius:8px;padding:8px 10px;font-size:11px;color:rgba(255,200,80,0.8);margin-bottom:6px}
+.bev-cat-title{font-size:9px;letter-spacing:0.15em;color:rgba(0,212,176,0.35);text-transform:uppercase;padding:4px 6px;border-left:2px solid rgba(0,212,176,0.2);margin-bottom:3px;margin-top:6px}
+
 </style>
 
 <!-- SUPABASE SDK -->
@@ -4811,7 +4836,7 @@ function completaIncaricoSett(incId){
     if(typeof getSettimaneIncMese==='function'&&typeof getGlobalWeekIndex==='function'){
       const _a=inc.anno||new Date().getFullYear();
       const _si=getSettimaneIncMese(_a,inc.mese)[inc.sett-1];
-      if(_si){const _l=new Date(_si.dom);_l.setDate(_si.dom.getDate()-6);_k=`${_a}_${inc.mese}_${getGlobalWeekIndex(_l)}`;}
+      if(_si){const _l=new Date(_si.dom);_l.setDate(_si.dom.getDate()+1);_k=`${_a}_${inc.mese}_${getGlobalWeekIndex(_l)}`;}
     }
     if(!_k){const _p=inc.sett<=2?1:(inc.sett<=4?2:3),_s=(inc.sett===1||inc.sett===3)?'A':'B';_k=stipKey(inc.mese,_p,_s);}
     if(!d.dati[_k])d.dati[_k]={};
@@ -5154,13 +5179,17 @@ function _incRenderRisorse(){
   if(v.bevande){
     const totB = _incA.bvRows.reduce((s,r)=>s+(r.stacks||0),0);
     const stClass = totB===v.bevande?'ok':totB>v.bevande?'over':'under';
+    const _showCalc = CU && ['Direttrice','Vice Direttore'].includes(CU.ruolo);
     html += `<div class="inc-fdet">
       <div class="inc-fdet-t">🥤 Bevande <span style="font-size:10px;color:var(--dim);font-weight:400;text-transform:none;letter-spacing:0">(target: ${v.bevande}s = ${v.bevande*64} unità)</span></div>
       <div id="inc-bvrows"></div>
       <div class="inc-ftotal"><span style="color:var(--dim)">Totale Bevande</span><span class="inc-ftotal-v ${stClass}">${totB} / ${v.bevande}s</span></div>
     </div>
-    <button onclick="incAddBvRow()" style="background:rgba(80,150,255,0.05);border:1px solid rgba(80,150,255,0.2);color:#6fa8ff;border-radius:8px;padding:6px 14px;font-size:11px;cursor:pointer;margin-bottom:10px;font-family:inherit">+ Aggiungi tipologia bevanda</button>`;
+    <button onclick="incAddBvRow()" style="background:rgba(80,150,255,0.05);border:1px solid rgba(80,150,255,0.2);color:#6fa8ff;border-radius:8px;padding:6px 14px;font-size:11px;cursor:pointer;margin-bottom:10px;font-family:inherit">+ Aggiungi tipologia bevanda</button>
+    ${_showCalc ? _buildCalcPanel() : ''}`;
   }
+  // Render calc after DOM update
+  if(v.bevande) setTimeout(()=>_calcRender(), 10);
   cont.innerHTML = html;
   // Render rows
   _incRenderFrows(); _incRenderBvrows();
@@ -5168,36 +5197,49 @@ function _incRenderRisorse(){
 
 function _incRenderFrows(){
   const cont = document.getElementById('inc-frows'); if(!cont) return;
-  cont.innerHTML = _incA.fRows.map((r,i)=>`
-    <div class="inc-frow">
-      <select class="lb-select" style="flex:1;margin:0;font-size:12px;padding:6px 10px" onchange="_incA.fRows[${i}].nome=this.value;_incUpdateConfirm()">
+  cont.innerHTML = _incA.fRows.map((r,i)=>{
+    const useSacchi = r.useSacchi||false;
+    const dispVal = useSacchi ? (r.stacks ? Math.round(r.stacks/9*10)/10 : '') : (r.stacks||'');
+    const sUnit = useSacchi ? `(${r.stacks||0}s)` : `(${Math.round((r.stacks||0)*64)}u)`;
+    return `<div class="inc-frow" style="flex-wrap:wrap;gap:5px">
+      <select class="lb-select" style="flex:1;min-width:120px;margin:0;font-size:12px;padding:6px 10px" onchange="_incA.fRows[${i}].nome=this.value;_incUpdateConfirm()">
         <option value="">— Seleziona frutta —</option>
         ${PRODOTTI_PRESET.map(p=>`<option${r.nome===p?' selected':''}>${p}</option>`).join('')}
       </select>
-      <input type="number" min="0" step="0.5" value="${r.stacks||''}" placeholder="stack"
+      <input type="number" min="0" step="0.5" value="${dispVal}" placeholder="${useSacchi?'sacchi':'stack'}"
         class="lb-input" style="width:72px;margin:0;padding:6px 8px;text-align:center;font-size:12px"
-        oninput="_incA.fRows[${i}].stacks=parseFloat(this.value)||0;_incUpdateRisorseUI();_incUpdateConfirm()">
-      <span style="font-size:10px;color:var(--dim);white-space:nowrap">(${Math.round((r.stacks||0)*64)}u)</span>
+        oninput="const _v=parseFloat(this.value)||0;_incA.fRows[${i}].stacks=_incA.fRows[${i}].useSacchi?Math.round(_v*9*10)/10:_v;_incUpdateRisorseUI();_incUpdateConfirm()">
+      <button onclick="_incA.fRows[${i}].useSacchi=!(_incA.fRows[${i}].useSacchi||false);_incRenderFrows();_incUpdateRisorseUI();_incUpdateConfirm()"
+        style="background:${useSacchi?'rgba(0,212,255,0.15)':'rgba(255,255,255,0.04)'};border:1px solid ${useSacchi?'rgba(0,212,255,0.4)':'rgba(255,255,255,0.1)'};color:${useSacchi?'var(--cyan)':'var(--dim)'};border-radius:5px;padding:4px 8px;cursor:pointer;font-size:10px;flex-shrink:0" title="1 sacco = 9 stack">${useSacchi?'⚙ sacchi':'⚙ stack'}</button>
+      <span style="font-size:10px;color:var(--dim);white-space:nowrap">${sUnit}</span>
       <button onclick="_incA.fRows.splice(${i},1);_incRenderRisorse();_incUpdateConfirm()"
         style="background:rgba(255,80,80,0.08);border:1px solid rgba(255,80,80,0.2);color:#ff6060;border-radius:5px;padding:4px 8px;cursor:pointer;flex-shrink:0">✕</button>
-    </div>`).join('');
+    </div>`;
+  }).join('');
 }
 
 function _incRenderBvrows(){
   const cont = document.getElementById('inc-bvrows'); if(!cont) return;
-  cont.innerHTML = _incA.bvRows.map((r,i)=>`
-    <div class="inc-frow">
-      <select class="lb-select" style="flex:1;margin:0;font-size:12px;padding:6px 10px" onchange="_incA.bvRows[${i}].nome=this.value;_incUpdateConfirm()">
+  cont.innerHTML = _incA.bvRows.map((r,i)=>{
+    const useSacchi = r.useSacchi||false;
+    const dispVal = useSacchi ? (r.stacks ? Math.round(r.stacks/9*10)/10 : '') : (r.stacks||'');
+    const uLabel = useSacchi ? 'sacchi' : 'stack';
+    const sUnit = useSacchi ? `(${r.stacks||0}s)` : `(${Math.round((r.stacks||0)*64)}u)`;
+    return `<div class="inc-frow" style="flex-wrap:wrap;gap:5px">
+      <select class="lb-select" style="flex:1;min-width:120px;margin:0;font-size:12px;padding:6px 10px" onchange="_incA.bvRows[${i}].nome=this.value;_incUpdateConfirm()">
         <option value="">— Seleziona bevanda —</option>
         ${Object.values(PRODS_ALL).flat().map(p=>`<option${r.nome===p?' selected':''}>${p}</option>`).join('')}
       </select>
-      <input type="number" min="0" step="0.5" value="${r.stacks||''}" placeholder="stack"
+      <input type="number" min="0" step="${useSacchi?'0.5':'0.5'}" value="${dispVal}" placeholder="${uLabel}"
         class="lb-input" style="width:72px;margin:0;padding:6px 8px;text-align:center;font-size:12px"
-        oninput="_incA.bvRows[${i}].stacks=parseFloat(this.value)||0;_incUpdateRisorseUI();_incUpdateConfirm()">
-      <span style="font-size:10px;color:var(--dim);white-space:nowrap">(${Math.round((r.stacks||0)*64)}u)</span>
+        oninput="const _v=parseFloat(this.value)||0;_incA.bvRows[${i}].stacks=_incA.bvRows[${i}].useSacchi?Math.round(_v*9*10)/10:_v;_incUpdateRisorseUI();_incUpdateConfirm()">
+      <button onclick="_incA.bvRows[${i}].useSacchi=!(_incA.bvRows[${i}].useSacchi||false);_incRenderBvrows();_incUpdateRisorseUI();_incUpdateConfirm()"
+        style="background:${useSacchi?'rgba(80,150,255,0.15)':'rgba(255,255,255,0.04)'};border:1px solid ${useSacchi?'rgba(80,150,255,0.4)':'rgba(255,255,255,0.1)'};color:${useSacchi?'#6fa8ff':'var(--dim)'};border-radius:5px;padding:4px 8px;cursor:pointer;font-size:10px;flex-shrink:0" title="1 sacco = 9 stack">${useSacchi?'⚙ sacchi':'⚙ stack'}</button>
+      <span style="font-size:10px;color:var(--dim);white-space:nowrap">${sUnit}</span>
       <button onclick="_incA.bvRows.splice(${i},1);_incRenderRisorse();_incUpdateConfirm()"
         style="background:rgba(255,80,80,0.08);border:1px solid rgba(255,80,80,0.2);color:#ff6060;border-radius:5px;padding:4px 8px;cursor:pointer;flex-shrink:0">✕</button>
-    </div>`).join('');
+    </div>`;
+  }).join('');
 }
 
 function _incUpdateRisorseUI(){
@@ -5252,10 +5294,10 @@ function incSalvaAssegna(){
   const _settInfo = _settimane[sett-1];
   let _stipKey = null;
   if(_settInfo && typeof getGlobalWeekIndex==='function'){
-    // La settimana stipendi che contiene la domenica dell'incarico
-    // = la settimana Lun-Dom che finisce su quella domenica
-    // → il suo lunedì = dom - 6 giorni
-    const _lunStip = new Date(_settInfo.dom); _lunStip.setDate(_settInfo.dom.getDate()-6);
+    // Stipendio pagato la domenica successiva al sabato fine settimana.
+    // La settimana stipendi = Lun-Dom che inizia il giorno dopo la Dom dell'incarico.
+    // → lunedì pagamento = dom + 1 giorno
+    const _lunStip = new Date(_settInfo.dom); _lunStip.setDate(_settInfo.dom.getDate()+1);
     const _gIdx = getGlobalWeekIndex(_lunStip);
     _stipKey = `${_anno}_${mese}_${_gIdx}`;
   }
@@ -5543,10 +5585,11 @@ function incCardDip(inc){
           <div class="inc-prog-fill" id="inc-bar-${inc.id}-${r}-${pi}" style="width:${ppct}%;background:${pcolor}"></div>
         </div>
         <div class="inc-prog-input-row">
-          <input type="number" min="0" max="${Math.round(maxInput/STACK)}" class="inc-input-qty"
-            id="inc-inp-${inc.id}-${r}-${pi}" value="${p.fatto?Math.round(p.fatto/STACK):''}" placeholder="0"
+          <input type="number" min="0" max="${(inc._useSacchi&&inc._useSacchi[r])?Math.round(maxInput/STACK/9*10)/10:Math.round(maxInput/STACK)}" class="inc-input-qty"
+            id="inc-inp-${inc.id}-${r}-${pi}" value="${p.fatto?((inc._useSacchi&&inc._useSacchi[r])?Math.round(p.fatto/STACK/9*100)/100:Math.round(p.fatto/STACK)):''}" placeholder="0"
             style="flex:1;width:auto;text-align:left"
-            oninput="aggiornaProdotto('${inc.id}','${r}',${pi},this.value)">
+            oninput="aggiornaProdotto('${inc.id}','${r}',${pi},this.value,(inc._useSacchi&&inc._useSacchi['${r}'])&&'sacchi')">
+          <button onclick="if(!INCARICHI.find(x=>x.id==='${inc.id}'))return;const _i=INCARICHI.find(x=>x.id==='${inc.id}');if(!_i._useSacchi)_i._useSacchi={};_i._useSacchi['${r}']=!(_i._useSacchi['${r}']);renderIncDip()" style="background:${(inc._useSacchi&&inc._useSacchi[r])?'rgba(80,150,255,0.15)':'rgba(255,255,255,0.04)'};border:1px solid ${(inc._useSacchi&&inc._useSacchi[r])?'rgba(80,150,255,0.35)':'rgba(255,255,255,0.08)'};color:${(inc._useSacchi&&inc._useSacchi[r])?'#6fa8ff':'var(--dim)'};border-radius:5px;padding:3px 7px;font-size:10px;cursor:pointer;white-space:nowrap" title="1 sacco = 9 stack">${(inc._useSacchi&&inc._useSacchi[r])?'⚙ sacchi':'⚙ stack'}</button>
           <span class="inc-prog-pct" id="inc-pp-${inc.id}-${r}-${pi}" style="color:${pcolor}">${ppct}%</span>
         </div>
       </div>`;
@@ -5632,7 +5675,7 @@ function _setExtraProd(incId, r, idx, campo, val){
   _registraStipendio(inc);
 }
 
-function aggiornaProdotto(incId, risorsa, prodIdx, val){
+function aggiornaProdotto(incId, risorsa, prodIdx, val, unit){
   const inc = INCARICHI.find(x=>x.id===incId);
   if(!inc||inc.stato==='completato') return;
   const prodotti = (inc.prodottiPerRisorsa||{})[risorsa]||[];
@@ -5643,11 +5686,12 @@ function aggiornaProdotto(incId, risorsa, prodIdx, val){
   const disponibile = totTarget - fattoAltri;
   // Clamp al max disponibile E al target del singolo prodotto
   const maxProd = Math.min(prodotti[prodIdx].qty, disponibile);
-  const qtyUnits = Math.max(0, Math.min((parseInt(val)||0)*STACK, maxProd));
+  const _stacksInput = unit==='sacchi' ? (parseFloat(val)||0)*9 : (parseFloat(val)||0);
+  const qtyUnits = Math.max(0, Math.min(Math.round(_stacksInput*STACK), maxProd));
   prodotti[prodIdx].fatto = qtyUnits;
   // Correggi l'input se ha superato il limite
   const thisInput = document.getElementById('inc-inp-'+incId+'-'+risorsa+'-'+prodIdx);
-  const qtyStack = Math.round(qtyUnits/STACK); if(thisInput && parseInt(thisInput.value) !== qtyStack) thisInput.value = qtyStack || '';
+  const qtyStack = Math.round(qtyUnits/STACK); const qtyDisp = unit==='sacchi' ? Math.round(qtyStack/9*100)/100 : qtyStack; if(thisInput && parseFloat(thisInput.value) !== qtyDisp) thisInput.value = qtyDisp || '';
   inc.stato = 'in-corso';
   // Ricalcola totali
   const totFatto = prodotti.reduce((s,p)=>s+(p.fatto||0),0);
@@ -6139,7 +6183,7 @@ function completaIncaricoSett(incId){
     if(typeof getSettimaneIncMese==='function'&&typeof getGlobalWeekIndex==='function'){
       const _a=inc.anno||new Date().getFullYear();
       const _si=getSettimaneIncMese(_a,inc.mese)[inc.sett-1];
-      if(_si){const _l=new Date(_si.dom);_l.setDate(_si.dom.getDate()-6);_k=`${_a}_${inc.mese}_${getGlobalWeekIndex(_l)}`;}
+      if(_si){const _l=new Date(_si.dom);_l.setDate(_si.dom.getDate()+1);_k=`${_a}_${inc.mese}_${getGlobalWeekIndex(_l)}`;}
     }
     if(!_k){const _p=inc.sett<=2?1:(inc.sett<=4?2:3),_s=(inc.sett===1||inc.sett===3)?'A':'B';_k=stipKey(inc.mese,_p,_s);}
     if(!d.dati[_k])d.dati[_k]={};
@@ -6457,13 +6501,17 @@ function _incRenderRisorse(){
   if(v.bevande){
     const totB = _incA.bvRows.reduce((s,r)=>s+(r.stacks||0),0);
     const stClass = totB===v.bevande?'ok':totB>v.bevande?'over':'under';
+    const _showCalc = CU && ['Direttrice','Vice Direttore'].includes(CU.ruolo);
     html += `<div class="inc-fdet">
       <div class="inc-fdet-t">🥤 Bevande <span style="font-size:10px;color:var(--dim);font-weight:400;text-transform:none;letter-spacing:0">(target: ${v.bevande}s = ${v.bevande*64} unità)</span></div>
       <div id="inc-bvrows"></div>
       <div class="inc-ftotal"><span style="color:var(--dim)">Totale Bevande</span><span class="inc-ftotal-v ${stClass}">${totB} / ${v.bevande}s</span></div>
     </div>
-    <button onclick="incAddBvRow()" style="background:rgba(80,150,255,0.05);border:1px solid rgba(80,150,255,0.2);color:#6fa8ff;border-radius:8px;padding:6px 14px;font-size:11px;cursor:pointer;margin-bottom:10px;font-family:inherit">+ Aggiungi tipologia bevanda</button>`;
+    <button onclick="incAddBvRow()" style="background:rgba(80,150,255,0.05);border:1px solid rgba(80,150,255,0.2);color:#6fa8ff;border-radius:8px;padding:6px 14px;font-size:11px;cursor:pointer;margin-bottom:10px;font-family:inherit">+ Aggiungi tipologia bevanda</button>
+    ${_showCalc ? _buildCalcPanel() : ''}`;
   }
+  // Render calc after DOM update
+  if(v.bevande) setTimeout(()=>_calcRender(), 10);
   cont.innerHTML = html;
   // Render rows
   _incRenderFrows(); _incRenderBvrows();
@@ -6471,36 +6519,49 @@ function _incRenderRisorse(){
 
 function _incRenderFrows(){
   const cont = document.getElementById('inc-frows'); if(!cont) return;
-  cont.innerHTML = _incA.fRows.map((r,i)=>`
-    <div class="inc-frow">
-      <select class="lb-select" style="flex:1;margin:0;font-size:12px;padding:6px 10px" onchange="_incA.fRows[${i}].nome=this.value;_incUpdateConfirm()">
+  cont.innerHTML = _incA.fRows.map((r,i)=>{
+    const useSacchi = r.useSacchi||false;
+    const dispVal = useSacchi ? (r.stacks ? Math.round(r.stacks/9*10)/10 : '') : (r.stacks||'');
+    const sUnit = useSacchi ? `(${r.stacks||0}s)` : `(${Math.round((r.stacks||0)*64)}u)`;
+    return `<div class="inc-frow" style="flex-wrap:wrap;gap:5px">
+      <select class="lb-select" style="flex:1;min-width:120px;margin:0;font-size:12px;padding:6px 10px" onchange="_incA.fRows[${i}].nome=this.value;_incUpdateConfirm()">
         <option value="">— Seleziona frutta —</option>
         ${PRODOTTI_PRESET.map(p=>`<option${r.nome===p?' selected':''}>${p}</option>`).join('')}
       </select>
-      <input type="number" min="0" step="0.5" value="${r.stacks||''}" placeholder="stack"
+      <input type="number" min="0" step="0.5" value="${dispVal}" placeholder="${useSacchi?'sacchi':'stack'}"
         class="lb-input" style="width:72px;margin:0;padding:6px 8px;text-align:center;font-size:12px"
-        oninput="_incA.fRows[${i}].stacks=parseFloat(this.value)||0;_incUpdateRisorseUI();_incUpdateConfirm()">
-      <span style="font-size:10px;color:var(--dim);white-space:nowrap">(${Math.round((r.stacks||0)*64)}u)</span>
+        oninput="const _v=parseFloat(this.value)||0;_incA.fRows[${i}].stacks=_incA.fRows[${i}].useSacchi?Math.round(_v*9*10)/10:_v;_incUpdateRisorseUI();_incUpdateConfirm()">
+      <button onclick="_incA.fRows[${i}].useSacchi=!(_incA.fRows[${i}].useSacchi||false);_incRenderFrows();_incUpdateRisorseUI();_incUpdateConfirm()"
+        style="background:${useSacchi?'rgba(0,212,255,0.15)':'rgba(255,255,255,0.04)'};border:1px solid ${useSacchi?'rgba(0,212,255,0.4)':'rgba(255,255,255,0.1)'};color:${useSacchi?'var(--cyan)':'var(--dim)'};border-radius:5px;padding:4px 8px;cursor:pointer;font-size:10px;flex-shrink:0" title="1 sacco = 9 stack">${useSacchi?'⚙ sacchi':'⚙ stack'}</button>
+      <span style="font-size:10px;color:var(--dim);white-space:nowrap">${sUnit}</span>
       <button onclick="_incA.fRows.splice(${i},1);_incRenderRisorse();_incUpdateConfirm()"
         style="background:rgba(255,80,80,0.08);border:1px solid rgba(255,80,80,0.2);color:#ff6060;border-radius:5px;padding:4px 8px;cursor:pointer;flex-shrink:0">✕</button>
-    </div>`).join('');
+    </div>`;
+  }).join('');
 }
 
 function _incRenderBvrows(){
   const cont = document.getElementById('inc-bvrows'); if(!cont) return;
-  cont.innerHTML = _incA.bvRows.map((r,i)=>`
-    <div class="inc-frow">
-      <select class="lb-select" style="flex:1;margin:0;font-size:12px;padding:6px 10px" onchange="_incA.bvRows[${i}].nome=this.value;_incUpdateConfirm()">
+  cont.innerHTML = _incA.bvRows.map((r,i)=>{
+    const useSacchi = r.useSacchi||false;
+    const dispVal = useSacchi ? (r.stacks ? Math.round(r.stacks/9*10)/10 : '') : (r.stacks||'');
+    const uLabel = useSacchi ? 'sacchi' : 'stack';
+    const sUnit = useSacchi ? `(${r.stacks||0}s)` : `(${Math.round((r.stacks||0)*64)}u)`;
+    return `<div class="inc-frow" style="flex-wrap:wrap;gap:5px">
+      <select class="lb-select" style="flex:1;min-width:120px;margin:0;font-size:12px;padding:6px 10px" onchange="_incA.bvRows[${i}].nome=this.value;_incUpdateConfirm()">
         <option value="">— Seleziona bevanda —</option>
         ${Object.values(PRODS_ALL).flat().map(p=>`<option${r.nome===p?' selected':''}>${p}</option>`).join('')}
       </select>
-      <input type="number" min="0" step="0.5" value="${r.stacks||''}" placeholder="stack"
+      <input type="number" min="0" step="${useSacchi?'0.5':'0.5'}" value="${dispVal}" placeholder="${uLabel}"
         class="lb-input" style="width:72px;margin:0;padding:6px 8px;text-align:center;font-size:12px"
-        oninput="_incA.bvRows[${i}].stacks=parseFloat(this.value)||0;_incUpdateRisorseUI();_incUpdateConfirm()">
-      <span style="font-size:10px;color:var(--dim);white-space:nowrap">(${Math.round((r.stacks||0)*64)}u)</span>
+        oninput="const _v=parseFloat(this.value)||0;_incA.bvRows[${i}].stacks=_incA.bvRows[${i}].useSacchi?Math.round(_v*9*10)/10:_v;_incUpdateRisorseUI();_incUpdateConfirm()">
+      <button onclick="_incA.bvRows[${i}].useSacchi=!(_incA.bvRows[${i}].useSacchi||false);_incRenderBvrows();_incUpdateRisorseUI();_incUpdateConfirm()"
+        style="background:${useSacchi?'rgba(80,150,255,0.15)':'rgba(255,255,255,0.04)'};border:1px solid ${useSacchi?'rgba(80,150,255,0.4)':'rgba(255,255,255,0.1)'};color:${useSacchi?'#6fa8ff':'var(--dim)'};border-radius:5px;padding:4px 8px;cursor:pointer;font-size:10px;flex-shrink:0" title="1 sacco = 9 stack">${useSacchi?'⚙ sacchi':'⚙ stack'}</button>
+      <span style="font-size:10px;color:var(--dim);white-space:nowrap">${sUnit}</span>
       <button onclick="_incA.bvRows.splice(${i},1);_incRenderRisorse();_incUpdateConfirm()"
         style="background:rgba(255,80,80,0.08);border:1px solid rgba(255,80,80,0.2);color:#ff6060;border-radius:5px;padding:4px 8px;cursor:pointer;flex-shrink:0">✕</button>
-    </div>`).join('');
+    </div>`;
+  }).join('');
 }
 
 function _incUpdateRisorseUI(){
@@ -6555,10 +6616,10 @@ function incSalvaAssegna(){
   const _settInfo = _settimane[sett-1];
   let _stipKey = null;
   if(_settInfo && typeof getGlobalWeekIndex==='function'){
-    // La settimana stipendi che contiene la domenica dell'incarico
-    // = la settimana Lun-Dom che finisce su quella domenica
-    // → il suo lunedì = dom - 6 giorni
-    const _lunStip = new Date(_settInfo.dom); _lunStip.setDate(_settInfo.dom.getDate()-6);
+    // Stipendio pagato la domenica successiva al sabato fine settimana.
+    // La settimana stipendi = Lun-Dom che inizia il giorno dopo la Dom dell'incarico.
+    // → lunedì pagamento = dom + 1 giorno
+    const _lunStip = new Date(_settInfo.dom); _lunStip.setDate(_settInfo.dom.getDate()+1);
     const _gIdx = getGlobalWeekIndex(_lunStip);
     _stipKey = `${_anno}_${mese}_${_gIdx}`;
   }
@@ -7441,7 +7502,7 @@ function cambiaStato(code,stato){
         let _d=DIP.find(x=>x.nome===_nd);if(!_d){_d={nome:_nd,ruolo:'Dipendente',contratto:'',warn:'0',appunti:'',dati:{}};DIP.push(_d);}
         const _ms=o.mese||(new Date().getMonth()+1),_st=o.sett||1,_a=o.anno||new Date().getFullYear();
         let _k=o.stipKey||null;
-        if(!_k&&typeof getSettimaneIncMese==='function'){const _si=getSettimaneIncMese(_a,_ms)[_st-1];if(_si){const _l=new Date(_si.dom);_l.setDate(_si.dom.getDate()-6);_k=`${_a}_${_ms}_${getGlobalWeekIndex(_l)}`;} }
+        if(!_k&&typeof getSettimaneIncMese==='function'){const _si=getSettimaneIncMese(_a,_ms)[_st-1];if(_si){const _l=new Date(_si.dom);_l.setDate(_si.dom.getDate()+1);_k=`${_a}_${_ms}_${getGlobalWeekIndex(_l)}`;} }
         if(!_k)_k=stipKey(_ms,_st<=2?1:(_st<=4?2:3),(_st===1||_st===3)?'A':'B');
         if(!_d.dati[_k])_d.dati[_k]={};_d.dati[_k].lunSab=true;_d.dati[_k].ordini=(_d.dati[_k].ordini||0)+1;dbSave.dip();
       }
@@ -7791,7 +7852,7 @@ function getDatoS(nome,key){
         // Verifica che questa chiave legacy corrisponda realmente a questa settimana
         if(typeof getSettimaneIncMese==='function'&&typeof getGlobalWeekIndex==='function'){
           const si=getSettimaneIncMese(anno,mese)[sett-1];
-          if(si){const l=new Date(si.dom);l.setDate(si.dom.getDate()-6);
+          if(si){const l=new Date(si.dom);l.setDate(si.dom.getDate()+1);
             if(getGlobalWeekIndex(l)===gIdx) return d.dati[lk];
           }
         }
@@ -7826,7 +7887,7 @@ function _migrateOldStipKeys(){
       if(!sett) return;
       const si=getSettimaneIncMese(anno,mese)[sett-1];
       if(!si) return;
-      const l=new Date(si.dom);l.setDate(si.dom.getDate()-6);
+      const l=new Date(si.dom);l.setDate(si.dom.getDate()+1);
       const newKey=`${anno}_${mese}_${getGlobalWeekIndex(l)}`;
       if(!d.dati[newKey]){
         d.dati[newKey]=d.dati[lk];
@@ -7837,6 +7898,129 @@ function _migrateOldStipKeys(){
   });
   if(changed) dbSave.dip();
 }
+
+// ── Calcolatore Bevande ──
+const _CALC_DRINKS = {
+    acqua_frizzante: { label:'Acqua Frizzante', machine:'Depuratore', grapeNote:null,
+      ingredients:[{name:'Zeolite',per:12},{name:'Carbone',per:12},{name:'Acqua Torbida',per:1}] },
+    acqua_naturale: { label:'Acqua Naturale', machine:'Depuratore', grapeNote:null,
+      ingredients:[{name:'Silice',per:12},{name:'Carbone',per:12},{name:'Acqua Torbida',per:1}] },
+    birra: { label:'Birra', machine:'Fermentatore', grapeNote:null,
+      ingredients:[{name:'Zucchero',per:12},{name:'Luppolo',per:12},{name:'Acqua Frizzante',per:1}] },
+    blue_curacao: { label:'Blu Curaçao', machine:'Fermentatore', grapeNote:null,
+      ingredients:[{name:'Arancia',per:12},{name:'Zucchero',per:12},{name:'Acqua Naturale',per:1}] },
+    campari: { label:'Campari', machine:'Fermentatore', grapeNote:null,
+      ingredients:[{name:'Erbe Amaricanti',per:12},{name:'Zucchero',per:12},{name:'Acqua Naturale',per:1}] },
+    gin: { label:'Gin', machine:'Fermentatore', grapeNote:null,
+      ingredients:[{name:'Ginepro',per:12},{name:'Zucchero',per:12},{name:'Acqua Naturale',per:1}] },
+    rum_bianco: { label:'Rum Bianco', machine:'Fermentatore', grapeNote:null,
+      ingredients:[{name:'Canna da Zucchero',per:12},{name:'Zucchero',per:12},{name:'Acqua Naturale',per:1}] },
+    vodka: { label:'Vodka', machine:'Fermentatore', grapeNote:null,
+      ingredients:[{name:'Patata',per:12},{name:'Zucchero',per:12},{name:'Acqua Naturale',per:1}] },
+    champagne: { label:'Champagne', machine:'Fermentatore', grapeNote:null,
+      ingredients:[{name:'Zucchero',per:12},{name:'Lievito',per:12},{name:'Acqua Frizzante',per:1}] },
+    vino_bianco: { label:'Vino Bianco', machine:'Fermentatore', grapeNote:"⚠ Inserire prima l'Uva Bianca nel fermentatore prima di avviare la produzione.",
+      ingredients:[{name:'Uva Bianca',per:8},{name:'Lievito',per:8},{name:'Zucchero',per:8},{name:'Acqua Torbida',per:1}] },
+    vino_rose: { label:'Vino Rosè', machine:'Fermentatore', grapeNote:"⚠ Inserire prima l'Uva Rosa nel fermentatore prima di avviare la produzione.",
+      ingredients:[{name:'Uva Rosa',per:8},{name:'Lievito',per:8},{name:'Zucchero',per:8},{name:'Acqua Torbida',per:1}] },
+    vino_rosso: { label:'Vino Rosso', machine:'Fermentatore', grapeNote:"⚠ Inserire prima l'Uva Viola nel fermentatore prima di avviare la produzione.",
+      ingredients:[{name:'Uva Viola',per:8},{name:'Lievito',per:8},{name:'Zucchero',per:8},{name:'Acqua Torbida',per:1}] },
+    chinotto: { label:'Chinotto', machine:'Miscelatore', grapeNote:null,
+      ingredients:[{name:'Zucchero',per:12},{name:'Chinotto',per:12},{name:'Acqua Frizzante',per:1}] },
+    coca_cola: { label:'Coca Cola', machine:'Miscelatore', grapeNote:null,
+      ingredients:[{name:'Zucchero',per:12},{name:'Baccelli di Vaniglia',per:12},{name:'Acqua Frizzante',per:1}] },
+    fanta: { label:'Fanta', machine:'Miscelatore', grapeNote:null,
+      ingredients:[{name:'Zucchero',per:12},{name:'Arancia',per:12},{name:'Acqua Frizzante',per:1}] },
+    sprite: { label:'Sprite', machine:'Miscelatore', grapeNote:null,
+      ingredients:[{name:'Zucchero',per:12},{name:'Limone',per:12},{name:'Acqua Frizzante',per:1}] },
+    succo_ananas: { label:'Succo Ananas', machine:'Miscelatore', grapeNote:null,
+      ingredients:[{name:'Zucchero',per:12},{name:'Ananas',per:12},{name:'Acqua Naturale',per:1}] },
+    succo_fragola: { label:'Succo Fragola', machine:'Miscelatore', grapeNote:null,
+      ingredients:[{name:'Zucchero',per:12},{name:'Fragola',per:12},{name:'Acqua Naturale',per:1}] },
+    succo_melaverde: { label:'Succo Melaverde', machine:'Miscelatore', grapeNote:null,
+      ingredients:[{name:'Zucchero',per:12},{name:'Mela',per:12},{name:'Acqua Naturale',per:1}] },
+    succo_mirtillo: { label:'Succo Mirtillo', machine:'Miscelatore', grapeNote:null,
+      ingredients:[{name:'Zucchero',per:12},{name:'Mirtillo',per:12},{name:'Acqua Naturale',per:1}] },
+    te_limone: { label:'Tè al Limone', machine:'Miscelatore', grapeNote:null,
+      ingredients:[{name:'Foglie di Tè',per:12},{name:'Limone',per:12},{name:'Acqua Naturale',per:1}] },
+    te_pesca: { label:'Tè alla Pesca', machine:'Miscelatore', grapeNote:null,
+      ingredients:[{name:'Foglie di Tè',per:12},{name:'Pesca',per:12},{name:'Acqua Naturale',per:1}] },
+  };
+const _CALC_YIELD = 25;
+let _calcDrink = 'acqua_frizzante';
+let _calcStacks = 1;
+
+function _calcRender(){
+  const d = _CALC_DRINKS[_calcDrink]; if(!d) return;
+  const el = document.getElementById('bev-calc-recipe'); if(!el) return;
+  const runs = Math.ceil(_calcStacks*64/_CALC_YIELD);
+  const produced = runs*_CALC_YIELD;
+  el.innerHTML = `
+    <div style="font-size:13px;font-weight:700;color:#fff;margin-bottom:8px">${d.label}
+      <span style="font-size:10px;color:rgba(0,212,176,0.5);font-weight:400;margin-left:6px">${d.machine}</span>
+    </div>
+    ${d.grapeNote?`<div class="bev-grape">${d.grapeNote}</div>`:''}
+    <table class="bev-ing-tbl">
+      <thead><tr>
+        <td style="font-size:9px;letter-spacing:0.12em;color:rgba(0,212,176,0.3);text-transform:uppercase;padding:0 3px 6px">Ingrediente</td>
+        <td style="font-size:9px;letter-spacing:0.12em;color:rgba(0,212,176,0.3);text-transform:uppercase;padding:0 3px 6px;text-align:right">Totale</td>
+        <td style="font-size:9px;letter-spacing:0.12em;color:rgba(0,212,176,0.3);text-transform:uppercase;padding:0 3px 6px;text-align:right">Stack</td>
+      </tr></thead>
+      <tbody>${d.ingredients.map(ing=>{
+        const tot=ing.per*runs;
+        const fs=Math.floor(tot/64),fr=tot%64;
+        const sStr=fs>0?(fr>0?`${fs}s <span style="color:rgba(0,212,176,0.4)">+${fr}</span>`:`${fs}s`):`<span style="color:rgba(0,212,176,0.4)">${fr}</span>`;
+        return `<tr><td class="bev-ing-name">${ing.name}</td><td class="bev-ing-tot">${tot}</td><td class="bev-ing-s">${sStr}</td></tr>`;
+      }).join('')}</tbody>
+    </table>
+    <div style="margin-top:8px;font-size:10px;color:rgba(0,212,176,0.4);font-family:var(--mono,'monospace')">
+      ${_calcStacks} stack · ${_calcStacks*64} unità · ${runs} cicli macchina · ${produced} prodotti
+    </div>`;
+}
+
+function _calcSelectDrink(key){
+  _calcDrink=key;
+  document.querySelectorAll('.bev-drk-btn').forEach(b=>b.classList.toggle('active',b.dataset.key===key));
+  _calcRender();
+}
+
+function _calcChangeStacks(delta){
+  _calcStacks=Math.max(1,_calcStacks+delta);
+  const el=document.getElementById('bev-calc-stacks');
+  if(el) el.textContent=_calcStacks;
+  _calcRender();
+}
+
+function _buildCalcPanel(){
+  const cats = {};
+  Object.entries(_CALC_DRINKS).forEach(([k,d])=>{
+    if(!cats[d.machine]) cats[d.machine]='';
+    cats[d.machine]+=`<button class="bev-drk-btn${k===_calcDrink?' active':''}" data-key="${k}" onclick="_calcSelectDrink('${k}')">${d.label}<span class="bev-drk-tag">${d.machine}</span></button>`;
+  });
+  const list = Object.entries(cats).map(([m,btns])=>`<div class="bev-cat-title">⬡ ${m}</div>${btns}`).join('');
+  return `<div class="bev-calc-panel">
+    <div class="bev-calc-hdr">🥤 Calcolatore Bevande</div>
+    <div class="bev-calc-grid">
+      <div>
+        <div style="font-size:10px;color:rgba(0,212,176,0.5);text-transform:uppercase;letter-spacing:0.1em;margin-bottom:6px">Seleziona drink</div>
+        <div class="bev-drk-list">${list}</div>
+      </div>
+      <div class="bev-calc-right">
+        <div>
+          <div style="font-size:10px;color:rgba(0,212,176,0.5);text-transform:uppercase;letter-spacing:0.1em;margin-bottom:6px">Stack da produrre</div>
+          <div class="bev-stack-row">
+            <button class="bev-sbtn" onclick="_calcChangeStacks(-1)">−</button>
+            <span id="bev-calc-stacks" class="bev-scnt">${_calcStacks}</span>
+            <span style="font-size:10px;color:rgba(0,212,176,0.5)">stack</span>
+            <button class="bev-sbtn" onclick="_calcChangeStacks(1)">+</button>
+          </div>
+        </div>
+        <div id="bev-calc-recipe"></div>
+      </div>
+    </div>
+  </div>`;
+}
+
 function stipKey(m,p,sub){return m+'_'+p+'_'+(sub||'A');}
 function getDato(nome,m,p,sub){return(DIP.find(d=>d.nome===nome)||{dati:{}}).dati[stipKey(m,p,sub)]||{};}
 function setDato(nome,m,p,sub,campo,val){
