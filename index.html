@@ -2695,6 +2695,9 @@ document.addEventListener('DOMContentLoaded', ()=>{
     if(all.aziende && Array.isArray(all.aziende) && all.aziende.length){
       AZIENDE.length = 0;
       all.aziende.forEach(a => AZIENDE.push(a));
+    } else {
+      // Primo avvio: salva le aziende hardcoded nel DB così sono modificabili dallo staff
+      try { await DB.save('aziende', AZIENDE); } catch(e){ console.warn('aziende bootstrap failed', e); }
     }
 
     // ── Carica sezione Staff per tutti i visitatori (non solo staff loggati) ──
@@ -7432,8 +7435,16 @@ let MIEI_ORDINI=[];
 function loginAzienda(){
   const email=document.getElementById('az-email').value.trim().toLowerCase();
   const pass=document.getElementById('az-pass').value;
+  console.log('[login azienda] email:', email, '| AZIENDE caricate:', AZIENDE.length);
   const az=AZIENDE.find(a=>a.email.toLowerCase()===email&&a.password===pass);
-  if(!az){document.getElementById('az-err').style.display='block';return;}
+  if(!az){
+    const errEl=document.getElementById('az-err');
+    errEl.style.display='block';
+    errEl.textContent = AZIENDE.length===0
+      ? '⚠ Database non ancora caricato. Riprova tra qualche secondo.'
+      : '⚠ Credenziali non valide';
+    return;
+  }
   closeOvl('az-ovl');
   AZ_LOGGED=az;
   aggiornaNavAzienda();
