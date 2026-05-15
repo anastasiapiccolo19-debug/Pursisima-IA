@@ -284,19 +284,17 @@ html{background:var(--bg);}
 .notif-clear{background:none;border:none;color:var(--dim2);font-size:10px;cursor:pointer;font-family:var(--sans);}
 .notif-clear:hover{color:var(--red);}
 .notif-list{max-height:280px;overflow-y:auto;}
-/* ── Avvisi INL ── */
-.avviso-card{background:rgba(234,179,8,0.07);border:1px solid rgba(234,179,8,0.28);border-left:4px solid #eab308;border-radius:12px;padding:14px 16px 12px;margin-bottom:10px;position:relative;}
+.avviso-card{background:rgba(234,179,8,0.07);border:1px solid rgba(234,179,8,0.28);border-left:4px solid #eab308;border-radius:12px;padding:14px 16px 12px;margin-bottom:10px;}
 .avviso-card-title{font-size:12px;font-weight:800;color:#eab308;display:flex;align-items:center;gap:6px;margin-bottom:6px;}
 .avviso-card-body{font-size:12px;color:rgba(255,255,255,0.75);line-height:1.65;}
 .avviso-card-footer{display:flex;align-items:center;justify-content:space-between;margin-top:10px;}
 .avviso-card-time{font-size:10px;color:var(--dim2);}
-.avviso-letta-btn{background:rgba(46,204,113,0.15);border:1px solid rgba(46,204,113,0.35);color:var(--green);border-radius:6px;padding:3px 10px;font-size:11px;font-weight:700;cursor:pointer;font-family:inherit;transition:all .15s;}
-.avviso-letta-btn:hover{background:rgba(46,204,113,0.3);}
+.avviso-letta-btn{background:rgba(46,204,113,0.15);border:1px solid rgba(46,204,113,0.35);color:var(--green);border-radius:6px;padding:3px 10px;font-size:11px;font-weight:700;cursor:pointer;font-family:inherit;}
 .avviso-drop{position:absolute;top:calc(100% + 10px);right:0;width:380px;background:var(--bg2);border:1px solid var(--border);border-radius:14px;box-shadow:0 12px 40px rgba(0,0,0,0.45);z-index:500;display:none;overflow:hidden;}
 .avviso-drop.open{display:block;}
 .avviso-drop-header{display:flex;align-items:center;justify-content:space-between;padding:12px 16px;border-bottom:1px solid var(--border);}
 .avviso-drop-list{max-height:360px;overflow-y:auto;padding:12px;}
-
+.notif-item{padding:10px 16px;border-bottom:1px solid rgba(255,255,255,0.04);cursor:pointer;transition:background 0.15s;}
 .notif-item:hover{background:rgba(255,255,255,0.04);}
 .notif-item.unread{background:rgba(0,212,255,0.05);}
 .notif-item-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:3px;}
@@ -2701,7 +2699,6 @@ function _initMeseCorrente(){
     if(el)el.value=m;
   });
 }
-
 document.addEventListener('DOMContentLoaded', ()=>{
   _initMeseCorrente();
   setTimeout(tryAutoLogin, 500); // aspetta che tutto sia inizializzato
@@ -5744,7 +5741,6 @@ else tryStart();
     <div style="display:flex;gap:4px;margin-bottom:28px;background:rgba(255,255,255,0.04);border-radius:12px;padding:5px;width:fit-content">
       <button id="mord-tab-storico" onclick="mordTab('storico')" style="padding:9px 20px;font-size:12px;font-weight:700;border:none;background:rgba(0,212,255,0.18);color:#fff;border-radius:9px;cursor:pointer;letter-spacing:0.04em;font-family:inherit;transition:all .18s">📋 Storico</button>
       <button id="mord-tab-uscite"  onclick="mordTab('uscite')"  style="padding:9px 20px;font-size:12px;font-weight:700;border:none;background:transparent;color:rgba(255,255,255,0.45);border-radius:9px;cursor:pointer;letter-spacing:0.04em;font-family:inherit;transition:all .18s">📊 Dashboard</button>
-      <button id="mord-tab-bevande" onclick="mordTab('bevande')" style="padding:9px 20px;font-size:12px;font-weight:700;border:none;background:transparent;color:rgba(255,255,255,0.45);border-radius:9px;cursor:pointer;letter-spacing:0.04em;font-family:inherit;transition:all .18s">🥤 Bevande</button>
     </div>
 
     <!-- Tab: Ordini (nascosto, usato internamente) -->
@@ -5752,8 +5748,6 @@ else tryStart();
 
     <!-- Tab: Storico filtrato -->
     <div id="mord-panel-storico">
-      <!-- Ordini in corso -->
-      <div id="mst-pendenti" style="margin-bottom:16px"></div>
       <div style="display:flex;align-items:center;gap:12px;margin-bottom:18px;flex-wrap:wrap;background:rgba(255,255,255,0.04);border-radius:12px;padding:12px 16px;border:1px solid rgba(255,255,255,0.07)">
         <span style="font-size:10px;font-weight:800;color:rgba(255,255,255,0.5);letter-spacing:0.15em;text-transform:uppercase">MESE</span>
         <select class="fsel" id="mst-mese" onchange="renderMordStorico()">
@@ -5795,83 +5789,38 @@ else tryStart();
 
     <!-- Tab: Uscite -->
     <div id="mord-panel-uscite" style="display:none">
-      <div style="display:flex;align-items:center;gap:12px;margin-bottom:18px;flex-wrap:wrap;background:rgba(255,255,255,0.04);border-radius:12px;padding:12px 16px;border:1px solid rgba(255,255,255,0.07)">
-        <span style="font-size:10px;font-weight:800;color:rgba(255,255,255,0.5);letter-spacing:0.15em;text-transform:uppercase">VISTA</span>
-        <select class="fsel" id="muc-vista" onchange="renderMordUscite()">
-          <option value="mese">Per Mese</option>
-          <option value="anno">Riepilogo Annuale</option>
-        </select>
-        <span style="font-size:10px;font-weight:800;color:rgba(255,255,255,0.5);letter-spacing:0.15em;text-transform:uppercase" id="muc-lbl-mese-sel">MESE</span>
+      <div style="display:flex;align-items:center;gap:12px;margin-bottom:18px;background:rgba(255,255,255,0.04);border-radius:12px;padding:12px 16px;border:1px solid rgba(255,255,255,0.07)">
+        <span style="font-size:10px;font-weight:800;color:rgba(255,255,255,0.5);letter-spacing:0.15em;text-transform:uppercase">MESE</span>
         <select class="fsel" id="muc-mese" onchange="renderMordUscite()">
           <option value="1">Gennaio</option><option value="2">Febbraio</option><option value="3" selected>Marzo</option><option value="4">Aprile</option>
           <option value="5">Maggio</option><option value="6">Giugno</option><option value="7">Luglio</option><option value="8">Agosto</option>
           <option value="9">Settembre</option><option value="10">Ottobre</option><option value="11">Novembre</option><option value="12">Dicembre</option>
         </select>
       </div>
-      <div id="muc-view-mese">
-        <div class="mord-panel-box" style="margin-bottom:16px">
-          <div class="mord-panel-box-title">📤 Uscite <span id="muc-az-lbl" style="color:rgba(255,255,255,0.85)"></span> — <span id="muc-mese-lbl" style="color:rgba(255,255,255,0.85)">Marzo</span></div>
-          <div style="overflow-x:auto"><table class="staff-tbl"><thead><tr><th>S1</th><th>S2</th><th>S3</th><th>S4</th><th>S5</th><th>Totale Mese</th><th>N° Ordini</th></tr></thead>
-            <tbody id="muc-tbody"></tbody></table></div>
-        </div>
-        <div class="kpi-grid" id="muc-kpi" style="margin-bottom:0"></div>
-      </div>
-      <div id="muc-view-anno" style="display:none">
-        <div class="kpi-grid" id="muc-kpi-anno" style="margin-bottom:16px"></div>
-        <div class="mord-panel-box" style="margin-bottom:16px">
-          <div class="mord-panel-box-title">📆 Andamento Mensile — Anno in corso</div>
-          <div style="overflow-x:auto"><table class="staff-tbl"><thead><tr><th>Mese</th><th>Totale</th><th>N° Ordini</th><th>Media per Ordine</th></tr></thead>
-            <tbody id="muc-annual-tbody"></tbody><tfoot id="muc-annual-tfoot"></tfoot></table></div>
-        </div>
-        <div class="mord-panel-box">
-          <div class="mord-panel-box-title">📊 Grafico Annuale</div>
-          <div id="muc-annual-chart" style="padding:12px 0"></div>
-        </div>
-      </div>
-    </div>
 
-    <!-- Tab: Bevande (solo aziende pubbliche) -->
-    <div id="mord-panel-bevande" style="display:none">
-      <div id="mord-bev-locked" style="display:none;text-align:center;padding:40px 24px;color:rgba(255,255,255,0.45);font-size:14px">
-        🔒 Questa sezione è disponibile solo per le aziende pubbliche.
+      <!-- Uscite settimanali -->
+      <div class="mord-panel-box">
+        <div class="mord-panel-box-title">📤 Uscite <span id="muc-az-lbl" style="color:rgba(255,255,255,0.85)"></span> — <span id="muc-mese-lbl" style="color:rgba(255,255,255,0.85)">Marzo</span></div>
+        <div style="overflow-x:auto">
+          <table class="staff-tbl">
+            <thead><tr><th>S1</th><th>S2</th><th>S3</th><th>S4</th><th>S5</th><th>Totale Mese</th><th>N° Ordini</th></tr></thead>
+            <tbody id="muc-tbody"></tbody>
+          </table>
+        </div>
       </div>
-      <div id="mord-bev-content">
-        <div style="display:flex;align-items:center;gap:12px;margin-bottom:18px;flex-wrap:wrap;background:rgba(255,255,255,0.04);border-radius:12px;padding:12px 16px;border:1px solid rgba(255,255,255,0.07)">
-          <span style="font-size:10px;font-weight:800;color:rgba(255,255,255,0.5);letter-spacing:0.15em;text-transform:uppercase">VISTA</span>
-          <select class="fsel" id="mbev-vista" onchange="renderMordBevande()">
-            <option value="mese">Per Mese</option>
-            <option value="anno">Riepilogo Annuale</option>
-          </select>
-          <span style="font-size:10px;font-weight:800;color:rgba(255,255,255,0.5);letter-spacing:0.15em;text-transform:uppercase" id="mbev-lbl-mese">MESE</span>
-          <select class="fsel" id="mbev-mese" onchange="renderMordBevande()">
-            <option value="1">Gennaio</option><option value="2">Febbraio</option>
-            <option value="3" selected>Marzo</option><option value="4">Aprile</option>
-            <option value="5">Maggio</option><option value="6">Giugno</option>
-            <option value="7">Luglio</option><option value="8">Agosto</option>
-            <option value="9">Settembre</option><option value="10">Ottobre</option>
-            <option value="11">Novembre</option><option value="12">Dicembre</option>
-          </select>
-        </div>
-        <div id="mbev-view-mese">
-          <div class="mord-panel-box" style="margin-bottom:16px">
-            <div class="mord-panel-box-title">🥤 Bevande ordinate — <span id="mbev-mese-lbl" style="color:rgba(255,255,255,0.85)">Marzo</span></div>
-            <div style="overflow-x:auto"><table class="staff-tbl"><thead><tr><th>Bevanda</th><th>Quantità (stack)</th><th>N° Ordini</th></tr></thead>
-              <tbody id="mbev-tbody"></tbody><tfoot id="mbev-tfoot"></tfoot></table></div>
-          </div>
-          <div class="mord-panel-box">
-            <div class="mord-panel-box-title">📊 Distribuzione — <span id="mbev-chart-lbl" style="color:rgba(255,255,255,0.85)">Marzo</span></div>
-            <div id="mbev-chart" style="padding:12px 0"></div>
-          </div>
-        </div>
-        <div id="mbev-view-anno" style="display:none">
-          <div class="mord-panel-box" style="margin-bottom:16px">
-            <div class="mord-panel-box-title">📆 Bevande per Mese — Anno</div>
-            <div style="overflow-x:auto" id="mbev-annual-table-wrap"></div>
-          </div>
-          <div class="mord-panel-box">
-            <div class="mord-panel-box-title">📊 Andamento Annuale</div>
-            <div id="mbev-annual-chart" style="padding:12px 0"></div>
-          </div>
+
+      <!-- KPI -->
+      <div class="kpi-grid" id="muc-kpi" style="margin-bottom:16px"></div>
+
+      <!-- Riepilogo annuale -->
+      <div class="mord-panel-box">
+        <div class="mord-panel-box-title">📊 Riepilogo Annuale</div>
+        <div style="overflow-x:auto">
+          <table class="staff-tbl">
+            <thead><tr><th>Mese</th><th>Totale</th><th>N° Ordini</th><th>Media per Ordine</th></tr></thead>
+            <tbody id="muc-annual-tbody"></tbody>
+            <tfoot id="muc-annual-tfoot"></tfoot>
+          </table>
         </div>
       </div>
     </div>
@@ -5977,7 +5926,7 @@ else tryStart();
             <div class="notif-list" id="notif-list-inc"><div class="notif-empty">Nessuna notifica</div></div>
           </div>
         </div>
-        <!-- Avvisi INL -->
+      </div>
         <div style="position:relative">
           <button class="notif-btn" id="notif-btn-avv" onclick="toggleAvvisi()" title="Avvisi">⚠️<span class="notif-badge" id="notif-badge-avv"></span></button>
           <div class="avviso-drop" id="avviso-dropdown">
@@ -6501,7 +6450,7 @@ else tryStart();
           <div class="adm-title">👥 Lista Dipendenti</div>
           <div style="overflow-x:auto;margin-top:8px">
             <table class="staff-tbl">
-              <thead><tr><th style="width:20px"></th><th>Nome</th><th>Ruolo</th><th>N. Contratto</th><th>Warn</th><th>Appunti</th><th></th></tr></thead>
+              <thead><tr><th>Nome</th><th>Ruolo</th><th>N. Contratto</th><th>Warn</th><th>Appunti</th><th>Sposta</th><th></th></tr></thead>
               <tbody id="dip-lista-tbody"></tbody>
             </table>
           </div>
@@ -6576,33 +6525,23 @@ else tryStart();
 
     <!-- GESTIONE STAFF -->
     <div id="tc-gestione" style="display:none">
-
-      <!-- Card Invia Avviso INL -->
       <div class="adm-card" style="margin-bottom:16px;border-color:rgba(234,179,8,0.25)">
         <div class="adm-title" style="color:#eab308">⚠️ Invia Avviso/Comunicazione</div>
         <div style="display:flex;flex-direction:column;gap:10px;margin-top:12px">
           <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap">
             <span class="flbl">DESTINATARIO</span>
-            <select class="fsel" id="avv-dest" style="min-width:180px">
-              <option value="tutti">👥 Tutti i dipendenti</option>
-            </select>
+            <select class="fsel" id="avv-dest" style="min-width:180px"><option value="tutti">👥 Tutti i dipendenti</option></select>
           </div>
           <div>
             <span class="flbl" style="display:block;margin-bottom:6px">TESTO AVVISO</span>
-            <textarea id="avv-testo"
-              placeholder="Scrivi il testo dell'avviso formale..."
-              style="width:100%;min-height:90px;background:var(--bg3);color:var(--white);border:1px solid rgba(234,179,8,0.25);border-radius:8px;padding:10px 12px;font-size:13px;font-family:inherit;resize:vertical;box-sizing:border-box;line-height:1.6"></textarea>
+            <textarea id="avv-testo" placeholder="Scrivi il testo dell'avviso..." style="width:100%;min-height:80px;background:var(--bg3);color:var(--white);border:1px solid rgba(234,179,8,0.25);border-radius:8px;padding:10px 12px;font-size:13px;font-family:inherit;resize:vertical;box-sizing:border-box;line-height:1.6"></textarea>
           </div>
           <div style="display:flex;gap:10px;align-items:center">
-            <button onclick="inviaAvviso()"
-              style="background:#eab308;color:#0d1117;border:none;border-radius:10px;padding:9px 22px;font-size:13px;font-weight:800;cursor:pointer;font-family:inherit">
-              📨 Invia Avviso
-            </button>
+            <button onclick="inviaAvviso()" style="background:#eab308;color:#0d1117;border:none;border-radius:10px;padding:9px 22px;font-size:13px;font-weight:800;cursor:pointer;font-family:inherit">📨 Invia Avviso</button>
             <div id="avv-msg" style="font-size:12px;font-weight:600"></div>
           </div>
         </div>
       </div>
-
       <div class="admin-grid">
         <div class="adm-card">
           <div class="adm-title">➕ Aggiungi Membro</div>
@@ -6755,15 +6694,10 @@ else tryStart();
 
     </div>
 
-    <!-- BEVANDE -->
+    <!-- MAGAZZINO -->
     <div id="tc-magazzino" style="display:none">
-      <div class="fbar" style="flex-wrap:wrap;gap:8px">
-        <span class="flbl" style="margin-left:16px">VISTA</span>
-        <select class="fsel" id="mag-vista" onchange="renderMagazzino()">
-          <option value="mese">Per Mese</option>
-          <option value="anno">Riepilogo Annuale</option>
-        </select>
-        <span class="flbl" id="mag-lbl-mese-sel">MESE</span>
+      <div class="fbar">
+        <span class="flbl" style="margin-left:16px">MESE</span>
         <select class="fsel" id="mag-mese" onchange="renderMagazzino()">
           <option value="1">Gennaio</option><option value="2">Febbraio</option>
           <option value="3" selected>Marzo</option><option value="4">Aprile</option>
@@ -6773,40 +6707,24 @@ else tryStart();
           <option value="11">Novembre</option><option value="12">Dicembre</option>
         </select>
       </div>
-
-      <!-- Vista MESE -->
-      <div id="mag-view-mese">
-        <div class="adm-card">
-          <div class="adm-title">🥤 Unità Bevande — <span id="mag-mese-lbl">Marzo</span></div>
-          <div style="overflow-x:auto"><table class="staff-tbl"><thead><tr><th>Bevanda</th><th>Qtà Privato</th><th>Qtà Pubblico</th><th>Totale Unità (×64)</th></tr></thead>
-            <tbody id="mag-tbody"></tbody>
-            <tfoot id="mag-tfoot"></tfoot>
-          </table></div>
-        </div>
-        <div class="adm-card" style="margin-top:16px">
-          <div class="adm-title">📊 Distribuzione Bevande — <span id="mag-chart-lbl">Marzo</span></div>
-          <div id="mag-chart" style="margin-top:16px;padding:8px 0"></div>
-        </div>
-        <div class="adm-card" style="margin-top:16px">
-          <div class="adm-title">📅 Dettaglio Settimanale — <span id="mag-sett-lbl">Marzo</span></div>
-          <div style="overflow-x:auto"><table class="staff-tbl"><thead><tr><th>Settimana</th><th>Privato</th><th>Pubblico</th><th>Totale Ordini</th><th>Zaini</th></tr></thead>
-            <tbody id="mag-sett-tbody"></tbody>
-          </table></div>
-        </div>
+      <div class="adm-card">
+        <div class="adm-title">🎒 Unità Bevande — <span id="mag-mese-lbl">Marzo</span></div>
+        <div style="overflow-x:auto"><table class="staff-tbl"><thead><tr><th>Bevanda</th><th>Qtà Privato</th><th>Qtà Pubblico</th><th>Totale Unità (×64)</th></tr></thead>
+          <tbody id="mag-tbody"></tbody>
+          <tfoot id="mag-tfoot"></tfoot>
+        </table></div>
       </div>
-
-      <!-- Vista ANNO -->
-      <div id="mag-view-anno" style="display:none">
-        <div class="adm-card">
-          <div class="adm-title">📆 Bevande per Mese — Anno in corso</div>
-          <div style="overflow-x:auto" id="mag-annual-table-wrap"></div>
-        </div>
-        <div class="adm-card" style="margin-top:16px">
-          <div class="adm-title">📊 Andamento Annuale Bevande</div>
-          <div id="mag-annual-chart" style="margin-top:16px;padding:8px 0"></div>
-        </div>
+      <div class="adm-card" style="margin-top:16px">
+        <div class="adm-title">📊 Distribuzione Bevande — <span id="mag-chart-lbl">Marzo</span></div>
+        <div id="mag-chart" style="margin-top:16px;padding:8px 0"></div>
       </div>
-    </div><!-- /tc-magazzino (Bevande) -->
+      <div class="adm-card" style="margin-top:16px">
+        <div class="adm-title">📅 Dettaglio Settimanale — <span id="mag-sett-lbl">Marzo</span></div>
+        <div style="overflow-x:auto"><table class="staff-tbl"><thead><tr><th>Settimana</th><th>Privato</th><th>Pubblico</th><th>Totale Ordini</th><th>Zaini</th></tr></thead>
+          <tbody id="mag-sett-tbody"></tbody>
+        </table></div>
+      </div>
+    </div><!-- /tc-magazzino -->
 
     <!-- BOT TELEGRAM — solo Direttrice/Vice Direttore -->
     <div id="tc-bot" style="display:none">
@@ -6820,64 +6738,34 @@ else tryStart();
       <div class="adm-card">
         <div class="adm-title">📥 Inserisci Ordine Storico</div>
         <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:16px">
-
-          <!-- Col sinistra -->
           <div style="display:flex;flex-direction:column;gap:12px">
             <div class="fbar" style="flex-wrap:wrap;gap:8px;background:none;padding:0">
               <span class="flbl">TIPO</span>
-              <select class="fsel" id="sto-tipo">
-                <option value="pubblica">Pubblica</option>
-                <option value="privata">Privata</option>
-              </select>
+              <select class="fsel" id="sto-tipo"><option value="pubblica">Pubblica</option><option value="privata">Privata</option></select>
               <span class="flbl">MESE</span>
               <select class="fsel" id="sto-mese">
-                <option value="1">Gennaio</option><option value="2">Febbraio</option>
-                <option value="3">Marzo</option><option value="4">Aprile</option>
-                <option value="5">Maggio</option><option value="6">Giugno</option>
-                <option value="7">Luglio</option><option value="8">Agosto</option>
-                <option value="9">Settembre</option><option value="10">Ottobre</option>
-                <option value="11">Novembre</option><option value="12">Dicembre</option>
+                <option value="1">Gennaio</option><option value="2">Febbraio</option><option value="3">Marzo</option><option value="4">Aprile</option>
+                <option value="5">Maggio</option><option value="6">Giugno</option><option value="7">Luglio</option><option value="8">Agosto</option>
+                <option value="9">Settembre</option><option value="10">Ottobre</option><option value="11">Novembre</option><option value="12">Dicembre</option>
               </select>
               <span class="flbl">SETTIMANA</span>
               <select class="fsel" id="sto-sett">
-                <option value="1">Settimana 1</option><option value="2">Settimana 2</option>
-                <option value="3">Settimana 3</option><option value="4">Settimana 4</option>
-                <option value="5">Settimana 5</option>
+                <option value="1">Settimana 1</option><option value="2">Settimana 2</option><option value="3">Settimana 3</option><option value="4">Settimana 4</option><option value="5">Settimana 5</option>
               </select>
             </div>
             <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap">
-              <span class="flbl">DATA</span>
-              <input class="fsel" type="text" id="sto-data" placeholder="GG/MM/AAAA" style="width:130px">
-              <span class="flbl">ORA</span>
-              <input class="fsel" type="text" id="sto-ora" placeholder="HH:MM" style="width:80px">
+              <span class="flbl">DATA</span><input class="fsel" type="text" id="sto-data" placeholder="GG/MM/AAAA" style="width:130px">
+              <span class="flbl">ORA</span><input class="fsel" type="text" id="sto-ora" placeholder="HH:MM" style="width:80px">
             </div>
-            <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap">
-              <span class="flbl">AZIENDA</span>
-              <input class="fsel" type="text" id="sto-azienda" placeholder="Nome azienda" style="flex:1;min-width:160px">
-            </div>
-            <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap">
-              <span class="flbl">USERNAME MC</span>
-              <input class="fsel" type="text" id="sto-mc" placeholder="_NomeMinecraft" style="flex:1;min-width:140px">
-            </div>
-            <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap">
-              <span class="flbl">CONTATTO TG</span>
-              <input class="fsel" type="text" id="sto-tg" placeholder="@username" style="flex:1;min-width:140px">
-            </div>
-            <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap">
+            <div style="display:flex;gap:8px;align-items:center"><span class="flbl">AZIENDA</span><input class="fsel" type="text" id="sto-azienda" placeholder="Nome azienda" style="flex:1"></div>
+            <div style="display:flex;gap:8px;align-items:center"><span class="flbl">USERNAME MC</span><input class="fsel" type="text" id="sto-mc" placeholder="_NomeMinecraft" style="flex:1"></div>
+            <div style="display:flex;gap:8px;align-items:center"><span class="flbl">CONTATTO TG</span><input class="fsel" type="text" id="sto-tg" placeholder="@username" style="flex:1"></div>
+            <div style="display:flex;gap:8px;align-items:center">
               <span class="flbl">STATO</span>
-              <select class="fsel" id="sto-stato">
-                <option value="Consegnato">Consegnato</option>
-                <option value="In Preparazione">In Preparazione</option>
-                <option value="Pronto">Pronto</option>
-              </select>
+              <select class="fsel" id="sto-stato"><option value="Consegnato">Consegnato</option><option value="In Preparazione">In Preparazione</option><option value="Pronto">Pronto</option></select>
             </div>
-            <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap">
-              <span class="flbl">NOTE</span>
-              <input class="fsel" type="text" id="sto-note" placeholder="Note aggiuntive" style="flex:1;min-width:140px">
-            </div>
+            <div style="display:flex;gap:8px;align-items:center"><span class="flbl">NOTE</span><input class="fsel" type="text" id="sto-note" placeholder="Note aggiuntive" style="flex:1"></div>
           </div>
-
-          <!-- Col destra: prodotti -->
           <div>
             <div style="font-size:11px;font-weight:800;color:var(--purple);letter-spacing:0.1em;margin-bottom:10px">🥤 PRODOTTI</div>
             <div id="sto-prods" style="display:flex;flex-direction:column;gap:6px"></div>
@@ -6886,21 +6774,16 @@ else tryStart();
               <div style="flex:1"></div>
               <span class="flbl">TOTALE €</span>
               <input class="fsel" type="number" id="sto-totale" placeholder="Auto" style="width:100px" oninput="stoUpdatePreview()">
-              <span style="font-size:10px;color:var(--dim)">(vuoto = auto)</span>
             </div>
-            <div id="sto-preview" style="margin-top:14px;background:rgba(0,212,255,0.06);border:1px solid rgba(0,212,255,0.15);border-radius:10px;padding:12px;font-size:12px;color:var(--dim);min-height:60px">
-              Aggiungi prodotti per vedere l'anteprima...
-            </div>
+            <div id="sto-preview" style="margin-top:14px;background:rgba(0,212,255,0.06);border:1px solid rgba(0,212,255,0.15);border-radius:10px;padding:12px;font-size:12px;color:var(--dim);min-height:60px">Aggiungi prodotti per vedere l'anteprima...</div>
           </div>
         </div>
-
         <div style="display:flex;gap:12px;margin-top:20px;align-items:center;flex-wrap:wrap">
           <button onclick="stoSalva()" style="background:var(--cyan);color:var(--bg);border:none;border-radius:10px;padding:10px 28px;font-size:13px;font-weight:800;cursor:pointer;font-family:inherit">💾 Salva Ordine Storico</button>
           <button onclick="stoReset()" style="background:rgba(255,255,255,0.07);color:var(--dim);border:none;border-radius:10px;padding:10px 18px;font-size:12px;font-weight:700;cursor:pointer;font-family:inherit">🗑 Reset</button>
           <div id="sto-msg" style="font-size:13px;font-weight:600"></div>
         </div>
       </div>
-
       <div class="adm-card" style="margin-top:16px">
         <div class="adm-title">📋 Inseriti in questa sessione <span id="sto-count" style="color:var(--dim);font-weight:400;font-size:13px"></span></div>
         <div id="sto-lista" style="margin-top:10px;color:var(--dim2);font-size:13px">Nessun ordine ancora.</div>
@@ -7149,20 +7032,11 @@ let _qfStato='all';
 function nextOrdNum(tipo){return tipo==='pubblica'?_ordNumPub++:_ordNumPriv++;}
 
 function renderMagazzino(){
-  const vista=document.getElementById('mag-vista')?.value||'mese';
-  const meseEl=document.getElementById('mag-mese');
-  const lblMeseSel=document.getElementById('mag-lbl-mese-sel');
-  if(meseEl)meseEl.style.display=vista==='mese'?'':'none';
-  if(lblMeseSel)lblMeseSel.style.display=vista==='mese'?'':'none';
-  const vMese=document.getElementById('mag-view-mese');
-  const vAnno=document.getElementById('mag-view-anno');
-  if(vMese)vMese.style.display=vista==='mese'?'':'none';
-  if(vAnno)vAnno.style.display=vista==='anno'?'':'none';
-  if(vista==='anno'){_renderMagAnnuale();return;}
   const m=parseInt(document.getElementById('mag-mese').value)||3;
   const mLabel=MESI[m];
   ['mag-mese-lbl','mag-chart-lbl','mag-sett-lbl'].forEach(id=>{const el=document.getElementById(id);if(el)el.textContent=mLabel;});
   const ordMese=ORDINI.filter(o=>o.mese===m);
+  // Aggregate by bevanda
   const bevMap={};
   ordMese.forEach(o=>{
     o.prodotti.forEach(p=>{
@@ -7176,58 +7050,41 @@ function renderMagazzino(){
   if(!bevande.length){tbody.innerHTML='<tr><td colspan="4" style="color:var(--dim2);text-align:center;padding:16px">Nessun dato</td></tr>';document.getElementById('mag-tfoot').innerHTML='';document.getElementById('mag-chart').innerHTML='';document.getElementById('mag-sett-tbody').innerHTML='';return;}
   let totPriv=0,totPub=0;
   tbody.innerHTML=bevande.map(b=>{
-    const v=bevMap[b];const privStack=v.priv/64;const pubStack=v.pub/64;
+    const v=bevMap[b];
+    const privStack=v.priv/64; const pubStack=v.pub/64;
     totPriv+=privStack;totPub+=pubStack;
     const fmt=n=>Number.isInteger(n)?n+'':n.toFixed(2);
     return `<tr><td style="font-weight:600">${b}</td><td style="color:var(--purple)">${fmt(privStack)} stack</td><td style="color:var(--blue2)">${fmt(pubStack)} stack</td><td style="color:var(--cyan);font-weight:700">${fmt(privStack+pubStack)} stack</td></tr>`;
   }).join('');
   const fmtT=n=>Number.isInteger(n)?n+'':n.toFixed(2);
   document.getElementById('mag-tfoot').innerHTML=`<tr style="border-top:2px solid rgba(255,255,255,0.1);font-weight:700"><td>Totale</td><td style="color:var(--purple)">${fmtT(totPriv)} stack</td><td style="color:var(--blue2)">${fmtT(totPub)} stack</td><td style="color:var(--cyan)">${fmtT(totPriv+totPub)} stack</td></tr>`;
+  // Chart (bar chart semplice CSS)
   const maxVal=Math.max(...bevande.map(b=>(bevMap[b].priv+bevMap[b].pub)/64),1);
-  document.getElementById('mag-chart').innerHTML=bevande.map(b=>{
-    const tot=(bevMap[b].priv+bevMap[b].pub)/64;const pct=Math.round(tot/maxVal*100);const totStr=Number.isInteger(tot)?tot:tot.toFixed(2);
-    return `<div style="display:flex;align-items:center;gap:12px;margin-bottom:10px"><div style="width:120px;font-size:11px;color:var(--dim);text-align:right;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${b}</div><div style="flex:1;background:rgba(255,255,255,0.06);border-radius:4px;height:28px;position:relative"><div style="width:${pct}%;background:linear-gradient(90deg,var(--cyan),var(--blue));height:100%;border-radius:4px;transition:width 0.5s"></div><span style="position:absolute;right:8px;top:50%;transform:translateY(-50%);font-size:11px;font-weight:700;color:#fff">${totStr} stack</span></div></div>`;
+  const chartHtml=bevande.map(b=>{
+    const tot=(bevMap[b].priv+bevMap[b].pub)/64;
+    const pct=Math.round(tot/maxVal*100);
+    const totStr=Number.isInteger(tot)?tot:tot.toFixed(2);
+    return `<div style="display:flex;align-items:center;gap:12px;margin-bottom:10px">
+      <div style="width:120px;font-size:11px;color:var(--dim);text-align:right;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${b}</div>
+      <div style="flex:1;background:rgba(255,255,255,0.06);border-radius:4px;height:28px;position:relative">
+        <div style="width:${pct}%;background:linear-gradient(90deg,var(--cyan),var(--blue));height:100%;border-radius:4px;transition:width 0.5s"></div>
+        <span style="position:absolute;right:8px;top:50%;transform:translateY(-50%);font-size:11px;font-weight:700;color:#fff">${totStr} stack</span>
+      </div>
+    </div>`;
   }).join('');
+  document.getElementById('mag-chart').innerHTML=chartHtml;
+  // Settimanale
   const settRows=[1,2,3,4,5].map(s=>{
     const os=ordMese.filter(o=>o.sett===s);
-    const oPriv=os.filter(o=>o.tipo==='privata');const oPub=os.filter(o=>o.tipo==='pubblica');
-    const zTot=(oPriv.reduce((a,o)=>a+o.prodotti.reduce((b,p)=>b+p.qty,0),0)+oPub.reduce((a,o)=>a+o.prodotti.reduce((b,p)=>b+p.qty,0),0))/64;
+    const oPriv=os.filter(o=>o.tipo==='privata');
+    const oPub=os.filter(o=>o.tipo==='pubblica');
+    const zP=oPriv.reduce((a,o)=>a+o.prodotti.reduce((b,p)=>b+p.qty,0),0)/64;
+    const zPub=oPub.reduce((a,o)=>a+o.prodotti.reduce((b,p)=>b+p.qty,0),0)/64;
+    const zTot=zP+zPub;
     const fmtS=n=>Number.isInteger(n)?n:n.toFixed(2);
     return `<tr><td>Sett. ${s}</td><td style="color:var(--purple)">${oPriv.length} ord.</td><td style="color:var(--blue2)">${oPub.length} ord.</td><td style="color:var(--cyan)">${os.length}</td><td style="color:var(--yellow);font-weight:700">🎒 ${fmtS(zTot)} stack</td></tr>`;
   }).join('');
   document.getElementById('mag-sett-tbody').innerHTML=settRows;
-}
-
-function _renderMagAnnuale(){
-  const fmt=n=>{if(n===0)return '—';return (Number.isInteger(n)?n:parseFloat(n.toFixed(2)))+'s';};
-  const bevTotAnno={};
-  ORDINI.forEach(o=>{o.prodotti.forEach(p=>{if(!bevTotAnno[p.nome])bevTotAnno[p.nome]=0;bevTotAnno[p.nome]+=p.qty/64;});});
-  const bevande=Object.keys(bevTotAnno).sort((a,b)=>bevTotAnno[b]-bevTotAnno[a]);
-  const perMese=Array.from({length:12},(_,i)=>({mese:i+1,bev:{},totale:0,cnt:0}));
-  ORDINI.forEach(o=>{
-    const m=(o.mese||1)-1;if(m<0||m>11)return;
-    o.prodotti.forEach(p=>{if(!perMese[m].bev[p.nome])perMese[m].bev[p.nome]=0;perMese[m].bev[p.nome]+=p.qty/64;perMese[m].totale+=p.qty/64;});
-    perMese[m].cnt++;
-  });
-  const wrap=document.getElementById('mag-annual-table-wrap');
-  if(wrap){
-    if(!bevande.length){wrap.innerHTML='<div style="text-align:center;color:var(--dim2);padding:24px">Nessun dato</div>';}
-    else{
-      const _e=n=>PROD_EMOJI&&PROD_EMOJI[n]?PROD_EMOJI[n]:'🥤';
-      const totBev={};bevande.forEach(b=>totBev[b]=perMese.reduce((s,m)=>s+(m.bev[b]||0),0));
-      const totAnno=bevande.reduce((s,b)=>s+totBev[b],0);
-      const thead=`<thead><tr><th style="min-width:80px">Mese</th>${bevande.map(b=>`<th style="min-width:90px;white-space:nowrap">${_e(b)} ${b}</th>`).join('')}<th style="min-width:80px">Totale</th></tr></thead>`;
-      const tbody=perMese.map(m=>{if(!m.cnt)return '';return `<tr><td style="font-weight:700;color:#fff">${MESI[m.mese]}</td>${bevande.map(b=>{const v=m.bev[b]||0;return `<td style="color:${v>0?'var(--cyan)':'var(--dim2)'};font-weight:${v>0?700:400}">${fmt(v)}</td>`;}).join('')}<td style="color:var(--yellow);font-weight:700">${fmt(m.totale)}</td></tr>`;}).join('');
-      const tfoot=`<tfoot><tr style="border-top:2px solid rgba(255,255,255,0.15);font-weight:700"><td style="color:var(--dim2)">ANNO</td>${bevande.map(b=>`<td style="color:var(--purple)">${fmt(totBev[b])}</td>`).join('')}<td style="color:var(--yellow)">${fmt(totAnno)}</td></tr></tfoot>`;
-      wrap.innerHTML=`<table class="staff-tbl">${thead}<tbody>${tbody}</tbody>${tfoot}</table>`;
-    }
-  }
-  const maxM=Math.max(...perMese.map(m=>m.totale),1);
-  const annChart=document.getElementById('mag-annual-chart');
-  if(annChart)annChart.innerHTML=perMese.map(m=>{
-    const pct=Math.round(m.totale/maxM*100);const lbl=m.totale>0?(Number.isInteger(m.totale)?m.totale:m.totale.toFixed(1))+'s':'—';
-    return `<div style="display:flex;align-items:center;gap:12px;margin-bottom:9px"><div style="width:90px;font-size:11px;color:var(--dim);text-align:right">${MESI[m.mese]}</div><div style="flex:1;background:rgba(255,255,255,0.06);border-radius:4px;height:26px;position:relative">${pct>0?`<div style="width:${pct}%;background:linear-gradient(90deg,var(--purple),var(--cyan));height:100%;border-radius:4px;transition:width 0.5s"></div>`:''}<span style="position:absolute;right:8px;top:50%;transform:translateY(-50%);font-size:11px;font-weight:700;color:${m.totale>0?'#fff':'var(--dim2)'}">${lbl}</span></div></div>`;
-  }).join('');
 }
 
 function setQF(btn,stato){
@@ -7624,11 +7481,11 @@ function renderNotifiche(){
     const adminItems = isAdmin ? NOTIFICHE.map(n=>`
       <div class="notif-item${n.unread?' unread':''}" onclick="clickNotif('${n.id}')">
         <div class="notif-item-top">
-          <span class="notif-code">${n.isPronto?'✅':'📦'} ${n.azienda||''}</span>
+          <span class="notif-code" style="${n.isEliminato?'color:var(--red)':''}">${n.isEliminato?'🗑️':n.isPronto?'✅':'📦'} ${n.azienda||''}</span>
           <span class="notif-time">${n.time instanceof Date?n.time.toLocaleTimeString('it-IT',{hour:'2-digit',minute:'2-digit'}):new Date(n.time).toLocaleTimeString('it-IT',{hour:'2-digit',minute:'2-digit'})}</span>
         </div>
-        <div class="notif-text">${n.isPronto?'✅ Ordine di <strong>'+n.azienda+'</strong> è <strong style="color:var(--cyan)">PRONTO</strong> per la consegna!':'📦 Nuovo ordine da <strong>'+(n.azienda||n.codice)+'</strong>'}</div>
-        <div class="notif-sub">${n.isPronto?(fe(n.totale)+(n.contatto?' · '+n.contatto:'')):((n.tipo==='pubblica'?'🏛 Pubblica':'🏢 Privata')+' · '+fe(n.totale))}</div>
+        <div class="notif-text">${n.isEliminato?`🗑️ Ordine di <strong>${n.azienda}</strong> <strong style="color:var(--red)">ELIMINATO</strong>${n.eliminatoDa?' da '+n.eliminatoDa:''}`:n.isPronto?'✅ Ordine di <strong>'+n.azienda+'</strong> è <strong style="color:var(--cyan)">PRONTO</strong> per la consegna!':'📦 Nuovo ordine da <strong>'+(n.azienda||n.codice)+'</strong>'}</div>
+        <div class="notif-sub" style="${n.isEliminato?'color:var(--red)':''}">${n.isEliminato?('Codice: '+n.codice+' · '+fe(n.totale)):n.isPronto?(fe(n.totale)+(n.contatto?' · '+n.contatto:'')):(( n.tipo==='pubblica'?'🏛 Pubblica':'🏢 Privata')+' · '+fe(n.totale))}</div>
       </div>`) : [];
     const globOrdItems = globOrd.map(n=>`
       <div class="notif-item unread" onclick="_segnaLettaNotifDip('${n.id}')">
@@ -7928,22 +7785,10 @@ function loginAzienda(){
   const pass=document.getElementById('az-pass').value;
   console.log('[login azienda] email:', email, '| AZIENDE caricate:', AZIENDE.length);
   const errEl=document.getElementById('az-err');
-  if(AZIENDE.length===0){
-    errEl.style.display='block';
-    errEl.textContent='⚠ Database non ancora caricato. Riprova tra qualche secondo.';
-    return;
-  }
+  if(AZIENDE.length===0){errEl.style.display='block';errEl.textContent='⚠ Database non ancora caricato. Riprova tra qualche secondo.';return;}
   const azByEmail=AZIENDE.find(a=>a.email.toLowerCase()===email);
-  if(!azByEmail){
-    errEl.style.display='block';
-    errEl.textContent='⚠ Azienda non esistente';
-    return;
-  }
-  if(azByEmail.password!==pass){
-    errEl.style.display='block';
-    errEl.textContent='⚠ Password errata';
-    return;
-  }
+  if(!azByEmail){errEl.style.display='block';errEl.textContent='⚠ Azienda non esistente';return;}
+  if(azByEmail.password!==pass){errEl.style.display='block';errEl.textContent='⚠ Password errata';return;}
   const az=azByEmail;
   closeOvl('az-ovl');
   AZ_LOGGED=az;
@@ -7983,7 +7828,7 @@ function goMieiOrdini(){
 }
 // ===== MIEI ORDINI TABS =====
 function mordTab(tab){
-  ['storico','uscite','bevande'].forEach(t=>{
+  ['storico','uscite'].forEach(t=>{
     const btn=document.getElementById('mord-tab-'+t);
     const pan=document.getElementById('mord-panel-'+t);
     if(btn){
@@ -7994,7 +7839,6 @@ function mordTab(tab){
   });
   if(tab==='storico') renderMordStorico();
   if(tab==='uscite')  renderMordUscite();
-  if(tab==='bevande') renderMordBevande();
 }
 
 function renderMordStorico(){
@@ -8025,31 +7869,9 @@ function renderMordStorico(){
   });
 
   const MESI_N=['','Gennaio','Febbraio','Marzo','Aprile','Maggio','Giugno','Luglio','Agosto','Settembre','Ottobre','Novembre','Dicembre'];
-  const consegnati = fl.filter(o=>o.stato==='Consegnato');
-  const totale = consegnati.reduce((s,o)=>s+(o.totale||0),0);
+  const totale = fl.reduce((s,o)=>s+(o.totale||0),0);
   const cnt = document.getElementById('mst-count');
-  if(cnt) cnt.textContent = consegnati.length+' completati · Totale: '+fe(totale);
-
-  // Sezione ordini in corso (non ancora consegnati)
-  const pendenti = MIEI_ORDINI.filter(o=>o.stato!=='Consegnato');
-  const pendCont = document.getElementById('mst-pendenti');
-  if(pendCont){
-    if(pendenti.length){
-      const statoColor={'In Preparazione':'var(--yellow)','Pronto':'var(--cyan)'};
-      pendCont.innerHTML = `
-        <div style="font-size:11px;font-weight:800;color:var(--orange);letter-spacing:0.1em;margin-bottom:10px">🕐 ORDINI IN CORSO (${pendenti.length})</div>
-        ${pendenti.map(o=>`
-          <div style="background:rgba(240,136,62,0.07);border:1px solid rgba(240,136,62,0.2);border-radius:10px;padding:12px 16px;margin-bottom:8px;display:flex;align-items:center;gap:14px;flex-wrap:wrap">
-            <span style="font-weight:800;color:var(--orange)">#${o.numPub||o.numPriv||o.codice?.slice(-4)||'?'}</span>
-            <span style="font-size:12px;color:var(--dim)">${o.data||''}</span>
-            <span style="font-size:12px;font-weight:700;color:${statoColor[o.stato]||'var(--dim)'}">● ${o.stato}</span>
-            <span style="font-size:12px;color:var(--dim);flex:1">${(o.prodotti||[]).map(p=>`${p.qty/64}s ${p.nome}`).join(', ')}</span>
-            <span style="font-weight:700;color:var(--cyan)">${fe(o.totale||0)}</span>
-          </div>`).join('')}`;
-    } else {
-      pendCont.innerHTML = '';
-    }
-  }
+  if(cnt) cnt.textContent = fl.length+' ordini · Totale: '+fe(totale);
 
   const statoColor={'In Preparazione':'var(--yellow)','Pronto':'var(--cyan)','Consegnato':'var(--green)'};
   const tbody = document.getElementById('mst-tbody');
@@ -8084,138 +7906,62 @@ function renderMordUscite(){
   if(!AZ_LOGGED) return;
   const meseEl = document.getElementById('muc-mese');
   if(!meseEl) return;
+  const mese = parseInt(meseEl.value)||3;
   const MESI_N=['','Gennaio','Febbraio','Marzo','Aprile','Maggio','Giugno','Luglio','Agosto','Settembre','Ottobre','Novembre','Dicembre'];
-  const vista = document.getElementById('muc-vista')?.value||'mese';
-  const vMeseEl=document.getElementById('muc-view-mese');
-  const vAnnoEl=document.getElementById('muc-view-anno');
-  const lblMeseS=document.getElementById('muc-lbl-mese-sel');
-  if(vMeseEl) vMeseEl.style.display=vista==='mese'?'':'none';
-  if(vAnnoEl) vAnnoEl.style.display=vista==='anno'?'':'none';
-  if(meseEl)  meseEl.style.display=vista==='mese'?'':'none';
-  if(lblMeseS) lblMeseS.style.display=vista==='mese'?'':'none';
 
-  if(vista==='anno'){
-    const annual=Array.from({length:12},(_,i)=>({mese:i+1,tot:0,cnt:0}));
-    MIEI_ORDINI.forEach(o=>{const m=(o.mese||1)-1;if(m>=0&&m<12){annual[m].tot+=(o.totale||0);annual[m].cnt++;}});
-    const annTot=annual.reduce((s,m)=>s+m.tot,0);
-    const annCnt=annual.reduce((s,m)=>s+m.cnt,0);
-    const meseTopIdx=annual.reduce((mi,m,i)=>m.tot>annual[mi].tot?i:mi,0);
-    const kpiAnno=document.getElementById('muc-kpi-anno');
-    if(kpiAnno) kpiAnno.innerHTML=`
-      <div class="kpi-card"><div class="kpi-lbl">💰 Totale Anno</div><div class="kpi-val" style="color:var(--green)">${fe(annTot)}</div></div>
-      <div class="kpi-card"><div class="kpi-lbl">🛒 Ordini Totali</div><div class="kpi-val" style="color:var(--blue2)">${annCnt}</div></div>
-      <div class="kpi-card"><div class="kpi-lbl">📊 Media per Ordine</div><div class="kpi-val" style="color:var(--purple)">${fe(annCnt>0?annTot/annCnt:0)}</div></div>
-      <div class="kpi-card"><div class="kpi-lbl">🏆 Mese Top</div><div class="kpi-val" style="color:var(--orange);font-size:14px">${annual[meseTopIdx].cnt>0?MESI_N[annual[meseTopIdx].mese]+' ('+fe(annual[meseTopIdx].tot)+')':'—'}</div></div>`;
-    const annTbody=document.getElementById('muc-annual-tbody');
-    if(annTbody) annTbody.innerHTML=annual.filter(m=>m.cnt>0).map(m=>`<tr>
-      <td style="font-weight:700">${MESI_N[m.mese]}</td>
-      <td style="color:var(--green);font-weight:700">${fe(m.tot)}</td>
-      <td style="color:var(--dim2)">${m.cnt}</td>
-      <td style="color:var(--cyan)">${fe(m.cnt>0?m.tot/m.cnt:0)}</td>
-    </tr>`).join('')||'<tr><td colspan="4" style="text-align:center;color:var(--dim2);padding:20px">Nessun dato</td></tr>';
-    const annTfoot=document.getElementById('muc-annual-tfoot');
-    if(annTfoot) annTfoot.innerHTML=`<tr style="font-weight:700;border-top:2px solid rgba(255,255,255,0.12)"><td style="color:var(--dim2)">TOTALE ANNO</td><td style="color:var(--green)">${fe(annTot)}</td><td style="color:var(--dim2)">${annCnt}</td><td style="color:var(--cyan)">${fe(annCnt>0?annTot/annCnt:0)}</td></tr>`;
-    const maxM=Math.max(...annual.map(m=>m.tot),1);
-    const annChart=document.getElementById('muc-annual-chart');
-    if(annChart) annChart.innerHTML=annual.map(m=>{
-      const pct=Math.round(m.tot/maxM*100);
-      return `<div style="display:flex;align-items:center;gap:10px;margin-bottom:8px"><div style="width:80px;font-size:11px;color:var(--dim);text-align:right">${MESI_N[m.mese]}</div><div style="flex:1;background:rgba(255,255,255,0.06);border-radius:4px;height:26px;position:relative">${pct>0?`<div style="width:${pct}%;background:linear-gradient(90deg,var(--blue2),var(--cyan));height:100%;border-radius:4px;transition:width 0.5s"></div>`:''}<span style="position:absolute;right:8px;top:50%;transform:translateY(-50%);font-size:11px;font-weight:700;color:${m.tot>0?'#fff':'var(--dim2)'}">${m.tot>0?fe(m.tot):'—'}</span></div></div>`;
-    }).join('');
-    return;
-  }
+  const azLbl = document.getElementById('muc-az-lbl');
+  if(azLbl) azLbl.textContent = AZ_LOGGED.nome;
+  const meseLbl = document.getElementById('muc-mese-lbl');
+  if(meseLbl) meseLbl.textContent = MESI_N[mese]||'';
 
-  const mese=parseInt(meseEl.value)||3;
-  const azLbl=document.getElementById('muc-az-lbl');if(azLbl)azLbl.textContent=AZ_LOGGED.nome;
-  const meseLbl=document.getElementById('muc-mese-lbl');if(meseLbl)meseLbl.textContent=MESI_N[mese]||'';
-  const ordMese=MIEI_ORDINI.filter(o=>o.mese==mese && o.stato==='Consegnato');
+  const ordMese = MIEI_ORDINI.filter(o => o.mese==mese);
   const sett=[0,0,0,0,0];
-  ordMese.forEach(o=>{const s=Math.min((o.sett||1),5)-1;sett[s]+=(o.totale||0);});
+  ordMese.forEach(o=>{ const s=Math.min((o.sett||1),5)-1; sett[s]+=(o.totale||0); });
   const totMese=sett.reduce((a,v)=>a+v,0);
-  const tbody=document.getElementById('muc-tbody');
-  if(tbody) tbody.innerHTML=`<tr>${sett.map(v=>`<td style="color:${v>0?'var(--cyan)':'var(--dim2)'};font-weight:${v>0?700:400}">${v>0?fe(v):'—'}</td>`).join('')}<td style="color:var(--green);font-weight:700">${fe(totMese)}</td><td style="color:var(--dim2)">${ordMese.length}</td></tr>`;
-  const mediaOrd=ordMese.length>0?totMese/ordMese.length:0;
-  const settMax=sett.reduce((mi,v,i)=>v>sett[mi]?i:mi,0);
-  const kpi=document.getElementById('muc-kpi');
-  if(kpi) kpi.innerHTML=`
+
+  // Tabella settimanale
+  const tbody = document.getElementById('muc-tbody');
+  if(tbody) tbody.innerHTML = `<tr>
+    ${sett.map(v=>`<td style="color:${v>0?'var(--cyan)':'var(--dim2)'};font-weight:${v>0?700:400}">${v>0?fe(v):'—'}</td>`).join('')}
+    <td style="color:var(--green);font-weight:700">${fe(totMese)}</td>
+    <td style="color:var(--dim2)">${ordMese.length}</td>
+  </tr>`;
+
+  // KPI
+  const mediaOrd = ordMese.length>0 ? totMese/ordMese.length : 0;
+  const settMax = sett.reduce((mi,v,i)=>v>sett[mi]?i:mi,0);
+  const kpi = document.getElementById('muc-kpi');
+  if(kpi) kpi.innerHTML = `
     <div class="kpi-card"><div class="kpi-lbl">📤 Uscite Totali Mese</div><div class="kpi-val" style="color:var(--cyan)">${fe(totMese)}</div></div>
     <div class="kpi-card"><div class="kpi-lbl">🛒 N° Ordini</div><div class="kpi-val" style="color:var(--blue2)">${ordMese.length}</div></div>
     <div class="kpi-card"><div class="kpi-lbl">💰 Media per Ordine</div><div class="kpi-val" style="color:var(--purple)">${fe(mediaOrd)}</div></div>
     <div class="kpi-card"><div class="kpi-lbl">📅 Settimana Top</div><div class="kpi-val" style="color:var(--orange)">${sett[settMax]>0?'Sett. '+(settMax+1)+' ('+fe(sett[settMax])+')':'—'}</div></div>`;
-}
 
-function renderMordBevande(){
-  if(!AZ_LOGGED) return;
-  const MESI_N=['','Gennaio','Febbraio','Marzo','Aprile','Maggio','Giugno','Luglio','Agosto','Settembre','Ottobre','Novembre','Dicembre'];
-  const isPubblica=AZ_LOGGED.tipo==='pubblica';
-  const locked=document.getElementById('mord-bev-locked');
-  const bcont=document.getElementById('mord-bev-content');
-  if(locked)locked.style.display=isPubblica?'none':'block';
-  if(bcont)bcont.style.display=isPubblica?'':'none';
-  if(!isPubblica)return;
-  const vista=document.getElementById('mbev-vista')?.value||'mese';
-  const meseSelEl=document.getElementById('mbev-mese');
-  const lblMese=document.getElementById('mbev-lbl-mese');
-  if(meseSelEl)meseSelEl.style.display=vista==='mese'?'':'none';
-  if(lblMese)lblMese.style.display=vista==='mese'?'':'none';
-  const vMese=document.getElementById('mbev-view-mese');
-  const vAnno=document.getElementById('mbev-view-anno');
-  if(vMese)vMese.style.display=vista==='mese'?'':'none';
-  if(vAnno)vAnno.style.display=vista==='anno'?'':'none';
-  const fmt=n=>{if(n===0)return '—';return(Number.isInteger(n)?n:parseFloat(n.toFixed(2)))+'s';};
-  if(vista==='anno'){
-    const bevTotAnno={};
-    MIEI_ORDINI.forEach(o=>{(o.prodotti||[]).forEach(p=>{if(!bevTotAnno[p.nome])bevTotAnno[p.nome]=0;bevTotAnno[p.nome]+=p.qty/64;});});
-    const bevande=Object.keys(bevTotAnno).sort((a,b)=>bevTotAnno[b]-bevTotAnno[a]);
-    const perMese=Array.from({length:12},(_,i)=>({mese:i+1,bev:{},totale:0,cnt:0}));
-    MIEI_ORDINI.forEach(o=>{const m=(o.mese||1)-1;if(m<0||m>11)return;(o.prodotti||[]).forEach(p=>{if(!perMese[m].bev[p.nome])perMese[m].bev[p.nome]=0;perMese[m].bev[p.nome]+=p.qty/64;perMese[m].totale+=p.qty/64;});perMese[m].cnt++;});
-    const wrap=document.getElementById('mbev-annual-table-wrap');
-    if(wrap){
-      if(!bevande.length){wrap.innerHTML='<div style="text-align:center;color:var(--dim2);padding:24px">Nessun dato</div>';}
-      else{
-        const _e=n=>PROD_EMOJI&&PROD_EMOJI[n]?PROD_EMOJI[n]:'🥤';
-        const totBev={};bevande.forEach(b=>totBev[b]=perMese.reduce((s,m)=>s+(m.bev[b]||0),0));
-        const totAnno=bevande.reduce((s,b)=>s+totBev[b],0);
-        const thead=`<thead><tr><th style="min-width:80px">Mese</th>${bevande.map(b=>`<th style="min-width:90px;white-space:nowrap">${_e(b)} ${b}</th>`).join('')}<th>Totale</th></tr></thead>`;
-        const tbody=perMese.map(m=>{if(!m.cnt)return '';return `<tr><td style="font-weight:700;color:#fff">${MESI_N[m.mese]}</td>${bevande.map(b=>{const v=m.bev[b]||0;return `<td style="color:${v>0?'var(--cyan)':'var(--dim2)'};font-weight:${v>0?700:400}">${fmt(v)}</td>`;}).join('')}<td style="color:var(--yellow);font-weight:700">${fmt(m.totale)}</td></tr>`;}).join('');
-        const tfoot=`<tfoot><tr style="border-top:2px solid rgba(255,255,255,0.15);font-weight:700"><td style="color:var(--dim2)">ANNO</td>${bevande.map(b=>`<td style="color:var(--purple)">${fmt(totBev[b])}</td>`).join('')}<td style="color:var(--yellow)">${fmt(totAnno)}</td></tr></tfoot>`;
-        wrap.innerHTML=`<table class="staff-tbl">${thead}<tbody>${tbody}</tbody>${tfoot}</table>`;
-      }
-    }
-    const maxM=Math.max(...perMese.map(m=>m.totale),1);
-    const annChart=document.getElementById('mbev-annual-chart');
-    if(annChart) annChart.innerHTML=perMese.map(m=>{
-      const pct=Math.round(m.totale/maxM*100);const lbl=m.totale>0?(Number.isInteger(m.totale)?m.totale:m.totale.toFixed(1))+'s':'—';
-      return `<div style="display:flex;align-items:center;gap:10px;margin-bottom:8px"><div style="width:80px;font-size:11px;color:var(--dim);text-align:right">${MESI_N[m.mese]}</div><div style="flex:1;background:rgba(255,255,255,0.06);border-radius:4px;height:24px;position:relative">${pct>0?`<div style="width:${pct}%;background:linear-gradient(90deg,var(--blue2),var(--cyan));height:100%;border-radius:4px"></div>`:''}<span style="position:absolute;right:8px;top:50%;transform:translateY(-50%);font-size:11px;font-weight:700;color:${m.totale>0?'#fff':'var(--dim2)'}">${lbl}</span></div></div>`;
-    }).join('');
-    return;
-  }
-  const mese=parseInt(document.getElementById('mbev-mese')?.value)||3;
-  const meseLbl=MESI_N[mese]||'';
-  ['mbev-mese-lbl','mbev-chart-lbl'].forEach(id=>{const el=document.getElementById(id);if(el)el.textContent=meseLbl;});
-  const ordMese=MIEI_ORDINI.filter(o=>o.mese==mese);
-  const bevMap={};
-  ordMese.forEach(o=>{(o.prodotti||[]).forEach(p=>{if(!bevMap[p.nome])bevMap[p.nome]={stack:0,cnt:0};bevMap[p.nome].stack+=p.qty/64;bevMap[p.nome].cnt++;});});
-  const bevande=Object.keys(bevMap);
-  const tbody=document.getElementById('mbev-tbody');
-  if(!bevande.length){if(tbody)tbody.innerHTML='<tr><td colspan="3" style="color:var(--dim2);text-align:center;padding:16px">Nessun dato</td></tr>';const tfoot=document.getElementById('mbev-tfoot');if(tfoot)tfoot.innerHTML='';const chart=document.getElementById('mbev-chart');if(chart)chart.innerHTML='';return;}
-  let totStack=0;
-  if(tbody)tbody.innerHTML=bevande.map(b=>{totStack+=bevMap[b].stack;return `<tr><td style="font-weight:600">${b}</td><td style="color:var(--cyan);font-weight:700">${fmt(bevMap[b].stack)}</td><td style="color:var(--dim2)">${bevMap[b].cnt}</td></tr>`;}).join('');
-  const tfoot=document.getElementById('mbev-tfoot');
-  if(tfoot)tfoot.innerHTML=`<tr style="font-weight:700;border-top:2px solid rgba(255,255,255,0.1)"><td>Totale</td><td style="color:var(--cyan)">${fmt(totStack)}</td><td></td></tr>`;
-  const maxVal=Math.max(...bevande.map(b=>bevMap[b].stack),1);
-  const chartEl=document.getElementById('mbev-chart');
-  if(chartEl)chartEl.innerHTML=bevande.map(b=>{
-    const pct=Math.round(bevMap[b].stack/maxVal*100);
-    return `<div style="display:flex;align-items:center;gap:10px;margin-bottom:9px"><div style="width:110px;font-size:11px;color:var(--dim);text-align:right;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${b}</div><div style="flex:1;background:rgba(255,255,255,0.06);border-radius:4px;height:26px;position:relative"><div style="width:${pct}%;background:linear-gradient(90deg,var(--blue2),var(--cyan));height:100%;border-radius:4px;transition:width 0.5s"></div><span style="position:absolute;right:8px;top:50%;transform:translateY(-50%);font-size:11px;font-weight:700;color:#fff">${fmt(bevMap[b].stack)}</span></div></div>`;
-  }).join('');
+  // Riepilogo annuale per mese
+  const annual = Array.from({length:12},(_,i)=>({mese:i+1,tot:0,cnt:0}));
+  MIEI_ORDINI.forEach(o=>{ const m=(o.mese||1)-1; if(m>=0&&m<12){ annual[m].tot+=(o.totale||0); annual[m].cnt++; } });
+  const annTot = annual.reduce((s,m)=>s+m.tot,0);
+  const annCnt = annual.reduce((s,m)=>s+m.cnt,0);
+  const annTbody = document.getElementById('muc-annual-tbody');
+  if(annTbody) annTbody.innerHTML = annual.filter(m=>m.cnt>0).map(m=>`<tr>
+    <td style="font-weight:600">${MESI_N[m.mese]}</td>
+    <td style="color:var(--green);font-weight:700">${fe(m.tot)}</td>
+    <td style="color:var(--dim2)">${m.cnt}</td>
+    <td style="color:var(--cyan)">${fe(m.cnt>0?m.tot/m.cnt:0)}</td>
+  </tr>`).join('') || '<tr><td colspan="4" style="text-align:center;color:var(--dim2);padding:16px">Nessun dato</td></tr>';
+  const annTfoot = document.getElementById('muc-annual-tfoot');
+  if(annTfoot) annTfoot.innerHTML = `<tr style="font-weight:700;border-top:1px solid rgba(255,255,255,0.1)">
+    <td style="color:var(--dim2)">TOTALE ANNO</td>
+    <td style="color:var(--green)">${fe(annTot)}</td>
+    <td style="color:var(--dim2)">${annCnt}</td>
+    <td style="color:var(--cyan)">${fe(annCnt>0?annTot/annCnt:0)}</td>
+  </tr>`;
 }
 
 function _renderMieiOrdini(){
   if(!AZ_LOGGED)return;
   const subtitle=document.getElementById('mord-subtitle');
-  const consegnati = MIEI_ORDINI.filter(o=>o.stato==='Consegnato');
-  const totaleConsegnati = consegnati.reduce((s,o)=>s+(o.totale||0),0);
-  if(subtitle) subtitle.textContent='Connesso come '+AZ_LOGGED.nome+' · '+consegnati.length+' ordini completati · '+fe(totaleConsegnati);
+  const _cons=MIEI_ORDINI.filter(o=>o.stato==='Consegnato');if(subtitle)subtitle.textContent='Connesso come '+AZ_LOGGED.nome+' · '+_cons.length+' ordini completati · '+fe(_cons.reduce((s,o)=>s+(o.totale||0),0));
   const cont=document.getElementById('mord-container');
   if(!MIEI_ORDINI.length){
     cont.innerHTML='<div class="mord-empty"><div class="ei">📭</div><p style="font-size:16px;color:rgba(255,255,255,0.65);font-weight:500;line-height:1.6">Nessun ordine ancora.<br><span style="font-size:13px;color:rgba(255,255,255,0.4)">Clicca "+ Nuovo ordine" per iniziare.</span></p></div>';
@@ -10255,6 +10001,7 @@ function spTab(el,tab){
     const e = document.getElementById('tc-'+t); if(e) e.style.display='none';
   });
   const cur = document.getElementById('tc-'+tab); if(cur) cur.style.display='block';
+  // Scroll to top on tab change
   const sc=document.querySelector('.sp-content');
   if(sc)sc.scrollTop=0;
   if(tab==='stipendi'){stipTab('settimana');}
@@ -10358,10 +10105,8 @@ function cambiaStato(code,stato){
     o.stato=stato;
     const mo=MIEI_ORDINI.find(x=>x.codice===code);
     if(mo)mo.stato=stato;
-    // Aggiunge automaticamente +1 ordine allo stipendio del fattoDa
-    if(stato==='Consegnato' && vecchioStato!=='Consegnato'){
-      _aggiungiOrdineStipendio(o);
-    }
+    if(stato==='Consegnato' && vecchioStato!=='Consegnato') _aggiungiOrdineStipendio(o);
+    // Ferma temporaneamente il polling per evitare sovrascrittura immediata
     const wasPolling = !!_pollingInterval;
     if(wasPolling){ stopPolling(); }
     DB.save('ordini',ORDINI).finally(()=>{
@@ -10433,6 +10178,7 @@ function delOrd(code){
   if(!card)return;
   // Se già in modalità conferma, elimina
   if(card.dataset.delConfirm==='1'){
+    const _ordDaEliminare = ORDINI.find(o=>o.codice===code);
     ORDINI=ORDINI.filter(o=>o.codice!==code);
     // Ferma il polling durante il salvataggio per evitare che il DB sovrascriva l'eliminazione
     const wasPolling = !!_pollingInterval;
@@ -10441,6 +10187,8 @@ function delOrd(code){
       renderOrdini();
       if(wasPolling) setTimeout(startPolling, 2500);
     });
+    // Notifica eliminazione a tutti gli staff
+    _notificaEliminazioneOrdine(code, _ordDaEliminare, CU?.nome||'Staff');
     toast('🗑️ Ordine '+code+' eliminato');
     return;
   }
@@ -10819,159 +10567,12 @@ function setDatoS(nome,key,campo,val){
 // ── Azioni periodo di prova ──
 function superaProva(username){
   const u=USERS.find(x=>x.username===username); if(!u)return;
-  const nome         = u.nome;
-  const provaInizio  = u.provaInizio;
-  const provaScadenza= u.provaScadenza;
-
+  const nome=u.nome, provaInizio=u.provaInizio, provaScadenza=u.provaScadenza;
   u.inProva=false; u.provaInizio=null; u.provaScadenza=null; u._provaMsgInviato=null;
   dbSave.users(); renderStaffTbl();
   _sendTelegram(`✅ <b>Prova superata!</b>\n👤 <b>${nome}</b> (@${username}) è ora membro definitivo.`);
   toast('✅ '+nome+' — prova superata');
-
-  // Calcola e mostra stipendio del periodo di prova
   _calcolaEMostraStipendioProva(nome, provaInizio, provaScadenza);
-}
-
-// ── Calcolo stipendio periodo di prova ──────────────────────────────────────
-function _calcolaEMostraStipendioProva(nome, inizio, fine){
-  if(!inizio || !fine) return;
-  const startDate = new Date(inizio); startDate.setHours(0,0,0,0);
-  const endDate   = new Date(fine);   endDate.setHours(23,59,59,999);
-
-  // Raccoglie tutti i mesi toccati dal periodo
-  const mesiDaControllare = new Set();
-  let cur = new Date(startDate);
-  while(cur <= endDate){
-    mesiDaControllare.add(`${cur.getFullYear()}_${cur.getMonth()+1}`);
-    cur.setDate(cur.getDate()+7);
-  }
-  // Aggiungi anche il mese di fine
-  mesiDaControllare.add(`${endDate.getFullYear()}_${endDate.getMonth()+1}`);
-
-  // Trova le settimane che si sovrappongono al periodo di prova
-  const settimaneProva = [];
-  mesiDaControllare.forEach(ym => {
-    const [anno, mese] = ym.split('_').map(Number);
-    getSettimaneDelMese(anno, mese).forEach(s => {
-      const sEnd = new Date(s.end); sEnd.setHours(23,59,59,999);
-      if(s.start <= endDate && sEnd >= startDate){
-        settimaneProva.push(s);
-      }
-    });
-  });
-
-  if(!settimaneProva.length) return;
-
-  let totale = 0;
-  const righe = [];
-  const d = DIP.find(x => x.nome === nome);
-  let dipChanged = false;
-
-  settimaneProva.forEach(s => {
-    // Indice della settimana nel mese (1-based) per cercare in INCARICHI_SETT
-    const allSetts = getSettimaneDelMese(s.anno, s.mese);
-    const settNum  = allSetts.findIndex(sw => sw.key === s.key) + 1; // 1-based
-
-    // Cerca incarichi di questa settimana in cui il dipendente ha completato
-    const incCompletato = INCARICHI_SETT.filter(inc => {
-      if(inc.mese !== s.mese || inc.sett !== settNum) return false;
-      if(!inc.gruppi) return false;
-      return inc.gruppi.some(g =>
-        g.dipNomi?.includes(nome) &&
-        (g.stati?.[nome] === 'completato' || inc.stato === 'completato')
-      );
-    });
-
-    const haIncarico = incCompletato.length > 0;
-
-    // Se ha completato un incarico, marca lunSab=true così il salario si sblocca
-    if(haIncarico && d){
-      if(!d.dati) d.dati = {};
-      if(!d.dati[s.key]) d.dati[s.key] = {};
-      if(!d.dati[s.key].lunSab){
-        d.dati[s.key].lunSab = true;
-        dipChanged = true;
-      }
-    }
-
-    const stip = calcolaStipendioKey(nome, s.key);
-    righe.push({ label: s.label, stip, haIncarico });
-    totale += stip;
-  });
-
-  if(dipChanged) dbSave.dip();
-
-  // Mostra sempre il modal con il riepilogo
-  _mostraModalStipendioProva(nome, totale, righe, settimaneProva.length);
-}
-
-function _mostraModalStipendioProva(nome, totale, righe, nSettimane){
-  // Rimuovi eventuale modal precedente
-  const old = document.getElementById('prova-stip-modal');
-  if(old) old.remove();
-
-  const righeHtml = righe.map(r => `
-    <tr>
-      <td style="color:var(--dim)">${r.label}</td>
-      <td style="text-align:center">
-        ${r.haIncarico
-          ? '<span style="color:var(--green);font-weight:700">✅ Completato</span>'
-          : '<span style="color:var(--dim2)">— Nessuno</span>'}
-      </td>
-      <td style="text-align:right;font-weight:700;color:${r.stip>0?'var(--cyan)':'var(--dim2)'}">
-        ${r.stip>0 ? fe(r.stip) : '—'}
-      </td>
-    </tr>`).join('');
-
-  const modal = document.createElement('div');
-  modal.id = 'prova-stip-modal';
-  modal.style.cssText = `
-    position:fixed;inset:0;z-index:9999;display:flex;align-items:center;justify-content:center;
-    background:rgba(0,0,0,0.7);backdrop-filter:blur(6px)`;
-  modal.innerHTML = `
-    <div style="background:var(--bg2);border:1px solid rgba(0,212,255,0.25);border-radius:18px;
-                padding:32px;max-width:480px;width:90%;box-shadow:0 24px 80px rgba(0,0,0,0.5)">
-      <div style="font-size:22px;margin-bottom:4px">🎉 Prova Superata</div>
-      <div style="font-size:16px;font-weight:700;color:var(--cyan);margin-bottom:20px">${nome}</div>
-
-      <div style="font-size:12px;font-weight:800;color:var(--dim);letter-spacing:0.1em;margin-bottom:10px">
-        STIPENDIO PERIODO DI PROVA
-      </div>
-      <table style="width:100%;border-collapse:collapse;margin-bottom:20px">
-        <thead>
-          <tr style="border-bottom:1px solid rgba(255,255,255,0.08)">
-            <th style="font-size:11px;color:var(--dim);font-weight:600;text-align:left;padding:4px 0">Settimana</th>
-            <th style="font-size:11px;color:var(--dim);font-weight:600;text-align:center;padding:4px 0">Incarico</th>
-            <th style="font-size:11px;color:var(--dim);font-weight:600;text-align:right;padding:4px 0">Stipendio</th>
-          </tr>
-        </thead>
-        <tbody>${righeHtml}</tbody>
-        <tfoot>
-          <tr style="border-top:2px solid rgba(255,255,255,0.12)">
-            <td colspan="2" style="font-weight:700;color:var(--dim);padding-top:10px">TOTALE DA PAGARE</td>
-            <td style="text-align:right;font-size:20px;font-weight:800;color:${totale>0?'var(--green)':'var(--dim2)'};padding-top:10px">
-              ${totale>0 ? fe(totale) : '€ 0,00'}
-            </td>
-          </tr>
-        </tfoot>
-      </table>
-
-      ${totale===0 ? `<div style="font-size:12px;color:var(--yellow);margin-bottom:16px">
-        ⚠️ Nessun incarico completato trovato nel periodo di prova — stipendio non generato automaticamente.
-        Verifica manualmente nel tab Stipendi se necessario.
-      </div>` : `<div style="font-size:12px;color:var(--dim);margin-bottom:16px">
-        💡 Lo stipendio è stato calcolato e sarà visibile nel tab <b>Stipendi → Dashboard</b>
-        nelle settimane corrispondenti.
-      </div>`}
-
-      <button onclick="document.getElementById('prova-stip-modal').remove()"
-        style="width:100%;background:var(--cyan);color:var(--bg);border:none;border-radius:10px;
-               padding:12px;font-size:14px;font-weight:800;cursor:pointer;font-family:inherit">
-        ✓ Chiudi
-      </button>
-    </div>`;
-  document.body.appendChild(modal);
-  modal.addEventListener('click', e => { if(e.target===modal) modal.remove(); });
 }
 
 function prolungaProva(username){
@@ -11084,48 +10685,6 @@ function _checkIncarichiScaduti(){
       else{if(typeof renderIncDip==='function')renderIncDip();}
     }catch(e){}
   }
-}
-
-// ── Aggiunge automaticamente +1 ordine allo stipendio del fattoDa ──────────
-// Chiamata quando un ordine viene marcato "Consegnato"
-const _RUOLI_BONUS_ORDINE = ['Dipendente','Supervisore','Responsabile'];
-
-function _aggiungiOrdineStipendio(ordine){
-  if(!ordine || ordine.stato !== 'Consegnato') return;
-  const nomeFda = (ordine.fattoDa || '').trim();
-  if(!nomeFda) return;
-
-  const dip = DIP.find(d => d.nome === nomeFda);
-  if(!dip) return;
-  if(!_RUOLI_BONUS_ORDINE.includes(dip.ruolo)) return;
-
-  // Ricava anno e settimana dal timestamp/data ordine
-  let anno = new Date().getFullYear();
-  if(ordine.timestamp){
-    try{ anno = new Date(ordine.timestamp).getFullYear(); } catch(e){}
-  }
-  const mese = ordine.mese || new Date().getMonth()+1;
-  const sett = ordine.sett || 1;
-
-  // Trova il key della settimana corrispondente
-  let key = null;
-  try{
-    const setts = getSettimaneDelMese(anno, mese);
-    // sett è 1-based; prende la settimana corrispondente (la (sett-1)-esima del mese)
-    const settObj = setts[sett - 1];
-    if(settObj) key = settObj.key;
-  } catch(e){}
-
-  if(!key) return;
-
-  // Incrementa il contatore ordini
-  if(!dip.dati) dip.dati = {};
-  if(!dip.dati[key]) dip.dati[key] = {};
-  dip.dati[key].ordini = (dip.dati[key].ordini || 0) + 1;
-
-  // Salva
-  dbSave.dip();
-  console.log(`[Stipendio] +1 ordine a ${nomeFda} (${key}) → totale: ${dip.dati[key].ordini}`);
 }
 
 function stipKey(m,p,sub){return m+'_'+p+'_'+(sub||'A');}
@@ -11314,9 +10873,7 @@ function renderCalcolo(){
   });
 
   const stipColor = isBonus?'#60a5fa':'#34d399';
-  const calcTbody = document.getElementById('calc-tbody');
-  calcTbody.innerHTML=righe.map(r=>`<tr draggable="true" data-nome="${r.nome}" style="${r.isTop3?'background:rgba(245,158,11,0.05)':''}">
-    <td style="width:20px;padding:0 4px 0 8px"><span class="st-drag-handle" title="Trascina per spostare">⠿</span></td>
+  document.getElementById('calc-tbody').innerHTML=righe.map(r=>`<tr style="${r.isTop3?'background:rgba(245,158,11,0.05)':''}">
     <td style="font-weight:600;white-space:nowrap">${r.isTop3?['🥇','🥈','🥉'][r.bonusIdx]+' ':''}<span style="${r.isTop3?'color:#f59e0b':''}">${r.nome}</span>${r.warn>0?`<span style="color:#f87171;font-size:10px;margin-left:4px">⚠️${r.warn}</span>`:''}</td>
     <td style="color:var(--dim);font-size:11px">${r.ruolo}</td>
     <td style="color:${r.stipendio>0?stipColor:'var(--dim2)'}">${r.stipendio>0?fe(r.stipendio):'—'}</td>
@@ -11324,7 +10881,6 @@ function renderCalcolo(){
     <td style="color:${r.totale>0?'var(--cyan)':'var(--dim2)'};font-weight:700">${r.totale>0?fe(r.totale):'€ 0,00'}</td>
     <td>${r.appHtml}</td>
   </tr>`).join('');
-  _initDragTable(calcTbody, 'nome', DIP, () => { dbSave.dip(); renderCalcolo(); });
 
   const colspan=isBonus?4:3;
   document.getElementById('calc-tfoot').innerHTML=`<tr style="border-top:2px solid rgba(255,255,255,0.12)"><td colspan="${colspan}" style="font-weight:700;color:var(--dim)">TOTALE DA PAGARE</td><td style="color:var(--cyan);font-weight:700;font-size:14px">${fe(totaleGlobale)}</td><td></td></tr>`;
@@ -11498,58 +11054,29 @@ function modificaPagamento(id){
 
 // ── GRADI ──
 function renderGradi(){
-  const ORDINE_RUOLI = ['Direttrice','Vice Direttore','Coordinatore','Manager','Responsabile','Supervisore','Dipendente'];
-  // Mantieni l'ordine personalizzato se già modificato, altrimenti usa quello di default
+  const ORDINE_RUOLI=['Direttrice','Vice Direttore','Coordinatore','Manager','Responsabile','Supervisore','Dipendente'];
   if(!window._gradiOrdine){
-    window._gradiOrdine = ORDINE_RUOLI.filter(r => GRADI[r] !== undefined)
-      .concat(Object.keys(GRADI).filter(r => !ORDINE_RUOLI.includes(r)));
+    window._gradiOrdine=ORDINE_RUOLI.filter(r=>GRADI[r]!==undefined)
+      .concat(Object.keys(GRADI).filter(r=>!ORDINE_RUOLI.includes(r)));
   }
-  const ruoli = window._gradiOrdine.filter(r => GRADI[r]);
-  const tbody = document.getElementById('gradi-tbody');
-  tbody.innerHTML = ruoli.map(r => {
-    const g = GRADI[r];
+  const ruoli=window._gradiOrdine.filter(r=>GRADI[r]);
+  const tbody=document.getElementById('gradi-tbody');
+  tbody.innerHTML=ruoli.map(r=>{
+    const g=GRADI[r];
     return `<tr draggable="true" data-ruolo="${r}">
-      <td style="width:20px;padding:0 4px 0 8px"><span class="st-drag-handle" title="Trascina per spostare">⠿</span></td>
+      <td style="width:20px;padding:0 4px 0 8px"><span class="st-drag-handle" title="Trascina">⠿</span></td>
       <td style="font-weight:600">${r}</td>
-      ${g.map((v,i) => `<td><input class="stip-input" style="width:80px" type="number" min="0" step="0.01" value="${v}"
+      ${g.map((v,i)=>`<td><input class="stip-input" style="width:80px" type="number" min="0" step="0.01" value="${v}"
         oninput="GRADI['${r}'][${i}]=parseFloat(this.value)||0;clearTimeout(window._grT);window._grT=setTimeout(()=>dbSave.gradi(),1200)"></td>`).join('')}
     </tr>`;
   }).join('');
-
-  // Drag-and-drop ruoli
-  let dragged = null;
-  tbody.querySelectorAll('tr[draggable]').forEach(row => {
-    row.addEventListener('dragstart', e => {
-      dragged = row;
-      e.dataTransfer.effectAllowed = 'move';
-      e.dataTransfer.setData('text/plain', row.dataset.ruolo || '');
-      setTimeout(() => row.classList.add('st-dragging'), 0);
-    });
-    row.addEventListener('dragend', () => {
-      dragged = null;
-      tbody.querySelectorAll('tr').forEach(r => r.classList.remove('st-dragging','st-drag-over-top','st-drag-over-bottom'));
-    });
-    row.addEventListener('dragover', e => {
-      e.preventDefault(); e.dataTransfer.dropEffect = 'move';
-      if(!dragged || dragged === row) return;
-      tbody.querySelectorAll('tr').forEach(r => r.classList.remove('st-drag-over-top','st-drag-over-bottom'));
-      const mid = row.getBoundingClientRect().top + row.getBoundingClientRect().height / 2;
-      row.classList.add(e.clientY < mid ? 'st-drag-over-top' : 'st-drag-over-bottom');
-    });
-    row.addEventListener('dragleave', () => row.classList.remove('st-drag-over-top','st-drag-over-bottom'));
-    row.addEventListener('drop', e => {
-      e.preventDefault(); e.stopPropagation();
-      if(!dragged || dragged === row) return;
-      const before = row.classList.contains('st-drag-over-top');
-      const fi = ruoli.indexOf(dragged.dataset.ruolo);
-      const ti = ruoli.indexOf(row.dataset.ruolo);
-      if(fi < 0 || ti < 0) return;
-      const [moved] = ruoli.splice(fi, 1);
-      const newTi = ruoli.indexOf(row.dataset.ruolo);
-      ruoli.splice(before ? newTi : newTi + 1, 0, moved);
-      window._gradiOrdine = [...ruoli];
-      renderGradi();
-    });
+  let dragged=null;
+  tbody.querySelectorAll('tr[draggable]').forEach(row=>{
+    row.addEventListener('dragstart',e=>{dragged=row;e.dataTransfer.effectAllowed='move';e.dataTransfer.setData('text/plain',row.dataset.ruolo||'');setTimeout(()=>row.classList.add('st-dragging'),0);});
+    row.addEventListener('dragend',()=>{dragged=null;tbody.querySelectorAll('tr').forEach(r=>r.classList.remove('st-dragging','st-drag-over-top','st-drag-over-bottom'));});
+    row.addEventListener('dragover',e=>{e.preventDefault();e.dataTransfer.dropEffect='move';if(!dragged||dragged===row)return;tbody.querySelectorAll('tr').forEach(r=>r.classList.remove('st-drag-over-top','st-drag-over-bottom'));const mid=row.getBoundingClientRect().top+row.getBoundingClientRect().height/2;row.classList.add(e.clientY<mid?'st-drag-over-top':'st-drag-over-bottom');});
+    row.addEventListener('dragleave',()=>row.classList.remove('st-drag-over-top','st-drag-over-bottom'));
+    row.addEventListener('drop',e=>{e.preventDefault();e.stopPropagation();if(!dragged||dragged===row)return;const before=row.classList.contains('st-drag-over-top');const fi=ruoli.indexOf(dragged.dataset.ruolo);const ti=ruoli.indexOf(row.dataset.ruolo);if(fi<0||ti<0)return;const[moved]=ruoli.splice(fi,1);const newTi=ruoli.indexOf(row.dataset.ruolo);ruoli.splice(before?newTi:newTi+1,0,moved);window._gradiOrdine=[...ruoli];renderGradi();});
   });
 }
 
@@ -11567,78 +11094,20 @@ function cambiaWarn(nome, delta){
 }
 
 function renderDipLista(){
-  const tbody = document.getElementById('dip-lista-tbody');
-  tbody.innerHTML = DIP.map((d,i) => `
-    <tr draggable="true" data-nome="${d.nome}">
-      <td style="width:20px;padding:0 4px 0 8px"><span class="st-drag-handle" title="Trascina per spostare">⠿</span></td>
-      <td style="font-weight:600">${d.nome}</td>
-      <td style="color:var(--dim);font-size:11px">${d.ruolo}</td>
-      <td style="color:var(--dim)">${d.contratto||'—'}</td>
-      <td style="white-space:nowrap">
-        <button class="reset-btn" onclick="cambiaWarn('${d.nome}',-1)" style="padding:2px 7px;font-size:13px;border-color:rgba(248,113,113,0.4);color:#f87171">−</button>
-        <span style="color:${parseInt(d.warn)>0?'#f87171':'var(--dim2)'};font-weight:700;margin:0 6px">${d.warn==='/'||d.warn==='//'?'—':d.warn||'0'}</span>
-        <button class="reset-btn" onclick="cambiaWarn('${d.nome}',+1)" style="padding:2px 7px;font-size:13px;border-color:rgba(248,113,113,0.4);color:#f87171">+</button>
-      </td>
-      <td style="font-size:11px;color:${d.appunti?.includes('PROBLEMI')?'#f87171':d.appunti?.includes('FINE')?'#60a5fa':'var(--dim)'}">${d.appunti||'—'}</td>
-      <td><button class="del-btn" onclick="rimuoviDip('${d.nome}')">🔴</button></td>
-    </tr>`).join('');
-  _initDragTable(tbody, 'nome', DIP, () => { dbSave.dip(); renderCalcolo(); });
+  document.getElementById('dip-lista-tbody').innerHTML=DIP.map((d,i)=>`<tr>
+    <td style="font-weight:600">${d.nome}</td>
+    <td style="color:var(--dim);font-size:11px">${d.ruolo}</td>
+    <td style="color:var(--dim)">${d.contratto||'—'}</td>
+    <td style="white-space:nowrap">
+      <button class="reset-btn" onclick="cambiaWarn('${d.nome}',-1)" style="padding:2px 7px;font-size:13px;border-color:rgba(248,113,113,0.4);color:#f87171" title="Rimuovi warn">−</button>
+      <span style="color:${parseInt(d.warn)>0?'#f87171':'var(--dim2)'};font-weight:700;margin:0 6px">${d.warn==='/'||d.warn==='//'?'—':d.warn||'0'}</span>
+      <button class="reset-btn" onclick="cambiaWarn('${d.nome}',+1)" style="padding:2px 7px;font-size:13px;border-color:rgba(248,113,113,0.4);color:#f87171" title="Aggiungi warn">+</button>
+    </td>
+    <td style="font-size:11px;color:${d.appunti?.includes('PROBLEMI')?'#f87171':d.appunti?.includes('FINE')?'#60a5fa':'var(--dim)'}">${d.appunti||'—'}</td>
+    <td style="white-space:nowrap"><button class="reset-btn" onclick="spostaDipSu('${d.nome}')" title="Su">⬆️</button> <button class="reset-btn" onclick="spostaDipGiu('${d.nome}')" title="Giù">⬇️</button></td>
+    <td><button class="del-btn" onclick="rimuoviDip('${d.nome}')">🔴</button></td>
+  </tr>`).join('');
   renderGruppiFissi();
-}
-
-// ── Drag-and-drop generico per tabelle (array di oggetti con chiave) ──
-function _initDragTable(tbody, keyField, arr, onDrop){
-  let dragSrc = null;
-
-  tbody.querySelectorAll('tr[draggable]').forEach(row => {
-
-    row.addEventListener('dragstart', e => {
-      dragSrc = row;
-      e.dataTransfer.effectAllowed = 'move';
-      e.dataTransfer.setData('text/plain', row.dataset.nome || row.dataset.ruolo || '');
-      setTimeout(() => row.classList.add('st-dragging'), 0);
-    });
-
-    row.addEventListener('dragend', () => {
-      dragSrc = null;
-      tbody.querySelectorAll('tr').forEach(r =>
-        r.classList.remove('st-dragging','st-drag-over-top','st-drag-over-bottom'));
-    });
-
-    row.addEventListener('dragover', e => {
-      e.preventDefault();
-      e.dataTransfer.dropEffect = 'move';
-      if(!dragSrc || dragSrc === row) return;
-      tbody.querySelectorAll('tr').forEach(r =>
-        r.classList.remove('st-drag-over-top','st-drag-over-bottom'));
-      const mid = row.getBoundingClientRect().top + row.getBoundingClientRect().height / 2;
-      row.classList.add(e.clientY < mid ? 'st-drag-over-top' : 'st-drag-over-bottom');
-    });
-
-    row.addEventListener('dragleave', () => {
-      row.classList.remove('st-drag-over-top','st-drag-over-bottom');
-    });
-
-    row.addEventListener('drop', e => {
-      e.preventDefault();
-      e.stopPropagation();
-      if(!dragSrc || dragSrc === row) return;
-
-      const before  = row.classList.contains('st-drag-over-top');
-      const fromVal = dragSrc.dataset.nome || dragSrc.dataset.ruolo;
-      const toVal   = row.dataset.nome     || row.dataset.ruolo;
-
-      const fi = arr.findIndex(x => x[keyField] === fromVal);
-      const ti = arr.findIndex(x => x[keyField] === toVal);
-      if(fi < 0 || ti < 0) return;
-
-      const [moved] = arr.splice(fi, 1);
-      const newTi   = arr.findIndex(x => x[keyField] === toVal);
-      arr.splice(before ? newTi : newTi + 1, 0, moved);
-
-      onDrop();
-    });
-  });
 }
 
 // ── GRUPPI FISSI ──
@@ -12370,12 +11839,6 @@ async function prontoChatRetry(session, callbackId){
   dbSave.pronto_chats();
 }
 
-// ── Stato conversazioni /elimina (per chat_id) ──
-const _eliminaConv = {}; // { chatId: { step, nomeAzienda, nomeUtente, codiceOrdine } }
-
-// Set degli update_id già processati (evita doppio invio)
-const _processedUpdateIds = new Set();
-
 // ── POLLING getUpdates: processa i pulsanti premuti ──
 async function _tgPollUpdates(){
   if(_tgPollingLock || !TG_BOT_TOKEN) return;
@@ -12390,15 +11853,6 @@ async function _tgPollUpdates(){
 
     for(const upd of data.result){
       _tgUpdateOffset = upd.update_id;
-
-      // Salta update già processati (protezione contro doppio invio)
-      if(_processedUpdateIds.has(upd.update_id)) continue;
-      _processedUpdateIds.add(upd.update_id);
-      // Mantieni il set piccolo (ultimi 200)
-      if(_processedUpdateIds.size > 200){
-        const first = _processedUpdateIds.values().next().value;
-        _processedUpdateIds.delete(first);
-      }
 
       // === Gestione messaggi normali (es. /start) ===
       if(upd.message){
@@ -12417,87 +11871,41 @@ async function _tgPollUpdates(){
           }
           if(changed) dbSave.tg_user_chats();
 
-          // ── /elimina: richiesta cancellazione ordine ──────────────
-          const txtRaw = (msg.text||'').trim();
-          const conv   = _eliminaConv[fromChatId];
-
-          if(txtRaw.split(' ')[0] === '/elimina'){
-            _eliminaConv[fromChatId] = { step: 1 };
-            await _tgSend(fromChatId,
-              `🗑️ <b>Richiesta eliminazione ordine</b>\n\n` +
-              `Passaggio <b>1/3</b> — Inserisci il <b>nome dell'azienda</b>:`
-            , []);
+          // ── /elimina ────────────────────────────────────────
+          const txtRaw=(msg.text||'').trim();
+          const _eConv=window._eliminaConv=window._eliminaConv||{};
+          const conv=_eConv[fromChatId];
+          if(txtRaw.split(' ')[0]==='/elimina'){
+            _eConv[fromChatId]={step:1};
+            await _tgSend(fromChatId,'🗑️ <b>Richiesta eliminazione ordine</b>\n\nPassaggio <b>1/3</b> — Inserisci il <b>nome dell\'azienda</b>:',[]);
             continue;
           }
-
-          // Gestione passi successivi /elimina
           if(conv){
-            if(conv.step === 1){
-              conv.nomeAzienda = txtRaw;
-              conv.step = 2;
-              await _tgSend(fromChatId,
-                `✅ Azienda: <b>${txtRaw}</b>\n\n` +
-                `Passaggio <b>2/3</b> — Inserisci il <b>tuo nome</b>:`
-              , []);
-            } else if(conv.step === 2){
-              conv.nomeUtente = txtRaw;
-              conv.step = 3;
-              await _tgSend(fromChatId,
-                `✅ Nome: <b>${txtRaw}</b>\n\n` +
-                `Passaggio <b>3/3</b> — Inserisci il <b>codice ordine</b>:\n` +
-                `<i>(il codice ti è stato inviato quando hai completato l'ordine)</i>`
-              , []);
-            } else if(conv.step === 3){
-              conv.codiceOrdine = txtRaw.toUpperCase();
-              conv.step = 4;
-              // Cerca l'ordine nel DB
-              const ordFound = ORDINI.find(o =>
-                o.codice === conv.codiceOrdine ||
-                String(o.numPub)  === txtRaw ||
-                String(o.numPriv) === txtRaw
-              );
-              if(!ordFound){
-                await _tgSend(fromChatId,
-                  `❌ <b>Ordine non trovato</b>\n\n` +
-                  `Codice <code>${conv.codiceOrdine}</code> non esiste nel sistema.\n` +
-                  `Verifica il codice e riprova con /elimina.`
-                , []);
-                delete _eliminaConv[fromChatId];
+            if(conv.step===1){
+              conv.nomeAzienda=txtRaw;conv.step=2;
+              await _tgSend(fromChatId,`✅ Azienda: <b>${txtRaw}</b>\n\nPassaggio <b>2/3</b> — Inserisci il <b>tuo nome</b>:`,[]);
+            } else if(conv.step===2){
+              conv.nomeUtente=txtRaw;conv.step=3;
+              await _tgSend(fromChatId,`✅ Nome: <b>${txtRaw}</b>\n\nPassaggio <b>3/3</b> — Inserisci il <b>codice ordine</b>:`,[]);
+            } else if(conv.step===3){
+              const codice=txtRaw.toUpperCase();
+              const ord=ORDINI.find(o=>o.codice===codice||String(o.numPub)===txtRaw||String(o.numPriv)===txtRaw);
+              if(!ord){
+                delete _eConv[fromChatId];
+                await _tgSend(fromChatId,`❌ <b>Ordine non trovato</b>\n\nCodice <code>${codice}</code> non esiste. Riprova con /elimina.`,[]);
               } else {
-                // Verifica che azienda e nome corrispondano
-                const azOk   = (ordFound.azienda||'').toLowerCase().includes(conv.nomeAzienda.toLowerCase()) ||
-                               conv.nomeAzienda.toLowerCase().includes((ordFound.azienda||'').toLowerCase());
-                const nomeOk = [ordFound.contatto, ordFound.minecraft, ordFound.cliente]
-                               .filter(Boolean)
-                               .some(v => v.toLowerCase().replace('@','') === conv.nomeUtente.toLowerCase().replace('@',''));
-
-                if(!azOk || !nomeOk){
-                  const motivazione = !azOk
-                    ? `🏢 Il nome azienda <b>${conv.nomeAzienda}</b> non corrisponde all'ordine.`
-                    : `👤 Il nome <b>${conv.nomeUtente}</b> non corrisponde al titolare dell'ordine.`;
-                  await _tgSend(fromChatId,
-                    `❌ <b>Dati non corrispondenti</b>\n\n` +
-                    `${motivazione}\n\n` +
-                    `Assicurati di inserire esattamente i dati con cui è stato effettuato l'ordine.\n` +
-                    `Riprova con /elimina.`
-                  , []);
-                  delete _eliminaConv[fromChatId];
+                const azOk=(ord.azienda||'').toLowerCase().includes(conv.nomeAzienda.toLowerCase())||conv.nomeAzienda.toLowerCase().includes((ord.azienda||'').toLowerCase());
+                const nomeOk=[ord.contatto,ord.minecraft,ord.cliente].filter(Boolean).some(v=>v.toLowerCase().replace('@','')===conv.nomeUtente.toLowerCase().replace('@',''));
+                if(!azOk||!nomeOk){
+                  delete _eConv[fromChatId];
+                  const motivo=!azOk?`🏢 Il nome azienda <b>${conv.nomeAzienda}</b> non corrisponde.`:`👤 Il nome <b>${conv.nomeUtente}</b> non corrisponde al titolare.`;
+                  await _tgSend(fromChatId,`❌ <b>Dati non corrispondenti</b>\n\n${motivo}\n\nRiprova con /elimina.`,[]);
                 } else {
-                  const prods = (ordFound.prodotti||[]).map(p=>`• ${p.qty/64}s ${p.nome}`).join('\n');
+                  conv.step=4;conv.codiceOrdine=ord.codice;
+                  const prods=(ord.prodotti||[]).map(p=>`• ${p.qty/64}s ${p.nome}`).join('\n');
                   await _tgSend(fromChatId,
-                    `📋 <b>Riepilogo ordine da eliminare</b>\n\n` +
-                    `🔖 Codice: <code>${ordFound.codice}</code>\n` +
-                    `🏢 Azienda: <b>${ordFound.azienda||conv.nomeAzienda}</b>\n` +
-                    `👤 Richiedente: <b>${conv.nomeUtente}</b>\n` +
-                    `📅 Data: ${ordFound.data||'—'}\n` +
-                    `💰 Totale: <b>${fe(ordFound.totale||0)}</b>\n` +
-                    `📦 Prodotti:\n${prods}\n` +
-                    `📊 Stato: <b>${ordFound.stato||'—'}</b>\n\n` +
-                    `⚠️ <b>Vuoi eliminare questo ordine?</b>`,
-                    [[
-                      { text: '❌ Annulla', callback_data: `elimina_no_${ordFound.codice}` },
-                      { text: '✅ Conferma', callback_data: `elimina_si_${ordFound.codice}` }
-                    ]]
+                    `📋 <b>Riepilogo ordine da eliminare</b>\n\n🔖 Codice: <code>${ord.codice}</code>\n🏢 Azienda: <b>${ord.azienda}</b>\n👤 Richiedente: <b>${conv.nomeUtente}</b>\n📅 Data: ${ord.data||'—'}\n💰 Totale: <b>${fe(ord.totale||0)}</b>\n📦 Prodotti:\n${prods}\n📊 Stato: <b>${ord.stato||'—'}</b>\n\n⚠️ <b>Vuoi eliminare questo ordine?</b>`,
+                    [[{text:'❌ Annulla',callback_data:`elimina_no_${ord.codice}`},{text:'✅ Conferma',callback_data:`elimina_si_${ord.codice}`}]]
                   );
                 }
               }
@@ -12559,36 +11967,24 @@ async function _tgPollUpdates(){
 
       // Conferma eliminazione ordine
       if(cdData.startsWith('elimina_si_')){
-        const codice = cdData.replace('elimina_si_','');
-        const idx = ORDINI.findIndex(o=>o.codice===codice);
+        const codice=cdData.replace('elimina_si_','');
+        const idx=ORDINI.findIndex(o=>o.codice===codice);
         if(idx>=0){
-          const o = ORDINI[idx];
-          ORDINI.splice(idx,1);
-          await DB.save('ordini', ORDINI);
-          renderOrdini?.();
-          await _tgAnswerCallback(cb.id, '✅ Ordine eliminato');
-          const chatId = cb.message?.chat?.id ? String(cb.message.chat.id) : null;
-          if(chatId) await _tgSend(chatId,
-            `✅ <b>Ordine eliminato con successo!</b>\n\n` +
-            `🔖 Codice: <code>${codice}</code>\n` +
-            `🏢 Azienda: <b>${o.azienda||'—'}</b>\n` +
-            `💰 Totale: <b>${fe(o.totale||0)}</b>\n\n` +
-            `L'ordine è stato rimosso definitivamente dal sistema.\n` +
-            `— <b>Team Purissima</b>`, []);
-          // Notifica direzione
-          _sendTelegram(`🗑️ <b>Ordine eliminato via bot</b>\nCodice: <code>${codice}</code> | Azienda: ${o.azienda||'—'} | ${fe(o.totale||0)}\nRichiesto da: @${fromUser}`);
-          delete _eliminaConv[String(cb.message?.chat?.id)];
-        } else {
-          await _tgAnswerCallback(cb.id, '⚠️ Ordine non trovato');
-        }
+          const o=ORDINI[idx];ORDINI.splice(idx,1);
+          const wasPolling2=!!_pollingInterval;if(wasPolling2)stopPolling();
+          await DB.save('ordini',ORDINI).finally(()=>{if(wasPolling2)setTimeout(startPolling,2000);});
+          await _tgAnswerCallback(cb.id,'✅ Ordine eliminato');
+          const chatId2=cb.message?.chat?.id?String(cb.message.chat.id):null;
+          if(chatId2) await _tgSend(chatId2,`✅ <b>Ordine eliminato!</b>\n🔖 <code>${codice}</code>\n🏢 ${o.azienda}\n💰 ${fe(o.totale||0)}\n\n— <b>Team Purissima</b>`,[]);
+          _sendTelegram(`🗑️ <b>Ordine eliminato via bot</b>\nCodice: <code>${codice}</code> | ${o.azienda} | ${fe(o.totale||0)}\nRichiesto da: @${fromUser}`);
+          _notificaEliminazioneOrdine(codice, o, 'Bot Telegram');
+          if(window._eliminaConv) delete window._eliminaConv[chatId2];
+        } else { await _tgAnswerCallback(cb.id,'⚠️ Ordine non trovato'); }
       }
-      // Annulla eliminazione
       else if(cdData.startsWith('elimina_no_')){
-        await _tgAnswerCallback(cb.id, '❌ Eliminazione annullata');
-        const chatId = cb.message?.chat?.id ? String(cb.message.chat.id) : null;
-        if(chatId) await _tgSend(chatId,
-          `❌ <b>Eliminazione annullata.</b>\n\nNessuna modifica è stata apportata all'ordine.`, []);
-        delete _eliminaConv[chatId];
+        await _tgAnswerCallback(cb.id,'❌ Eliminazione annullata');
+        const chatId2=cb.message?.chat?.id?String(cb.message.chat.id):null;
+        if(chatId2){ await _tgSend(chatId2,'❌ <b>Eliminazione annullata.</b>\n\nNessuna modifica apportata.',[]);if(window._eliminaConv)delete window._eliminaConv[chatId2]; }
       }
       // Cliente preme "Avvisa dipendente"
       else if(cdData.startsWith('pronto_cliente_')){
@@ -12631,39 +12027,25 @@ async function _tgPollUpdates(){
   _tgPollingLock = false;
 }
 
-// Rilascia il lock bot quando il tab viene chiuso
-window.addEventListener('beforeunload', ()=>{ stopTgBotPolling(); });
-
 // ── Avvia/ferma polling Telegram ogni 4 secondi ──
 function startTgBotPolling(){
   if(_tgBotPollingTimer) return;
-  // ── Lock cross-tab: solo un tab alla volta fa il polling ──
-  const tabId = Math.random().toString(36).substr(2,10);
-  window._botTabId = tabId;
-  localStorage.setItem('_purissima_bot_tab', tabId);
-
+  const tabId=Math.random().toString(36).substr(2,10);
+  window._botTabId=tabId;
+  localStorage.setItem('_purissima_bot_tab',tabId);
   _tgBotPollingTimer = setInterval(async ()=>{
-    // Se un altro tab ha preso il lock, questo si ferma
-    if(localStorage.getItem('_purissima_bot_tab') !== window._botTabId){
-      // Rilascia il timer ma non il lock (lo ha già preso un altro)
-      clearInterval(_tgBotPollingTimer); _tgBotPollingTimer=null; return;
+    if(localStorage.getItem('_purissima_bot_tab')!==window._botTabId){
+      clearInterval(_tgBotPollingTimer);_tgBotPollingTimer=null;return;
     }
-    // Rinnova il lock e fai polling
-    localStorage.setItem('_purissima_bot_tab', window._botTabId);
-    await _tgPollUpdates();
-  }, 4000);
-}
+    localStorage.setItem('_purissima_bot_tab',window._botTabId);
     _tgPollUpdates();
-    // Controlla timeout 5 minuti delle sessioni pronto-chat (basato su DB, sopravvive ai refresh)
     if(typeof _checkProntoChatTimeout === 'function') _checkProntoChatTimeout();
   }, 4000);
-  // Esegui un primo check immediato all'avvio (utile dopo refresh con sessioni già scadute)
   if(typeof _checkProntoChatTimeout === 'function') setTimeout(_checkProntoChatTimeout, 1000);
 }
 function stopTgBotPolling(){
   if(_tgBotPollingTimer){ clearInterval(_tgBotPollingTimer); _tgBotPollingTimer=null; }
-  // Rilascia il lock cross-tab solo se lo detiene questo tab
-  if(window._botTabId && localStorage.getItem('_purissima_bot_tab') === window._botTabId){
+  if(window._botTabId && localStorage.getItem('_purissima_bot_tab')===window._botTabId){
     localStorage.removeItem('_purissima_bot_tab');
   }
 }
@@ -14324,325 +13706,281 @@ document.addEventListener('keydown', (e)=>{
 </script>
 
 <script>
-// ═══════════════════════════════════════════
-//  AVVISI INL — Sistema notifiche formali
-// ═══════════════════════════════════════════
+// ═══════════════════════════════════════════════════════
+//  NUOVE FUNZIONALITÀ PURISSIMA
+// ═══════════════════════════════════════════════════════
 
-function _initAvvisiDest(){
-  const sel = document.getElementById('avv-dest');
-  if(!sel) return;
-  const dips = USERS.filter(u => !['Direttrice','Direttore','Vice Direttrice','Vice Direttore'].includes(u.ruolo));
-  sel.innerHTML = '<option value="tutti">👥 Tutti i dipendenti</option>'
-    + dips.map(u=>`<option value="${u.username}">${u.nome} (${u.ruolo})</option>`).join('');
+// ── Notifica eliminazione ordine ────────────────────────
+function _notificaEliminazioneOrdine(codice, ord, eliminatoDa){
+  if(!ord) return;
+  const n={
+    id: 'del-'+codice+'-'+Date.now(),
+    codice,
+    azienda: ord.azienda||ord.cliente||'—',
+    tipo: ord.tipo||'pubblica',
+    totale: ord.totale||0,
+    time: new Date(),
+    unread: true,
+    isEliminato: true,
+    eliminatoDa
+  };
+  // Notifica locale per la direzione
+  NOTIFICHE.unshift(n);
+  renderNotifiche();
+  // Notifica globale per tutti gli staff con permesso ordini
+  DB.loadAll().then(all=>{
+    const users=(all.users&&Array.isArray(all.users))?all.users:USERS;
+    const dest=users.filter(u=>u.puoOrdini===true&&!['Direttrice','Direttore','Vice Direttrice','Vice Direttore'].includes(u.ruolo)).map(u=>u.username);
+    dest.forEach(per=>{
+      NOTIF_GLOB.push({
+        id:'del-'+codice+'-'+per+'-'+Date.now(),
+        per, tipo:'ordine',
+        testo:`🗑️ Ordine <b>${codice}</b> di <b>${n.azienda}</b> eliminato da ${eliminatoDa}`,
+        time:new Date().toISOString(), letto:[]
+      });
+    });
+    DB.save('notif_glob',NOTIF_GLOB);
+  });
 }
 
-function inviaAvviso(){
-  const dest  = document.getElementById('avv-dest')?.value;
-  const testo = document.getElementById('avv-testo')?.value.trim();
-  const msgEl = document.getElementById('avv-msg');
-  if(!testo){ msgEl.style.color='var(--red)'; msgEl.textContent='⚠ Scrivi il testo dell\'avviso'; return; }
-  if(!CU){ return; }
+function _initDragTable(tbody,keyField,arr,onDrop){
+  let dragSrc=null;
+  tbody.querySelectorAll('tr[draggable]').forEach(row=>{
+    row.addEventListener('dragstart',e=>{dragSrc=row;e.dataTransfer.effectAllowed='move';e.dataTransfer.setData('text/plain',row.dataset.nome||row.dataset.ruolo||'');setTimeout(()=>row.classList.add('st-dragging'),0);});
+    row.addEventListener('dragend',()=>{dragSrc=null;tbody.querySelectorAll('tr').forEach(r=>r.classList.remove('st-dragging','st-drag-over-top','st-drag-over-bottom'));});
+    row.addEventListener('dragover',e=>{e.preventDefault();e.dataTransfer.dropEffect='move';if(!dragSrc||dragSrc===row)return;tbody.querySelectorAll('tr').forEach(r=>r.classList.remove('st-drag-over-top','st-drag-over-bottom'));const mid=row.getBoundingClientRect().top+row.getBoundingClientRect().height/2;row.classList.add(e.clientY<mid?'st-drag-over-top':'st-drag-over-bottom');});
+    row.addEventListener('dragleave',()=>row.classList.remove('st-drag-over-top','st-drag-over-bottom'));
+    row.addEventListener('drop',e=>{e.preventDefault();e.stopPropagation();if(!dragSrc||dragSrc===row)return;const before=row.classList.contains('st-drag-over-top');const fromVal=dragSrc.dataset.nome||dragSrc.dataset.ruolo;const toVal=row.dataset.nome||row.dataset.ruolo;const fi=arr.findIndex(x=>x[keyField]===fromVal);const ti=arr.findIndex(x=>x[keyField]===toVal);if(fi<0||ti<0)return;const[moved]=arr.splice(fi,1);const newTi=arr.findIndex(x=>x[keyField]===toVal);arr.splice(before?newTi:newTi+1,0,moved);onDrop();});
+  });
+}
 
-  const mittente = CU.nome;
-  const ts       = new Date().toISOString();
+// ── Stipendio ordini automatico ─────────────────────────
+const _RUOLI_BONUS_ORDINE=['Dipendente','Supervisore','Responsabile'];
+function _aggiungiOrdineStipendio(ordine){
+  if(!ordine||ordine.stato!=='Consegnato')return;
+  const nomeFda=(ordine.fattoDa||'').trim();if(!nomeFda)return;
+  const dip=DIP.find(d=>d.nome===nomeFda);if(!dip)return;
+  if(!_RUOLI_BONUS_ORDINE.includes(dip.ruolo))return;
+  let anno=new Date().getFullYear();
+  if(ordine.timestamp){try{anno=new Date(ordine.timestamp).getFullYear();}catch(e){}}
+  const mese=ordine.mese||new Date().getMonth()+1;
+  const sett=ordine.sett||1;
+  let key=null;
+  try{const setts=getSettimaneDelMese(anno,mese);const settObj=setts[sett-1];if(settObj)key=settObj.key;}catch(e){}
+  if(!key)return;
+  if(!dip.dati)dip.dati={};
+  if(!dip.dati[key])dip.dati[key]={};
+  dip.dati[key].ordini=(dip.dati[key].ordini||0)+1;
+  dbSave.dip();
+  console.log(`[Stipendio] +1 ordine a ${nomeFda} (${key})`);
+}
 
-  // Determina destinatari
-  let destinatari = [];
-  if(dest === 'tutti'){
-    destinatari = USERS
-      .filter(u => !['Direttrice','Direttore','Vice Direttrice','Vice Direttore'].includes(u.ruolo))
-      .map(u => u.username);
-  } else {
-    destinatari = [dest];
-  }
-
-  if(!destinatari.length){ msgEl.style.color='var(--red)'; msgEl.textContent='⚠ Nessun destinatario trovato'; return; }
-
-  // Aggiungi a NOTIF_GLOB come tipo 'avviso'
-  destinatari.forEach(per => {
-    NOTIF_GLOB.push({
-      id:       'avv-'+Date.now()+'-'+Math.random().toString(36).substr(2,4),
-      per,
-      testo,
-      mittente,
-      tipo:     'avviso',
-      time:     ts,
-      letto:    []
+// ── Calcolo stipendio prova ──────────────────────────────
+function _calcolaEMostraStipendioProva(nome,inizio,fine){
+  if(!inizio||!fine)return;
+  const startDate=new Date(inizio);startDate.setHours(0,0,0,0);
+  const endDate=new Date(fine);endDate.setHours(23,59,59,999);
+  const mesiDa=new Set();
+  let cur=new Date(startDate);
+  while(cur<=endDate){mesiDa.add(`${cur.getFullYear()}_${cur.getMonth()+1}`);cur.setDate(cur.getDate()+7);}
+  mesiDa.add(`${endDate.getFullYear()}_${endDate.getMonth()+1}`);
+  const settimaneProva=[];
+  mesiDa.forEach(ym=>{
+    const[anno,mese]=ym.split('_').map(Number);
+    getSettimaneDelMese(anno,mese).forEach(s=>{
+      const sEnd=new Date(s.end);sEnd.setHours(23,59,59,999);
+      if(s.start<=endDate&&sEnd>=startDate)settimaneProva.push(s);
     });
   });
-
-  DB.save('notif_glob', NOTIF_GLOB);
-  renderNotifiche();
-
-  // Feedback
-  const nomesDest = dest === 'tutti'
-    ? 'tutti i dipendenti'
-    : (USERS.find(u=>u.username===dest)?.nome || dest);
-  msgEl.style.color='var(--green)';
-  msgEl.textContent=`✅ Avviso inviato a ${nomesDest}`;
-  document.getElementById('avv-testo').value = '';
-  setTimeout(()=>{ msgEl.textContent=''; }, 4000);
-
-  // Notifica Telegram opzionale
-  const destLabel = dest==='tutti' ? 'tutti i dipendenti' : nomesDest;
-  _sendTelegram(`⚠️ <b>Avviso INL inviato da ${mittente}</b>\n👤 A: <b>${destLabel}</b>\n\n${testo}`);
+  if(!settimaneProva.length)return;
+  let totale=0;const righe=[];
+  const d=DIP.find(x=>x.nome===nome);let dipChanged=false;
+  settimaneProva.forEach(s=>{
+    const allSetts=getSettimaneDelMese(s.anno,s.mese);
+    const settNum=allSetts.findIndex(sw=>sw.key===s.key)+1;
+    const haIncarico=INCARICHI_SETT.filter(inc=>{
+      if(inc.mese!==s.mese||inc.sett!==settNum)return false;
+      return inc.gruppi&&inc.gruppi.some(g=>g.dipNomi?.includes(nome)&&(g.stati?.[nome]==='completato'||inc.stato==='completato'));
+    }).length>0;
+    if(haIncarico&&d){
+      if(!d.dati)d.dati={};if(!d.dati[s.key])d.dati[s.key]={};
+      if(!d.dati[s.key].lunSab){d.dati[s.key].lunSab=true;dipChanged=true;}
+    }
+    const stip=calcolaStipendioKey(nome,s.key);
+    righe.push({label:s.label,stip,haIncarico});totale+=stip;
+  });
+  if(dipChanged)dbSave.dip();
+  _mostraModalStipendioProva(nome,totale,righe);
+}
+function _mostraModalStipendioProva(nome,totale,righe){
+  const old=document.getElementById('prova-stip-modal');if(old)old.remove();
+  const modal=document.createElement('div');modal.id='prova-stip-modal';
+  modal.style.cssText='position:fixed;inset:0;z-index:9999;display:flex;align-items:center;justify-content:center;background:rgba(0,0,0,0.7);backdrop-filter:blur(6px)';
+  const righeHtml=righe.map(r=>`<tr><td style="color:var(--dim)">${r.label}</td><td style="text-align:center">${r.haIncarico?'<span style="color:var(--green);font-weight:700">✅ Completato</span>':'<span style="color:var(--dim2)">—</span>'}</td><td style="text-align:right;font-weight:700;color:${r.stip>0?'var(--cyan)':'var(--dim2)'}">${r.stip>0?fe(r.stip):'—'}</td></tr>`).join('');
+  modal.innerHTML=`<div style="background:var(--bg2);border:1px solid rgba(0,212,255,0.25);border-radius:18px;padding:32px;max-width:480px;width:90%;box-shadow:0 24px 80px rgba(0,0,0,0.5)"><div style="font-size:22px;margin-bottom:4px">🎉 Prova Superata</div><div style="font-size:16px;font-weight:700;color:var(--cyan);margin-bottom:20px">${nome}</div><div style="font-size:12px;font-weight:800;color:var(--dim);letter-spacing:0.1em;margin-bottom:10px">STIPENDIO PERIODO DI PROVA</div><table style="width:100%;border-collapse:collapse;margin-bottom:20px"><thead><tr style="border-bottom:1px solid rgba(255,255,255,0.08)"><th style="font-size:11px;color:var(--dim);text-align:left;padding:4px 0">Settimana</th><th style="font-size:11px;color:var(--dim);text-align:center">Incarico</th><th style="font-size:11px;color:var(--dim);text-align:right">Stipendio</th></tr></thead><tbody>${righeHtml}</tbody><tfoot><tr style="border-top:2px solid rgba(255,255,255,0.12)"><td colspan="2" style="font-weight:700;color:var(--dim);padding-top:10px">TOTALE DA PAGARE</td><td style="text-align:right;font-size:20px;font-weight:800;color:${totale>0?'var(--green)':'var(--dim2)'};padding-top:10px">${totale>0?fe(totale):'€ 0,00'}</td></tr></tfoot></table><button onclick="document.getElementById('prova-stip-modal').remove()" style="width:100%;background:var(--cyan);color:var(--bg);border:none;border-radius:10px;padding:12px;font-size:14px;font-weight:800;cursor:pointer;font-family:inherit">✓ Chiudi</button></div>`;
+  document.body.appendChild(modal);
+  modal.addEventListener('click',e=>{if(e.target===modal)modal.remove();});
 }
 
+// ── Avvisi INL ──────────────────────────────────────────
+function _initAvvisiDest(){
+  const sel=document.getElementById('avv-dest');if(!sel)return;
+  const dips=USERS.filter(u=>!['Direttrice','Direttore','Vice Direttrice','Vice Direttore'].includes(u.ruolo));
+  sel.innerHTML='<option value="tutti">👥 Tutti i dipendenti</option>'+dips.map(u=>`<option value="${u.username}">${u.nome} (${u.ruolo})</option>`).join('');
+}
+function inviaAvviso(){
+  const dest=document.getElementById('avv-dest')?.value;
+  const testo=document.getElementById('avv-testo')?.value.trim();
+  const msgEl=document.getElementById('avv-msg');
+  if(!testo){msgEl.style.color='var(--red)';msgEl.textContent='⚠ Scrivi il testo dell\'avviso';return;}
+  if(!CU)return;
+  const mittente=CU.nome,ts=new Date().toISOString();
+  let destinatari=[];
+  if(dest==='tutti')destinatari=USERS.filter(u=>!['Direttrice','Direttore','Vice Direttrice','Vice Direttore'].includes(u.ruolo)).map(u=>u.username);
+  else destinatari=[dest];
+  if(!destinatari.length){msgEl.style.color='var(--red)';msgEl.textContent='⚠ Nessun destinatario';return;}
+  destinatari.forEach(per=>{
+    NOTIF_GLOB.push({id:'avv-'+Date.now()+'-'+Math.random().toString(36).substr(2,4),per,testo,mittente,tipo:'avviso',time:ts,letto:[]});
+  });
+  DB.save('notif_glob',NOTIF_GLOB);renderNotifiche();
+  const nomesDest=dest==='tutti'?'tutti i dipendenti':(USERS.find(u=>u.username===dest)?.nome||dest);
+  msgEl.style.color='var(--green)';msgEl.textContent=`✅ Avviso inviato a ${nomesDest}`;
+  document.getElementById('avv-testo').value='';
+  setTimeout(()=>{msgEl.textContent='';},4000);
+  _sendTelegram(`⚠️ <b>Avviso inviato da ${mittente}</b>\n👤 A: <b>${nomesDest}</b>\n\n${testo}`);
+}
 function toggleAvvisi(){
-  const dd = document.getElementById('avviso-dropdown');
-  if(!dd) return;
-  const isOpen = dd.classList.contains('open');
-  // Chiudi altri dropdown
+  const dd=document.getElementById('avviso-dropdown');if(!dd)return;
+  const isOpen=dd.classList.contains('open');
   document.getElementById('notif-dropdown-ord')?.classList.remove('open');
   document.getElementById('notif-dropdown-inc')?.classList.remove('open');
-  dd.classList.toggle('open', !isOpen);
-  if(!isOpen) renderAvvisi();
+  dd.classList.toggle('open',!isOpen);
+  if(!isOpen)renderAvvisi();
 }
-
 function clearAvvisi(){
-  if(!CU) return;
-  NOTIF_GLOB.filter(n=>n.per===CU.username && n.tipo==='avviso')
-            .forEach(n=>{ if(!n.letto.includes(CU.username)) n.letto.push(CU.username); });
-  DB.save('notif_glob', NOTIF_GLOB);
-  renderNotifiche();
-  renderAvvisi();
+  if(!CU)return;
+  NOTIF_GLOB.filter(n=>n.per===CU.username&&n.tipo==='avviso').forEach(n=>{if(!n.letto.includes(CU.username))n.letto.push(CU.username);});
+  DB.save('notif_glob',NOTIF_GLOB);renderNotifiche();renderAvvisi();
   document.getElementById('avviso-dropdown')?.classList.remove('open');
 }
-
 function segnaAvvisoLetto(id){
-  if(!CU) return;
-  const n = NOTIF_GLOB.find(x=>x.id===id);
-  if(n && !n.letto.includes(CU.username)){
-    n.letto.push(CU.username);
-    DB.save('notif_glob', NOTIF_GLOB);
-    renderNotifiche();
-    renderAvvisi();
-  }
+  if(!CU)return;
+  const n=NOTIF_GLOB.find(x=>x.id===id);
+  if(n&&!n.letto.includes(CU.username)){n.letto.push(CU.username);DB.save('notif_glob',NOTIF_GLOB);renderNotifiche();renderAvvisi();}
 }
-
 function renderAvvisi(){
-  const list = document.getElementById('avviso-list');
-  if(!list || !CU) return;
-  const avvisi = NOTIF_GLOB.filter(n => n.per===CU.username && n.tipo==='avviso')
-                            .sort((a,b) => new Date(b.time)-new Date(a.time));
-  if(!avvisi.length){ list.innerHTML='<div class="notif-empty">Nessun avviso</div>'; return; }
-
-  list.innerHTML = avvisi.map(n => {
-    const letto = n.letto.includes(CU.username);
-    const dt = new Date(n.time);
-    const dataStr = `${dt.toLocaleDateString('it-IT')} ${dt.toLocaleTimeString('it-IT',{hour:'2-digit',minute:'2-digit'})}`;
-    return `<div class="avviso-card" style="${letto?'opacity:0.55':''}">
-      <div class="avviso-card-title">
-        <span>⚠️</span>
-        <span>Avviso da parte della Direzione</span>
-      </div>
-      <div class="avviso-card-body">${n.testo}</div>
-      <div class="avviso-card-footer">
-        <span class="avviso-card-time">${dataStr}</span>
-        ${!letto ? `<button class="avviso-letta-btn" onclick="segnaAvvisoLetto('${n.id}')">✓</button>` : '<span style="font-size:11px;color:var(--green)">✓ Letto</span>'}
-      </div>
-    </div>`;
+  const list=document.getElementById('avviso-list');if(!list||!CU)return;
+  const avvisi=NOTIF_GLOB.filter(n=>n.per===CU.username&&n.tipo==='avviso').sort((a,b)=>new Date(b.time)-new Date(a.time));
+  if(!avvisi.length){list.innerHTML='<div class="notif-empty">Nessun avviso</div>';return;}
+  list.innerHTML=avvisi.map(n=>{
+    const letto=n.letto.includes(CU.username);
+    const dt=new Date(n.time);
+    const dataStr=`${dt.toLocaleDateString('it-IT')} ${dt.toLocaleTimeString('it-IT',{hour:'2-digit',minute:'2-digit'})}`;
+    return `<div class="avviso-card" style="${letto?'opacity:0.55':''}"><div class="avviso-card-title"><span>⚠️</span><span>Avviso da parte della Direzione</span></div><div class="avviso-card-body">${n.testo}</div><div class="avviso-card-footer"><span class="avviso-card-time">${dataStr}</span>${!letto?`<button class="avviso-letta-btn" onclick="segnaAvvisoLetto('${n.id}')">✓</button>`:'<span style="font-size:11px;color:var(--green)">✓ Letto</span>'}</div></div>`;
   }).join('');
 }
-
-// Aggancia renderAvvisi a renderNotifiche per aggiornare il badge
-const _origRenderNotifiche = renderNotifiche;
-renderNotifiche = function(){
+const _origRenderNotifiche=renderNotifiche;
+renderNotifiche=function(){
   _origRenderNotifiche();
-  // Badge avvisi
   if(CU){
-    const unread = NOTIF_GLOB.filter(n=>n.per===CU.username && n.tipo==='avviso' && !n.letto.includes(CU.username)).length;
-    const badge = document.getElementById('notif-badge-avv');
-    if(badge){ badge.textContent=unread; badge.className='notif-badge'+(unread>0?' show':''); }
+    const unread=NOTIF_GLOB.filter(n=>n.per===CU.username&&n.tipo==='avviso'&&!n.letto.includes(CU.username)).length;
+    const badge=document.getElementById('notif-badge-avv');
+    if(badge){badge.textContent=unread;badge.className='notif-badge'+(unread>0?' show':'');}
   }
 };
-
-// Chiudi avvisi dropdown cliccando fuori
-document.addEventListener('click', e=>{
-  const dd = document.getElementById('avviso-dropdown');
-  const btn= document.getElementById('notif-btn-avv');
-  if(dd && !dd.contains(e.target) && e.target!==btn && !btn?.contains(e.target)){
-    dd.classList.remove('open');
-  }
+document.addEventListener('click',e=>{
+  const dd=document.getElementById('avviso-dropdown');
+  const btn=document.getElementById('notif-btn-avv');
+  if(dd&&!dd.contains(e.target)&&e.target!==btn&&!btn?.contains(e.target))dd.classList.remove('open');
 });
+window.addEventListener('beforeunload',()=>stopTgBotPolling());
 
-const STO_LISTINO_PUB  = 100;
-const STO_LISTINO_PRIV = 150;
-
-let _stoSessione = [];
-
+// ── STORICO — Inserimento ordini vecchi ─────────────────
+const STO_LISTINO_PUB=100,STO_LISTINO_PRIV=150;
+let _stoSessione=[];
 function stoInit(){
-  const m = new Date().getMonth()+1;
-  const meseEl = document.getElementById('sto-mese');
-  if(meseEl && !meseEl._init){ meseEl.value = m; meseEl._init = true; }
-  if(!document.querySelector('#sto-prods .sto-prod-row')) stoAddProd();
-  stoUpdatePreview();
-  stoRenderLista();
+  const m=new Date().getMonth()+1;
+  const meseEl=document.getElementById('sto-mese');
+  if(meseEl&&!meseEl._init){meseEl.value=m;meseEl._init=true;}
+  if(!document.querySelector('#sto-prods .sto-prod-row'))stoAddProd();
+  stoUpdatePreview();stoRenderLista();
 }
-
 function _stoBuildProdOptions(){
-  // Raccoglie tutti i prodotti da PRODS_ALL in ordine di categoria
-  const all = Object.values(PRODS_ALL||{}).flat();
+  const all=Object.values(PRODS_ALL||{}).flat();
   return all.map(p=>`<option value="${p}">${(PROD_EMOJI&&PROD_EMOJI[p]?PROD_EMOJI[p]+' ':'')}${p}</option>`).join('');
 }
-
 function stoAddProd(){
-  const cont = document.getElementById('sto-prods');
-  const row  = document.createElement('div');
-  row.className = 'sto-prod-row';
-  row.style.cssText = 'display:flex;gap:6px;align-items:center';
-  row.innerHTML = `
-    <select class="fsel" style="flex:1" onchange="stoUpdatePreview()">
-      <option value="">— Scegli bevanda —</option>
-      ${_stoBuildProdOptions()}
-    </select>
-    <input class="fsel" type="number" placeholder="Stack" min="0.5" step="0.5" style="width:80px" oninput="stoUpdatePreview()">
-    <span style="font-size:11px;color:var(--dim)">stack</span>
-    <button onclick="this.closest('.sto-prod-row').remove();stoUpdatePreview()"
-      style="background:rgba(248,81,73,0.15);border:1px solid rgba(248,81,73,0.3);color:var(--red);border-radius:6px;padding:4px 8px;font-size:11px;cursor:pointer;font-family:inherit">✕</button>
-  `;
+  const cont=document.getElementById('sto-prods');
+  const row=document.createElement('div');row.className='sto-prod-row';row.style.cssText='display:flex;gap:6px;align-items:center';
+  row.innerHTML=`<select class="fsel" style="flex:1" onchange="stoUpdatePreview()"><option value="">— Scegli bevanda —</option>${_stoBuildProdOptions()}</select><input class="fsel" type="number" placeholder="Stack" min="0.5" step="0.5" style="width:80px" oninput="stoUpdatePreview()"><span style="font-size:11px;color:var(--dim)">stack</span><button onclick="this.closest('.sto-prod-row').remove();stoUpdatePreview()" style="background:rgba(248,81,73,0.15);border:1px solid rgba(248,81,73,0.3);color:var(--red);border-radius:6px;padding:4px 8px;font-size:11px;cursor:pointer;font-family:inherit">✕</button>`;
   cont.appendChild(row);
 }
-
 function stoGetProdotti(){
-  const rows = document.querySelectorAll('.sto-prod-row');
-  const prods = [];
-  rows.forEach(r=>{
-    const sel   = r.querySelector('select');
-    const input = r.querySelector('input[type="number"]');
-    const nome  = sel?.value?.trim();
-    const stack = parseFloat(input?.value)||0;
-    if(nome && stack>0) prods.push({nome, qty: Math.round(stack*64)});
-  });
-  return prods;
+  return [...document.querySelectorAll('.sto-prod-row')].map(r=>{
+    const sel=r.querySelector('select'),inp=r.querySelector('input[type="number"]');
+    const nome=sel?.value?.trim(),stack=parseFloat(inp?.value)||0;
+    return nome&&stack>0?{nome,qty:Math.round(stack*64)}:null;
+  }).filter(Boolean);
 }
-
-function stoCalcTotale(prods, tipo){
-  const price    = tipo==='pubblica' ? STO_LISTINO_PUB : STO_LISTINO_PRIV;
-  const totStack = prods.reduce((s,p)=>s+p.qty/64, 0);
-  return Math.round(totStack * price * 100)/100;
-}
-
+function stoCalcTotale(prods,tipo){return Math.round(prods.reduce((s,p)=>s+p.qty/64,0)*(tipo==='pubblica'?STO_LISTINO_PUB:STO_LISTINO_PRIV)*100)/100;}
 function stoUpdatePreview(){
-  const tipo  = document.getElementById('sto-tipo')?.value||'pubblica';
-  const prods = stoGetProdotti();
-  const prev  = document.getElementById('sto-preview');
-  if(!prev) return;
-  if(!prods.length){
-    prev.innerHTML='<span style="color:var(--dim2)">Aggiungi prodotti per vedere l\'anteprima...</span>';
-    return;
-  }
-  const auto    = stoCalcTotale(prods, tipo);
-  const manuale = parseFloat(document.getElementById('sto-totale')?.value)||0;
-  const totale  = manuale>0 ? manuale : auto;
-  const righe   = prods.map(p=>`<span style="color:var(--cyan);font-weight:700">${p.qty/64}s</span> ${(PROD_EMOJI&&PROD_EMOJI[p.nome]?PROD_EMOJI[p.nome]+' ':'')}${p.nome}`).join(' &nbsp;·&nbsp; ');
-  prev.innerHTML = `
-    <div style="color:var(--dim);font-size:11px;margin-bottom:6px">${righe}</div>
-    <div style="display:flex;gap:16px;align-items:baseline">
-      <span style="font-size:18px;font-weight:800;color:var(--green)">€${totale.toLocaleString('it-IT',{minimumFractionDigits:2})}</span>
-      ${manuale>0?'<span style="font-size:10px;color:var(--yellow)">⚠ Totale manuale</span>':'<span style="font-size:10px;color:var(--dim)">calcolato automatico</span>'}
-    </div>`;
+  const tipo=document.getElementById('sto-tipo')?.value||'pubblica';
+  const prods=stoGetProdotti();const prev=document.getElementById('sto-preview');if(!prev)return;
+  if(!prods.length){prev.innerHTML='<span style="color:var(--dim2)">Aggiungi prodotti per vedere l\'anteprima...</span>';return;}
+  const auto=stoCalcTotale(prods,tipo);
+  const manuale=parseFloat(document.getElementById('sto-totale')?.value)||0;
+  const totale=manuale>0?manuale:auto;
+  const righe=prods.map(p=>`<span style="color:var(--cyan);font-weight:700">${p.qty/64}s</span> ${p.nome}`).join(' · ');
+  prev.innerHTML=`<div style="color:var(--dim);font-size:11px;margin-bottom:6px">${righe}</div><div style="font-size:18px;font-weight:800;color:var(--green)">€${totale.toLocaleString('it-IT',{minimumFractionDigits:2})}</div>`;
 }
-
 function stoReset(){
-  ['sto-azienda','sto-mc','sto-tg','sto-note','sto-data','sto-ora','sto-totale']
-    .forEach(id=>{ const el=document.getElementById(id); if(el) el.value=''; });
-  document.getElementById('sto-prods').innerHTML='';
-  stoAddProd();
-  document.getElementById('sto-msg').textContent='';
-  stoUpdatePreview();
+  ['sto-azienda','sto-mc','sto-tg','sto-note','sto-data','sto-ora','sto-totale'].forEach(id=>{const el=document.getElementById(id);if(el)el.value='';});
+  document.getElementById('sto-prods').innerHTML='';stoAddProd();
+  document.getElementById('sto-msg').textContent='';stoUpdatePreview();
 }
-
 async function stoSalva(){
-  const tipo    = document.getElementById('sto-tipo')?.value||'pubblica';
-  const mese    = parseInt(document.getElementById('sto-mese')?.value)||1;
-  const sett    = parseInt(document.getElementById('sto-sett')?.value)||1;
-  const azienda = document.getElementById('sto-azienda')?.value.trim();
-  const mc      = document.getElementById('sto-mc')?.value.trim();
-  const tg      = document.getElementById('sto-tg')?.value.trim();
-  const stato   = document.getElementById('sto-stato')?.value||'Consegnato';
-  const note    = document.getElementById('sto-note')?.value.trim();
-  const data    = document.getElementById('sto-data')?.value.trim();
-  const ora     = document.getElementById('sto-ora')?.value.trim();
-  const prods   = stoGetProdotti();
-  const msgEl   = document.getElementById('sto-msg');
-
-  if(!azienda){ msgEl.style.color='var(--red)'; msgEl.textContent='⚠ Inserisci il nome dell\'azienda'; return; }
-  if(!prods.length){ msgEl.style.color='var(--red)'; msgEl.textContent='⚠ Aggiungi almeno un prodotto'; return; }
-
-  const manuale = parseFloat(document.getElementById('sto-totale')?.value)||0;
-  const totale  = manuale>0 ? manuale : stoCalcTotale(prods, tipo);
-
-  const ordEsist = ORDINI.filter(o=>o.tipo===tipo);
-  const maxNum   = ordEsist.reduce((mx,o)=>Math.max(mx, tipo==='pubblica'?(o.numPub||0):(o.numPriv||0)), 0);
-  const nuovoNum = maxNum+1;
-
+  const tipo=document.getElementById('sto-tipo')?.value||'pubblica';
+  const mese=parseInt(document.getElementById('sto-mese')?.value)||1;
+  const sett=parseInt(document.getElementById('sto-sett')?.value)||1;
+  const azienda=document.getElementById('sto-azienda')?.value.trim();
+  const mc=document.getElementById('sto-mc')?.value.trim();
+  const tg=document.getElementById('sto-tg')?.value.trim();
+  const stato=document.getElementById('sto-stato')?.value||'Consegnato';
+  const note=document.getElementById('sto-note')?.value.trim();
+  const data=document.getElementById('sto-data')?.value.trim();
+  const ora=document.getElementById('sto-ora')?.value.trim();
+  const prods=stoGetProdotti();
+  const msgEl=document.getElementById('sto-msg');
+  if(!azienda){msgEl.style.color='var(--red)';msgEl.textContent='⚠ Inserisci il nome dell\'azienda';return;}
+  if(!prods.length){msgEl.style.color='var(--red)';msgEl.textContent='⚠ Aggiungi almeno un prodotto';return;}
+  const manuale=parseFloat(document.getElementById('sto-totale')?.value)||0;
+  const totale=manuale>0?manuale:stoCalcTotale(prods,tipo);
+  const maxNum=ORDINI.filter(o=>o.tipo===tipo).reduce((mx,o)=>Math.max(mx,tipo==='pubblica'?(o.numPub||0):(o.numPriv||0)),0);
+  const nuovoNum=maxNum+1;
   const MESI_N=['','Gennaio','Febbraio','Marzo','Aprile','Maggio','Giugno','Luglio','Agosto','Settembre','Ottobre','Novembre','Dicembre'];
-  const anno     = new Date().getFullYear();
-  const giornoB  = (sett-1)*7+1;
-  const dataStr  = data || `${String(giornoB).padStart(2,'0')}/${String(mese).padStart(2,'0')}/${anno}`;
-  const oraStr   = ora  || '12:00';
-  const [gg,mm,aa] = dataStr.split('/');
-  const [hh,min]   = oraStr.split(':');
-  const ts = new Date(parseInt(aa),parseInt(mm)-1,parseInt(gg),parseInt(hh)||12,parseInt(min)||0).toISOString();
-
-  const ordine = {
-    codice: 'ORD-'+Math.random().toString(36).substr(2,6).toUpperCase(),
-    numPub:  tipo==='pubblica' ? nuovoNum : null,
-    numPriv: tipo==='privata'  ? nuovoNum : null,
-    tipo, azienda, cliente: azienda,
-    minecraft: mc, contatto: tg,
-    prodotti: prods, totale,
-    mese, sett, data: dataStr, stato,
-    fattoDa: CU?.nome||'',
-    note: note||'', timestamp: ts,
-    _storico: true
-  };
-
-  msgEl.style.color='var(--yellow)'; msgEl.textContent='⏳ Salvataggio...';
+  const anno=new Date().getFullYear();
+  const giornoB=(sett-1)*7+1;
+  const dataStr=data||`${String(giornoB).padStart(2,'0')}/${String(mese).padStart(2,'0')}/${anno}`;
+  const oraStr=ora||'12:00';
+  const[gg,mm,aa]=dataStr.split('/');const[hh,min]=oraStr.split(':');
+  const ts=new Date(parseInt(aa),parseInt(mm)-1,parseInt(gg),parseInt(hh)||12,parseInt(min)||0).toISOString();
+  const ordine={codice:'ORD-'+Math.random().toString(36).substr(2,6).toUpperCase(),numPub:tipo==='pubblica'?nuovoNum:null,numPriv:tipo==='privata'?nuovoNum:null,tipo,azienda,cliente:azienda,minecraft:mc,contatto:tg,prodotti:prods,totale,mese,sett,data:dataStr,stato,fattoDa:CU?.nome||'',note:note||'',timestamp:ts,_storico:true};
+  msgEl.style.color='var(--yellow)';msgEl.textContent='⏳ Salvataggio...';
   try{
-    ORDINI.push(ordine);
-    ORDINI.sort((a,b)=>new Date(b.timestamp)-new Date(a.timestamp));
-    await DB.save('ordini', ORDINI);
-    // Se l'ordine è già Consegnato (tipico per storici), aggiunge allo stipendio
-    if(ordine.stato === 'Consegnato') _aggiungiOrdineStipendio(ordine);
-    _stoSessione.unshift(ordine);
-    stoRenderLista();
-    stoReset();
-    msgEl.style.color='var(--green)';
-    msgEl.textContent=`✅ Ordine #${nuovoNum} (${MESI_N[mese]}, Sett. ${sett}) salvato!`;
-    setTimeout(()=>{ msgEl.textContent=''; },4000);
-  } catch(e){
-    ORDINI.splice(ORDINI.indexOf(ordine),1);
-    msgEl.style.color='var(--red)'; msgEl.textContent='❌ Errore: '+e.message;
-  }
+    ORDINI.push(ordine);ORDINI.sort((a,b)=>new Date(b.timestamp)-new Date(a.timestamp));
+    await DB.save('ordini',ORDINI);
+    if(ordine.stato==='Consegnato')_aggiungiOrdineStipendio(ordine);
+    _stoSessione.unshift(ordine);stoRenderLista();stoReset();
+    msgEl.style.color='var(--green)';msgEl.textContent=`✅ Ordine #${nuovoNum} (${MESI_N[mese]}, Sett. ${sett}) salvato!`;
+    setTimeout(()=>{msgEl.textContent='';},4000);
+  }catch(e){ORDINI.splice(ORDINI.indexOf(ordine),1);msgEl.style.color='var(--red)';msgEl.textContent='❌ Errore: '+e.message;}
 }
-
 function stoRenderLista(){
-  const cont = document.getElementById('sto-lista');
-  const cnt  = document.getElementById('sto-count');
-  if(!_stoSessione.length){
-    if(cont) cont.innerHTML='<span style="color:var(--dim2)">Nessun ordine ancora.</span>';
-    if(cnt)  cnt.textContent='';
-    return;
-  }
-  if(cnt) cnt.textContent=`— ${_stoSessione.length} inseriti`;
+  const cont=document.getElementById('sto-lista'),cnt=document.getElementById('sto-count');
+  if(!_stoSessione.length){if(cont)cont.innerHTML='<span style="color:var(--dim2)">Nessun ordine ancora.</span>';if(cnt)cnt.textContent='';return;}
+  if(cnt)cnt.textContent=`— ${_stoSessione.length} inseriti`;
   const MN=['','Gen','Feb','Mar','Apr','Mag','Giu','Lug','Ago','Set','Ott','Nov','Dic'];
-  if(cont) cont.innerHTML=`<div style="overflow-x:auto"><table class="staff-tbl"><thead><tr>
-    <th>N°</th><th>Tipo</th><th>Mese</th><th>Sett.</th><th>Azienda</th><th>Prodotti</th><th>Totale</th><th>Stato</th>
-  </tr></thead><tbody>${_stoSessione.map(o=>{
-    const num  = o.numPub||o.numPriv||'—';
-    const tag  = o.tipo==='pubblica'?'<span style="color:var(--blue2)">PUB</span>':'<span style="color:var(--purple)">PRI</span>';
-    const prods= (o.prodotti||[]).map(p=>`${p.qty/64}s ${p.nome}`).join(', ');
-    return `<tr>
-      <td style="font-weight:700">#${num}</td><td>${tag}</td>
-      <td style="color:var(--cyan)">${MN[o.mese]}</td><td>S${o.sett}</td>
-      <td style="font-weight:600">${o.azienda}</td>
-      <td style="font-size:11px;color:var(--dim)">${prods}</td>
-      <td style="color:var(--green);font-weight:700">€${o.totale?.toLocaleString('it-IT',{minimumFractionDigits:2})}</td>
-      <td style="color:var(--dim2)">${o.stato}</td>
-    </tr>`;
-  }).join('')}</tbody></table></div>`;
+  if(cont)cont.innerHTML=`<div style="overflow-x:auto"><table class="staff-tbl"><thead><tr><th>N°</th><th>Tipo</th><th>Mese</th><th>Sett.</th><th>Azienda</th><th>Prodotti</th><th>Totale</th><th>Stato</th></tr></thead><tbody>${_stoSessione.map(o=>{const num=o.numPub||o.numPriv||'—';const tag=o.tipo==='pubblica'?'<span style="color:var(--blue2)">PUB</span>':'<span style="color:var(--purple)">PRI</span>';const prods=(o.prodotti||[]).map(p=>`${p.qty/64}s ${p.nome}`).join(', ');return `<tr><td style="font-weight:700">#${num}</td><td>${tag}</td><td style="color:var(--cyan)">${MN[o.mese]}</td><td>S${o.sett}</td><td style="font-weight:600">${o.azienda}</td><td style="font-size:11px;color:var(--dim)">${prods}</td><td style="color:var(--green);font-weight:700">€${o.totale?.toLocaleString('it-IT',{minimumFractionDigits:2})}</td><td style="color:var(--dim2)">${o.stato}</td></tr>`;}).join('')}</tbody></table></div>`;
 }
 </script>
 </body>
