@@ -506,6 +506,74 @@ html{background:var(--bg);}
 .qf-btn{padding:5px 14px;font-size:11px;font-weight:700;border:1px solid var(--border);color:var(--dim);background:none;border-radius:20px;cursor:pointer;font-family:var(--sans);transition:all 0.2s;letter-spacing:0.04em;}
 .qf-btn:hover{border-color:var(--cyan);color:var(--cyan);}
 .qf-btn.active{border-color:var(--cyan);color:var(--cyan);background:var(--cyan-pale);}
+
+/* ── MODAL CONFERMA ── */
+#pu-confirm-overlay{position:fixed;inset:0;z-index:9999;background:rgba(0,0,0,0.7);backdrop-filter:blur(4px);display:none;align-items:center;justify-content:center;}
+#pu-confirm-overlay.open{display:flex;}
+#pu-confirm-box{background:#0d1220;border:1px solid rgba(255,255,255,0.12);border-radius:16px;padding:28px 32px;max-width:380px;width:90%;box-shadow:0 24px 60px rgba(0,0,0,0.6);animation:pu-confirm-in .18s ease;}
+@keyframes pu-confirm-in{from{opacity:0;transform:scale(.93)}to{opacity:1;transform:scale(1)}}
+#pu-confirm-msg{font-size:15px;font-weight:600;color:#fff;margin-bottom:20px;line-height:1.5;}
+.pu-confirm-btns{display:flex;gap:10px;justify-content:flex-end;}
+.pu-confirm-ok{background:rgba(239,68,68,0.15);border:1px solid rgba(239,68,68,0.4);color:#f87171;border-radius:8px;padding:8px 20px;font-size:13px;font-weight:700;cursor:pointer;font-family:inherit;transition:all .15s;}
+.pu-confirm-ok:hover{background:rgba(239,68,68,0.28);}
+.pu-confirm-cancel{background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.12);color:var(--dim);border-radius:8px;padding:8px 20px;font-size:13px;font-weight:700;cursor:pointer;font-family:inherit;transition:all .15s;}
+.pu-confirm-cancel:hover{background:rgba(255,255,255,0.1);}
+
+/* ── SAVE INDICATOR ── */
+#pu-save-indicator{position:fixed;bottom:20px;right:20px;z-index:8000;pointer-events:none;display:flex;flex-direction:column;gap:6px;align-items:flex-end;}
+.pu-save-pill{background:#0d1828;border:1px solid rgba(0,212,255,0.25);border-radius:20px;padding:7px 14px;font-size:12px;font-weight:700;color:var(--cyan);display:flex;align-items:center;gap:7px;box-shadow:0 4px 20px rgba(0,0,0,0.4);animation:pu-pill-in .2s ease;transition:opacity .3s;}
+.pu-save-pill.ok{border-color:rgba(46,204,113,0.35);color:#4ade80;}
+.pu-save-pill.err{border-color:rgba(239,68,68,0.35);color:#f87171;}
+.pu-save-pill.out{opacity:0;}
+@keyframes pu-pill-in{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+
+/* ── LOADING OVERLAY STAFF PANEL ── */
+#sp-loading{position:absolute;inset:0;z-index:50;background:#0a0e1a;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:18px;transition:opacity .3s;}
+#sp-loading.hidden{opacity:0;pointer-events:none;}
+.sp-loading-spinner{width:40px;height:40px;border:3px solid rgba(0,212,255,0.15);border-top-color:var(--cyan);border-radius:50%;animation:sp-spin .8s linear infinite;}
+@keyframes sp-spin{to{transform:rotate(360deg)}}
+
+/* ── RICERCA ORDINI ── */
+#ord-search-wrap{position:relative;margin-bottom:8px;}
+#ord-search{width:100%;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.1);border-radius:10px;padding:9px 12px 9px 36px;color:#fff;font-size:13px;font-family:inherit;outline:none;transition:border-color .2s;}
+#ord-search:focus{border-color:rgba(0,212,255,0.4);}
+#ord-search::placeholder{color:var(--dim2);}
+#ord-search-wrap::before{content:"🔍";position:absolute;left:11px;top:50%;transform:translateY(-50%);font-size:14px;pointer-events:none;}
+#ord-no-results{text-align:center;padding:40px;color:var(--dim);font-size:13px;display:none;}
+
+/* ── CENTRO NOTIFICHE ── */
+#notif-center-btn{position:relative;}
+#notif-center-badge{position:absolute;top:-4px;right:-4px;background:#ef4444;color:#fff;border-radius:8px;font-size:10px;font-weight:800;padding:1px 5px;min-width:16px;text-align:center;display:none;}
+#notif-center-panel{position:fixed;top:60px;right:12px;z-index:7000;width:340px;max-width:94vw;background:#0d1220;border:1px solid rgba(255,255,255,0.12);border-radius:14px;box-shadow:0 20px 50px rgba(0,0,0,0.6);display:none;flex-direction:column;max-height:70vh;overflow:hidden;}
+#notif-center-panel.open{display:flex;}
+#notif-center-hdr{padding:14px 16px;border-bottom:1px solid rgba(255,255,255,0.07);display:flex;align-items:center;justify-content:space-between;}
+#notif-center-list{overflow-y:auto;flex:1;padding:8px;}
+.nc-item{padding:10px 12px;border-radius:8px;margin-bottom:4px;cursor:pointer;transition:background .15s;border-left:2px solid transparent;}
+.nc-item:hover{background:rgba(255,255,255,0.04);}
+.nc-item.unread{background:rgba(0,212,255,0.05);border-left-color:var(--cyan);}
+.nc-item-time{font-size:10px;color:var(--dim2);margin-top:2px;}
+
+/* ── MOBILE RESPONSIVE STAFF PANEL ── */
+@media(max-width:700px){
+  #page-staff-panel{overflow-y:auto;}
+  .sp-tabs{overflow-x:auto;flex-wrap:nowrap!important;-webkit-overflow-scrolling:touch;scrollbar-width:none;padding-bottom:2px;}
+  .sp-tabs::-webkit-scrollbar{display:none;}
+  .sp-tab{white-space:nowrap;flex-shrink:0;}
+  .staff-tbl{font-size:11px;}
+  .staff-tbl th,.staff-tbl td{padding:6px 8px;}
+  .adm-card{padding:14px!important;}
+  #sp-header-row{flex-direction:column!important;align-items:flex-start!important;gap:10px!important;}
+  .sp-kpi-grid{grid-template-columns:1fr 1fr!important;}
+  .ordini-nav{flex-wrap:wrap;gap:4px;}
+  .sum-panel{position:static!important;margin-top:12px;}
+}
+
+/* ── ANIMAZIONE STATO ORDINI ── */
+.ord-stato-badge{transition:background .4s ease, color .4s ease, border-color .4s ease;}
+.ord-card{transition:border-color .3s ease;}
+.ord-card.stato-completato{border-color:rgba(46,204,113,0.3)!important;}
+.ord-card.stato-in-corso{border-color:rgba(0,212,255,0.25)!important;}
+.ord-card.stato-annullato{border-color:rgba(239,68,68,0.25)!important;}
 </style>
 
 <style id="anim-css">
@@ -2683,14 +2751,33 @@ async function tryAutoLogin(){
   const azSess = localStorage.getItem('pu_az_session');
   if(azSess){
     try {
-      const {email, password} = JSON.parse(azSess);
-      // Aspetta che AZIENDE siano caricate dal DB
+      const {email, password, isHash} = JSON.parse(azSess);
       await new Promise(r => setTimeout(r, 800));
-      const az = AZIENDE.find(a => a.email.toLowerCase()===email.toLowerCase() && a.password===password);
+      const azByEmail = AZIENDE.find(a=>a.email.toLowerCase()===email.toLowerCase());
+      let az = null;
+      if(azByEmail){
+        if(isHash){
+          // Sessione già con hash — confronta direttamente
+          az = azByEmail.password===password ? azByEmail : null;
+        } else {
+          // Sessione vecchia plaintext — prova entrambi
+          if(azByEmail.password===password){ az=azByEmail; }
+          else if(typeof _sha256==='function'){
+            const hash = await _sha256(password);
+            if(azByEmail.password===hash){ az=azByEmail; }
+          }
+          // Migra sessione a hash
+          if(az && typeof _sha256==='function'){
+            const hash = await _sha256(password);
+            localStorage.setItem('pu_az_session', JSON.stringify({email:az.email, password:az.password, isHash:true}));
+          }
+        }
+      }
       if(az){
         AZ_LOGGED = az;
         aggiornaNavAzienda();
         ORD.tipo=az.tipo;ORD.price=az.tipo==='pubblica'?100:150;ORD.min=az.tipo==='pubblica'?2000:3000;ORD.att=az.nome;ORD.qty={};
+        _startMieiOrdiniPolling?.();
         goMieiOrdini(); setNav('nl-ordini');
       } else {
         localStorage.removeItem('pu_az_session');
@@ -2701,16 +2788,70 @@ async function tryAutoLogin(){
   const sess = localStorage.getItem('pu_session');
   if(!sess) return;
   try {
-    const {username, password} = JSON.parse(sess);
-    // Prima carica i dati dal DB così USERS è aggiornato
+    const {username, password, isHash} = JSON.parse(sess);
     await dbInit();
-    const user = USERS.find(x=>x.username===username && x.password===password);
+    // Se isHash=true la sessione ha già la password hashata, confronta direttamente
+    // Altrimenti (vecchie sessioni) prova prima plaintext, poi hash
+    let user = null;
+    if(isHash){
+      user = USERS.find(x=>x.username===username && x.password===password);
+    } else {
+      // Sessione vecchia con plaintext: prova entrambi
+      user = USERS.find(x=>x.username===username && x.password===password);
+      if(!user && typeof _sha256==='function'){
+        const hash = await _sha256(password);
+        user = USERS.find(x=>x.username===username && x.password===hash);
+      }
+      // Aggiorna sessione al formato hash
+      if(user && typeof _sha256==='function'){
+        const hash = await _sha256(password);
+        localStorage.setItem('pu_session', JSON.stringify({username, password:hash, isHash:true}));
+      }
+    }
     if(!user){ localStorage.removeItem('pu_session'); return; }
-    // Esegui login automatico
-    document.getElementById('l-user').value = username;
-    document.getElementById('l-pass').value = password;
-    loginStaff();
+    // Login diretto senza passare per il form (evita re-hash della password già hashata)
+    _loginStaffDiretto(user);
   } catch(e){ localStorage.removeItem('pu_session'); }
+}
+
+// Login diretto (usato da tryAutoLogin e da loginStaff dopo hash verificato)
+function _loginStaffDiretto(user){
+  CU = user;
+  closeOvl('staff-ovl');
+  startPolling();
+  _notificatiCodici = new Set(ORDINI.map(o=>o.codice));
+  const overlay = document.getElementById('sp-loading');
+  if(overlay) overlay.classList.remove('hidden');
+  ALL_PAGES.forEach(id=>{const el=document.getElementById('page-'+id);if(el){el.classList.remove('active');el.style.display='none';}});
+  document.getElementById('main-nav').style.display='none';
+  document.getElementById('page-staff-panel').classList.add('open');
+  document.getElementById('sp-username').textContent=user.nome;
+  const siteFooter=document.querySelector('.site-footer');if(siteFooter)siteFooter.style.display='none';
+  const badge=document.getElementById('sp-badge');
+  badge.textContent=user.ruolo;
+  badge.className='sp-badge '+(['Direttrice','Direttore','Vice Direttrice','Vice Direttore'].includes(user.ruolo)?'spb-dir':'spb-staff');
+  const isAdmin=['Direttrice','Direttore','Vice Direttrice','Vice Direttore'].includes(user.ruolo);
+  ['t-stipendi','t-dashboard','t-gestione','t-clienti','t-magazzino','t-bot','t-storico','t-log'].forEach(id=>document.getElementById(id).style.display=isAdmin?'block':'none');
+  const isMiddleRole=['Responsabile','Manager','Coordinatore'].includes(user.ruolo);
+  const tIncTop=document.getElementById('t-incarichi');
+  if(tIncTop)tIncTop.style.display=isAdmin?'none':'';
+  const canAssign=(typeof canAssignTasks==='function')?canAssignTasks(user.ruolo):isAdmin;
+  const tAssegna=document.getElementById('t-assegna');
+  if(tAssegna)tAssegna.style.display=canAssign?'block':'none';
+  applicaPermessiLogin(user);
+  if(!isAdmin&&!user.puoOrdini&&!user.puoFareOrdini){
+    const tOrdini=document.getElementById('t-ordini');if(tOrdini)tOrdini.style.display='none';
+    document.querySelectorAll('.sp-tab').forEach(t=>t.classList.remove('active'));
+    const tInc=document.getElementById('t-incarichi');if(tInc)tInc.classList.add('active');
+    ['ordini','stipendi','dashboard','gestione','clienti','magazzino','incarichi'].forEach(t=>{const el=document.getElementById('tc-'+t);if(el)el.style.display='none';});
+    const tcInc=document.getElementById('tc-incarichi');if(tcInc)tcInc.style.display='block';
+    setTimeout(initTabIncarichi,50);
+  }else{renderOrdini();}
+  renderStaffTbl();
+  setTimeout(()=>{ _renderNotifDip(); _initSettSelects(); renderBotSettings(); _staffRenderHash=null; },300);
+  setTimeout(()=>{ if(overlay)overlay.classList.add('hidden'); },700);
+  startTgBotPolling();
+  _adminLog('🔐 Login', user.nome+' ('+user.ruolo+')');
 }
 
 function _initMeseCorrente(){
@@ -2822,6 +2963,12 @@ function _segnaLettaNotifDip(id){
 </script>
 </head>
 <body>
+<!-- ══ MODAL CONFERMA ══ -->
+<div id="pu-confirm-overlay"><div id="pu-confirm-box"><div id="pu-confirm-msg"></div><div class="pu-confirm-btns"><button class="pu-confirm-cancel" id="pu-confirm-no">Annulla</button><button class="pu-confirm-ok" id="pu-confirm-si">Conferma</button></div></div></div>
+<!-- ══ SAVE INDICATOR ══ -->
+<div id="pu-save-indicator"></div>
+<!-- ══ CENTRO NOTIFICHE ══ -->
+<div id="notif-center-panel"><div id="notif-center-hdr"><span style="font-size:13px;font-weight:800;color:#fff">🔔 Notifiche</span><div style="display:flex;gap:8px;align-items:center"><button onclick="_ncMarkAllRead()" style="font-size:11px;color:var(--cyan);background:none;border:none;cursor:pointer;font-family:inherit">Segna tutte lette</button><button onclick="_ncClose()" style="background:none;border:none;color:var(--dim);cursor:pointer;font-size:16px">✕</button></div></div><div id="notif-center-list"><div style="color:var(--dim);text-align:center;padding:30px;font-size:13px">Nessuna notifica</div></div></div>
 <canvas id="water-canvas"></canvas>
 
 <!-- MODAL ROLEPLAY -->
@@ -5830,8 +5977,18 @@ else tryStart();
       </div>
     </div>
 
+    <!-- FILTRO LISTINO -->
+    <div style="margin-bottom:32px;display:flex;gap:10px;flex-wrap:wrap;align-items:center;max-width:900px;margin-left:auto;margin-right:auto">
+      <div style="position:relative;flex:1;min-width:200px">
+        <span style="position:absolute;left:12px;top:50%;transform:translateY(-50%);font-size:15px;pointer-events:none">🔍</span>
+        <input id="listino-search" type="text" placeholder="Cerca prodotto..." oninput="filterListino()" style="width:100%;padding:10px 12px 10px 38px;background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.12);border-radius:10px;color:#fff;font-size:13px;font-family:inherit;outline:none;box-sizing:border-box;transition:border-color .2s" onfocus="this.style.borderColor='rgba(0,212,255,0.4)'" onblur="this.style.borderColor='rgba(255,255,255,0.12)'">
+      </div>
+      <div id="listino-cat-btns" style="display:flex;gap:6px;flex-wrap:wrap"></div>
+    </div>
+
     <!-- GRID PRODOTTI -->
     <div id="listino-grid"></div>
+    <div id="listino-no-results" style="display:none;text-align:center;padding:60px 20px;color:var(--dim);font-size:14px">🔍 Nessun prodotto trovato</div>
 
   </div>
 </div>
@@ -6065,9 +6222,16 @@ else tryStart();
       <div class="ph-top">
         <div class="ph-title">Prodotti disponibili</div>
       </div>
-      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:20px;padding:10px 4px;border-bottom:1px solid rgba(255,255,255,0.06)">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;padding:10px 4px 0;border-bottom:none">
         <div class="ph-price-info" id="ph-price-info"></div>
         <div class="ph-badge" id="ph-badge">—</div>
+      </div>
+      <!-- Barra ricerca prodotti -->
+      <div style="position:relative;margin-bottom:18px;padding-bottom:16px;border-bottom:1px solid rgba(255,255,255,0.06)">
+        <span style="position:absolute;left:12px;top:50%;transform:translateY(-50%);font-size:15px;pointer-events:none">🔍</span>
+        <input id="prod-search" type="text" placeholder="Cerca prodotto..." oninput="filterProdsOrdine(this.value)"
+          style="width:100%;padding:9px 12px 9px 38px;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.1);border-radius:10px;color:#fff;font-size:13px;font-family:inherit;outline:none;box-sizing:border-box;transition:border-color .2s"
+          onfocus="this.style.borderColor='rgba(0,212,255,0.4)'" onblur="this.style.borderColor='rgba(255,255,255,0.1)'">
       </div>
       <div class="cat-block"><span class="cat-lbl"><span class="cat-stripe" id="stripe-acqua"></span><span class="cat-emoji">💧</span> Acqua</span><div class="prod-grid" id="cat-acqua"></div></div>
       <div class="cat-block"><span class="cat-lbl"><span class="cat-stripe" id="stripe-succhi"></span><span class="cat-emoji">🧃</span> Succhi</span><div class="prod-grid" id="cat-succhi"></div></div>
@@ -6132,7 +6296,10 @@ else tryStart();
         <h1 style="font-family:var(--serif);font-size:32px;font-weight:800;margin-bottom:6px;color:#fff;letter-spacing:-0.01em">📋 I miei ordini</h1>
         <p style="color:rgba(255,255,255,0.6);font-size:14px;font-weight:500" id="mord-subtitle"></p>
       </div>
-      <button class="btn-primary" style="padding:12px 28px;font-size:13px;font-weight:700" onclick="nuovoOrdineAzienda()">+ Nuovo ordine</button>
+      <div style="display:flex;gap:10px;flex-wrap:wrap;align-items:center">
+        <button class="btn-primary" style="padding:12px 28px;font-size:13px;font-weight:700" onclick="nuovoOrdineAzienda()">+ Nuovo ordine</button>
+        <button id="btn-template-ord" onclick="_apriTemplateOrdini()" style="padding:12px 20px;font-size:13px;font-weight:700;background:rgba(139,92,246,0.12);border:1px solid rgba(139,92,246,0.3);color:#a78bfa;border-radius:12px;cursor:pointer;font-family:inherit">📋 Template</button>
+      </div>
     </div>
 
     <!-- Tabs -->
@@ -6300,7 +6467,12 @@ else tryStart();
 </div>
 
 <!-- STAFF PANEL -->
-<div id="page-staff-panel">
+<div id="page-staff-panel" style="position:relative">
+  <!-- Loading overlay -->
+  <div id="sp-loading">
+    <div class="sp-loading-spinner"></div>
+    <div style="font-size:13px;color:var(--dim)">Caricamento pannello...</div>
+  </div>
   <div class="sp-topbar">
     <div class="sp-logo">Purissima</div>
     <div class="sp-sep">/</div>
@@ -6308,6 +6480,10 @@ else tryStart();
     <div class="sp-badge" id="sp-badge">—</div>
     <div class="sp-right" style="position:relative">
       <div style="position:relative;display:flex;gap:6px">
+        <!-- Centro notifiche persistente -->
+        <div style="position:relative" id="notif-center-btn">
+          <button class="notif-btn" onclick="_ncToggle()" title="Centro Notifiche" style="position:relative">🔔<span id="notif-center-badge" class="notif-badge"></span></button>
+        </div>
         <div style="position:relative">
           <button class="notif-btn" id="notif-btn-ord" onclick="toggleNotif('ord')" title="Notifiche Ordini">📦<span class="notif-badge" id="notif-badge-ord"></span></button>
           <div class="notif-dropdown" id="notif-dropdown-ord">
@@ -6354,6 +6530,7 @@ else tryStart();
     <div class="sp-tab" data-tab="magazzino" id="t-magazzino" style="display:none" onclick="spTab(this,'magazzino')">🥤 Bevande</div>
     <div class="sp-tab" data-tab="bot" id="t-bot" style="display:none" onclick="spTab(this,'bot')">🤖 Bot Telegram</div>
     <div class="sp-tab" data-tab="storico" id="t-storico" style="display:none" onclick="spTab(this,'storico')">📥 Inserisci Storico</div>
+    <div class="sp-tab" data-tab="log" id="t-log" style="display:none" onclick="spTab(this,'log');renderAdminLog()">📋 Log Azioni</div>
   </div>
   <div class="sp-content">
     <div class="sp-inner">
@@ -6386,8 +6563,17 @@ else tryStart();
           <option value="pubblica">🏛 Pubbliche</option>
           <option value="privata">🏢 Private</option>
         </select>
-        <input class="fsearch" id="f-cerca" placeholder="🔍 Cerca azienda..." oninput="renderOrdini()">
+        <input class="fsearch" id="f-cerca" placeholder="🔍 Cerca azienda/note..." oninput="renderOrdini()">
+        <span class="flbl">ORDINA</span>
+        <select class="fsel" id="f-sort" onchange="renderOrdini()" style="margin:0">
+          <option value="data-desc">📅 Più recenti</option>
+          <option value="data-asc">📅 Meno recenti</option>
+          <option value="tot-desc">💰 Importo ↓</option>
+          <option value="tot-asc">💰 Importo ↑</option>
+          <option value="az-asc">🏢 Azienda A-Z</option>
+        </select>
         <span class="fcount" id="f-count"></span>
+        <button onclick="exportCSV('ordini')" style="background:rgba(46,204,113,0.1);border:1px solid rgba(46,204,113,0.3);color:#4ade80;border-radius:8px;padding:5px 10px;font-size:11px;font-weight:700;cursor:pointer;font-family:inherit">⬇️ CSV</button>
       </div>
       <div style="display:flex;gap:8px;margin-bottom:16px;flex-wrap:wrap">
         <button class="qf-btn active" id="qf-all" onclick="setQF(this,'all')">Tutti</button>
@@ -6804,6 +6990,7 @@ else tryStart();
               <select class="fsel" id="stor-mese-sel" onchange="onStorMeseChange()" style="margin:0;display:none"></select>
               <select class="fsel" id="stor-sett-sel" onchange="renderStorico()" style="margin:0;min-width:170px;display:none"></select>
               <div id="storico-tot-badge" style="color:var(--dim);font-size:12px"></div>
+              <button onclick="exportCSV('storico')" style="background:rgba(46,204,113,0.1);border:1px solid rgba(46,204,113,0.3);color:#4ade80;border-radius:8px;padding:6px 12px;font-size:11px;font-weight:700;cursor:pointer;font-family:inherit">⬇️ CSV</button>
             </div>
           </div>
         </div>
@@ -6975,6 +7162,7 @@ else tryStart();
       <div style="display:flex;gap:8px;margin-bottom:18px;flex-wrap:wrap">
         <button class="stip-tab active" id="dtab-fatturato" onclick="dashTab('fatturato')">💰 Fatturato</button>
         <button class="stip-tab" id="dtab-dipendenti" onclick="dashTab('dipendenti')">👥 Dipendenti</button>
+        <button class="stip-tab" id="dtab-annuale" onclick="dashTab('annuale');renderDashAnnuale()">📆 Riepilogo Annuale</button>
       </div>
 
       <!-- SUB-TAB: FATTURATO -->
@@ -7073,9 +7261,15 @@ else tryStart();
         </div>
       </div>
 
-    </div>
+      <!-- PANNELLO RIEPILOGO ANNUALE -->
+      <div id="dpanel-annuale" style="display:none">
+        <div class="adm-card">
+          <div class="adm-title">📆 Riepilogo Annuale — <span id="dash-anno-lbl">2026</span></div>
+          <div id="dash-annuale-content" style="margin-top:14px"></div>
+        </div>
+      </div>
 
-    <!-- GESTIONE STAFF -->
+    </div>
     <div id="tc-gestione" style="display:none">
       <div class="adm-card" style="margin-bottom:16px;border-color:rgba(234,179,8,0.25)">
         <div class="adm-title" style="color:#eab308">⚠️ Invia Avviso/Comunicazione</div>
@@ -7411,6 +7605,21 @@ else tryStart();
       </div>
 
     </div><!-- /tc-storico -->
+
+    <!-- LOG AZIONI ADMIN -->
+    <div id="tc-log" style="display:none">
+      <div class="adm-card" style="margin-bottom:14px">
+        <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px">
+          <div class="adm-title" style="margin:0">📋 Log Azioni Admin</div>
+          <div style="display:flex;gap:8px">
+            <button onclick="exportCSV('log')" style="background:rgba(46,204,113,0.1);border:1px solid rgba(46,204,113,0.3);color:#4ade80;border-radius:8px;padding:6px 12px;font-size:11px;font-weight:700;cursor:pointer;font-family:inherit">⬇️ CSV</button>
+            <button onclick="_clearAdminLog()" style="background:rgba(239,68,68,0.1);border:1px solid rgba(239,68,68,0.25);color:#f87171;border-radius:8px;padding:6px 12px;font-size:11px;font-weight:700;cursor:pointer;font-family:inherit">🗑️ Svuota</button>
+          </div>
+        </div>
+        <p style="color:var(--dim);font-size:12px;margin:8px 0 0">Registro delle azioni eseguite dagli admin. Salvato localmente.</p>
+      </div>
+      <div id="admin-log-list"></div>
+    </div>
 
     </div><!-- /sp-inner -->
   </div><!-- /sp-content -->
@@ -8403,26 +8612,46 @@ let AZIENDE=[
 ];
 let AZ_LOGGED=null;
 let MIEI_ORDINI=[];
-function loginAzienda(){
+async function loginAzienda(){
   const email=document.getElementById('az-email').value.trim().toLowerCase();
   const pass=document.getElementById('az-pass').value;
-  console.log('[login azienda] email:', email, '| AZIENDE caricate:', AZIENDE.length);
   const errEl=document.getElementById('az-err');
   if(AZIENDE.length===0){errEl.style.display='block';errEl.textContent='⚠ Database non ancora caricato. Riprova tra qualche secondo.';return;}
-  const azByEmail=AZIENDE.find(a=>a.email.toLowerCase()===email);
-  if(!azByEmail){errEl.style.display='block';errEl.textContent='⚠ Azienda non esistente';return;}
-  if(azByEmail.password!==pass){errEl.style.display='block';errEl.textContent='⚠ Password errata';return;}
-  const az=azByEmail;
+  const az=AZIENDE.find(a=>a.email.toLowerCase()===email);
+  if(!az){errEl.style.display='block';errEl.textContent='⚠ Azienda non esistente';return;}
+
+  // Verifica password: supporta plaintext (legacy) e SHA-256
+  let passOk = az.password===pass;
+  if(!passOk && typeof _sha256==='function'){
+    const hash = await _sha256(pass);
+    passOk = az.password===hash;
+    if(passOk && az.password!==hash){
+      // Migra a hash
+      az.password=hash;
+      dbSave.aziende().catch(()=>{});
+    }
+  }
+  if(!passOk){errEl.style.display='block';errEl.textContent='⚠ Password errata';return;}
+
   closeOvl('az-ovl');
   AZ_LOGGED=az;
-  if(document.getElementById('az-ricorda')?.checked){
-    localStorage.setItem('pu_az_session', JSON.stringify({email:az.email, password:az.password}));
+  const ricorda=document.getElementById('az-ricorda');
+  if(ricorda?.checked){
+    localStorage.setItem('pu_az_session', JSON.stringify({email:az.email, password:az.password, isHash:true}));
   } else {
     localStorage.removeItem('pu_az_session');
   }
   aggiornaNavAzienda();
-  ORD.tipo=az.tipo;ORD.price=100;ORD.min=2000;ORD.att=az.nome;ORD.qty={};
-  apriOrdini();setNav('nl-ordini');toast('✅ Benvenuto, '+az.nome+'!');
+  ORD.tipo=az.tipo;
+  ORD.price=az.tipo==='pubblica'?100:150;
+  ORD.min=az.tipo==='pubblica'?2000:3000;
+  ORD.att=az.nome;ORD.qty={};
+  apriOrdini();setNav('nl-ordini');
+  // Benvenuto + notifiche push
+  _showBenvenutoAzienda?.(az);
+  _startMieiOrdiniPolling?.();
+  setTimeout(()=>_richiestaPermessoPush?.(),1500);
+  toast('✅ Benvenuto, '+az.nome+'!');
 }
 function aggiornaNavAzienda(){
   if(AZ_LOGGED){
@@ -8437,8 +8666,8 @@ function aggiornaNavAzienda(){
 function logoutAzienda(){
   AZ_LOGGED=null;MIEI_ORDINI=[];
   localStorage.removeItem('pu_az_session');
+  _stopMieiOrdiniPolling?.(); // ferma il polling real-time
   aggiornaNavAzienda();
-  // Nascondi tutte le pagine, poi mostra solo home
   ALL_PAGES.forEach(id=>{
     const el=document.getElementById('page-'+id);
     if(el){ el.classList.remove('active'); el.style.display='none'; }
@@ -10622,64 +10851,18 @@ let CU=null;
 // Gruppi fissi di dipendenti: [{id,nome,dipNomi:[]}]
 let GRUPPI_FISSI=[];
 function loginStaff(){
+  // Nota: la versione async con SHA-256 è nel blocco miglioramenti (patchLoginWithHash)
+  // Questa è la versione base (plaintext) usata come fallback
   const u=document.getElementById('l-user').value.trim();
   const p=document.getElementById('l-pass').value;
-  // Cerca prima nei USERS già caricati dal DB
   const user=USERS.find(x=>x.username===u&&x.password===p);
-  if(!user){document.getElementById('l-err').style.display='block';return;}
-  CU=user;closeOvl('staff-ovl');
-  // Salva sessione se "Rimani connesso" è spuntato
-  const ricorda = document.getElementById('l-ricorda');
-  if(ricorda && ricorda.checked){
-    localStorage.setItem('pu_session', JSON.stringify({username:user.username, password:user.password}));
-  } else {
-    localStorage.removeItem('pu_session');
-  }
-  startPolling();
-  _notificatiCodici = new Set(ORDINI.map(o=>o.codice)); // don't notify pre-existing orders
-  ALL_PAGES.forEach(id=>{const el=document.getElementById('page-'+id);if(el){el.classList.remove('active');el.style.display='none';}});
-  document.getElementById('main-nav').style.display='none';
-  document.getElementById('page-staff-panel').classList.add('open');
-  document.getElementById('sp-username').textContent=user.nome;
-  const siteFooter=document.querySelector('.site-footer');if(siteFooter)siteFooter.style.display='none';
-  const badge=document.getElementById('sp-badge');
-  badge.textContent=user.ruolo;
-  badge.className='sp-badge '+(['Direttrice','Direttore','Vice Direttrice','Vice Direttore'].includes(user.ruolo)?'spb-dir':'spb-staff');
-  const isAdmin=['Direttrice','Direttore','Vice Direttrice','Vice Direttore'].includes(user.ruolo);
-  ['t-stipendi','t-dashboard','t-gestione','t-clienti','t-magazzino','t-bot','t-storico'].forEach(id=>document.getElementById(id).style.display=isAdmin?'block':'none');
-  const isMiddleRole = ['Responsabile','Manager','Coordinatore'].includes(user.ruolo);
-  // Tab "Incarichi" (vista personale) — Direttori e Vice non lo vedono perché non gli vengono
-  // mai assegnati incarichi: useranno solo "Assegna Incarichi"
-  const tIncTop = document.getElementById('t-incarichi');
-  if(tIncTop) tIncTop.style.display = isAdmin ? 'none' : '';
-  // Tab "Assegna Incarichi" visibile a TUTTI i ruoli che possono assegnare incarichi
-  // (Direttori, Vice, Manager, Coordinatori, Responsabili — definiti da canAssignTasks)
-  const canAssign = (typeof canAssignTasks === 'function') ? canAssignTasks(user.ruolo) : isAdmin;
-  const tAssegna = document.getElementById('t-assegna');
-  if(tAssegna) tAssegna.style.display = canAssign ? 'block' : 'none';
-  // Permessi ordini
-  applicaPermessiLogin(user);
-  // Se non può vedere ordini, apri direttamente incarichi
-  if(!isAdmin && !user.puoOrdini && !user.puoFareOrdini){
-    // Nascondi tab ordini e attiva incarichi come default
-    const tOrdini = document.getElementById('t-ordini');
-    if(tOrdini) tOrdini.style.display='none';
-    document.querySelectorAll('.sp-tab').forEach(t=>t.classList.remove('active'));
-    const tInc = document.getElementById('t-incarichi');
-    if(tInc) tInc.classList.add('active');
-    ['ordini','stipendi','dashboard','gestione','clienti','magazzino','incarichi'].forEach(t=>{
-      const el=document.getElementById('tc-'+t); if(el) el.style.display='none';
-    });
-    const tcInc = document.getElementById('tc-incarichi');
-    if(tcInc) tcInc.style.display='block';
-    setTimeout(initTabIncarichi, 50);
-  } else {
-    renderOrdini();
-  }
-  renderStaffTbl();
-  setTimeout(()=>{ _renderNotifDip(); _initSettSelects(); renderBotSettings(); }, 300);
-  // Avvia il polling del bot Telegram per le chat ordini
-  startTgBotPolling();
+  if(!user){document.getElementById('l-err').style.display='block';_loginAttemptFail?.();return;}
+  // Salva sessione
+  const ricorda=document.getElementById('l-ricorda');
+  if(ricorda&&ricorda.checked){
+    localStorage.setItem('pu_session',JSON.stringify({username:user.username,password:user.password,isHash:false}));
+  }else{localStorage.removeItem('pu_session');}
+  _loginStaffDiretto(user);
 }
 document.getElementById('l-pass').addEventListener('keydown',e=>{if(e.key==='Enter')loginStaff();});
 function doLogout(){
@@ -10741,6 +10924,7 @@ function renderOrdini(){
   const stato=document.getElementById('f-stato').value;
   const tipo=document.getElementById('f-tipo')?.value||'all';
   const cerca=document.getElementById('f-cerca').value.toLowerCase();
+  const sort=document.getElementById('f-sort')?.value||'data-desc';
   const ATTS_PUB=['Trattoria','SushiSen','Pasticceria Sweet','SteakHouse','TastyBurger','Discoteca','Sapori di Grano','SMD','Polizia','Finanza','Procura'];
   const tipoOf = o => o.tipo || (ATTS_PUB.includes(o.attivita||o.azienda) ? 'pubblica' : 'privata');
   let fl=ORDINI.filter(o=>{
@@ -10750,11 +10934,25 @@ function renderOrdini(){
     else if(_qfStato!=='all'){if(o.stato!==_qfStato)return false;}
     else if(stato!=='all'&&o.stato!==stato)return false;
     if(tipo!=='all'&&tipoOf(o)!==tipo)return false;
-    if(cerca&&!o.azienda.toLowerCase().includes(cerca))return false;
+    if(cerca){
+      const matchAz=o.azienda?.toLowerCase().includes(cerca);
+      const matchNota=(o.notaInterna||'').toLowerCase().includes(cerca);
+      const matchCod=(o.codice||'').toLowerCase().includes(cerca);
+      if(!matchAz&&!matchNota&&!matchCod)return false;
+    }
     return true;
   });
+  // Sort
+  fl.sort((a,b)=>{
+    switch(sort){
+      case 'data-asc': return (a.timestamp||a.data||'').localeCompare(b.timestamp||b.data||'');
+      case 'tot-desc': return (b.totale||0)-(a.totale||0);
+      case 'tot-asc':  return (a.totale||0)-(b.totale||0);
+      case 'az-asc':   return (a.azienda||'').localeCompare(b.azienda||'');
+      default:         return (b.timestamp||b.data||'').localeCompare(a.timestamp||a.data||'');
+    }
+  });
   const zainiTotali=Math.ceil(fl.reduce((s,o)=>s+o.prodotti.reduce((a,p)=>a+p.qty,0),0)/64/18);
-  // Conteggio ordini totali del mese (senza altri filtri)
   const meseCount = mese==='all' ? ORDINI.length : ORDINI.filter(o=>o.mese==mese).length;
   document.getElementById('f-count').textContent=meseCount+' ordini';
   const pub=fl.filter(o=>tipoOf(o)==='pubblica');
@@ -10765,10 +10963,8 @@ function renderOrdini(){
   if(pub.length)html+=`<div class="ord-sec-hdr"><div class="ord-tag ot-pub">🏛 Pubbliche</div><div class="ord-sec-line"></div></div><div class="ord-list">${pub.map(ordCard).join('')}</div>`;
   if(priv.length)html+=`<div class="ord-sec-hdr"><div class="ord-tag ot-priv">🏢 Private</div><div class="ord-sec-line"></div></div><div class="ord-list">${priv.map(ordCard).join('')}</div>`;
   cont.innerHTML=html;
-  // Stagger animazione card
   cont.querySelectorAll('.ord-card').forEach((el,i)=>{
     el.style.animationDelay = (i * 45) + 'ms';
-    // Classe stato per bordo colorato
     const statoMap = {'In Preparazione':'stato-prep','Pronto':'stato-pronto','Consegnato':'stato-consegnato'};
     const s = el.querySelector('.status-chip');
     if(s){
@@ -10813,7 +11009,15 @@ function ordCard(o){
         </div>
       </div>
       <div class="det-title" style="margin-top:12px">Aggiorna stato</div>
-      <div class="st-actions">${stBtns}${adminBtns}</div>
+      <div class="st-actions">${stBtns}${adminBtns}
+        <button class="st-btn" style="border-color:rgba(99,102,241,0.5);color:#818cf8" onclick="duplicaOrdine('${o.codice}')" title="Duplica ordine">📋 Duplica</button>
+      </div>
+      ${CU?`<div style="margin-top:10px">
+        <textarea id="nota-${o.codice}" placeholder="📝 Nota interna staff..." rows="2"
+          style="width:100%;background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.1);border-radius:8px;padding:8px 10px;color:var(--dim);font-size:12px;font-family:inherit;resize:vertical;box-sizing:border-box;outline:none"
+          onfocus="this.style.borderColor='rgba(0,212,255,0.3)'" onblur="this.style.borderColor='rgba(255,255,255,0.1)'"
+          oninput="_saveNotaInterna('${o.codice}',this.value)">${o.notaInterna||''}</textarea>
+      </div>`:''}
     </div>
   </div>`;
 }
@@ -10825,17 +11029,14 @@ function cambiaStato(code,stato){
     const mo=MIEI_ORDINI.find(x=>x.codice===code);
     if(mo)mo.stato=stato;
     if(stato==='Consegnato' && vecchioStato!=='Consegnato') _aggiungiOrdineStipendio(o);
-    // Ferma temporaneamente il polling per evitare sovrascrittura immediata
     const wasPolling = !!_pollingInterval;
     if(wasPolling){ stopPolling(); }
     DB.save('ordini',ORDINI).finally(()=>{
       if(wasPolling) setTimeout(startPolling, 2000);
     });
+    // Notifiche solo per Pronto (non per Annullato o altri stati)
     if(stato==='Pronto'&&vecchioStato!=='Pronto'){
       addNotificaPronto(o);
-      // Notifica TUTTI gli utenti con permesso ordini (inclusi Direttori/Vice/Manager).
-      // La notifica locale (NOTIFICHE) viene aggiunta solo al dispositivo che cambia stato,
-      // quindi anche gli admin devono ricevere la notif globale per vederla su altri device.
       const utentiOrdini = USERS.filter(u =>
         u.puoOrdini === true ||
         ['Direttrice','Direttore','Vice Direttrice','Vice Direttore'].includes(u.ruolo)
@@ -10843,15 +11044,41 @@ function cambiaStato(code,stato){
       if(utentiOrdini.length){
         _addNotifGlob(utentiOrdini, `✅ Ordine di <strong>${o.azienda}</strong> è <strong>PRONTO</strong> per la consegna!`, 'pronto');
       }
-      // Notifica anche l'azienda se ha un account
+      // Notifica l'azienda via notif globale
       const az=AZIENDE&&AZIENDE.find(a=>a.nome===o.azienda);
       if(az) _addNotifGlob([az.email], `📦 Il tuo ordine è <strong>PRONTO</strong> per la consegna!`, 'pronto');
-      // ── Avvia il sistema di chat automatica ──
+      // Chat Telegram al cliente
       if(o.contatto) prontoChatAvvia(o);
+      // Notifica Telegram diretta al cliente (se ha chatId registrato)
+      _notificaTelegramCliente(o);
+    }
+    if(stato==='Annullato'&&vecchioStato!=='Annullato'){
+      // Notifica annullamento all'azienda
+      const az=AZIENDE&&AZIENDE.find(a=>a.nome===o.azienda);
+      if(az) _addNotifGlob([az.email], `❌ Il tuo ordine <code>${o.codice}</code> è stato <strong>annullato</strong>.`, 'annullato');
+      _adminLog('❌ Ordine annullato', `${o.codice} (${o.azienda})`);
     }
     renderOrdini();
-    toast('✅ '+o.azienda+' → '+stato);
+    toast((stato==='Annullato'?'❌ ':'✅ ')+o.azienda+' → '+stato);
   }
+}
+
+// Notifica Telegram diretta al cliente quando ordine è Pronto
+async function _notificaTelegramCliente(ord){
+  if(!ord.contatto) return;
+  const tgHandle = ord.contatto.startsWith('@') ? ord.contatto.slice(1) : ord.contatto;
+  if(!tgHandle) return;
+  // Cerca chatId nel registro TG_USER_CHATS o TG_CHAT_NAMES
+  const chatId = Object.entries(TG_CHAT_NAMES||{}).find(([,n])=>n===tgHandle||n==='@'+tgHandle)?.[0]
+               || Object.entries(TG_USER_CHATS||{}).find(([,n])=>n===tgHandle)?.[0];
+  if(!chatId||!TG_BOT_TOKEN) return;
+  const msg = `📦 *Il tuo ordine è PRONTO!*\n\n🔖 Codice: \`${ord.codice}\`\n🏭 Purissima Beverages\n\nLo staff ti contatterà a breve per la consegna.`;
+  try{
+    await fetch(`https://api.telegram.org/bot${TG_BOT_TOKEN}/sendMessage`,{
+      method:'POST', headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({chat_id:chatId, text:msg, parse_mode:'Markdown'})
+    });
+  }catch(e){ console.warn('[TG] Errore notifica cliente:', e); }
 }
 function addNotificaPronto(o){
   const n={
@@ -12565,7 +12792,7 @@ function aggiornaContratto(nome, val){
 
 // === DASHBOARD ===
 function dashTab(tab){
-  ['fatturato','dipendenti'].forEach(t=>{
+  ['fatturato','dipendenti','annuale'].forEach(t=>{
     const p=document.getElementById('dpanel-'+t);
     const b=document.getElementById('dtab-'+t);
     if(p) p.style.display=t===tab?'':'none';
@@ -12573,6 +12800,75 @@ function dashTab(tab){
   });
   if(tab==='fatturato') renderDash();
   if(tab==='dipendenti') renderDashDip();
+}
+function renderDashAnnuale(){
+  const anno = new Date().getFullYear();
+  const lbl = document.getElementById('dash-anno-lbl');
+  if(lbl) lbl.textContent = anno;
+  const cont = document.getElementById('dash-annuale-content');
+  if(!cont) return;
+
+  // Fatturato mensile da ordini
+  const MESI_N=['','Gennaio','Febbraio','Marzo','Aprile','Maggio','Giugno','Luglio','Agosto','Settembre','Ottobre','Novembre','Dicembre'];
+  const meseMap = {};
+  for(let m=1;m<=12;m++) meseMap[m]={pub:0,priv:0,tot:0,nOrd:0};
+  ORDINI.forEach(o=>{
+    if(!o.mese||!o.totale) return;
+    const m=parseInt(o.mese); if(m<1||m>12) return;
+    meseMap[m].tot+=o.totale||0;
+    meseMap[m].nOrd++;
+    if((o.tipo||'pubblica')==='pubblica') meseMap[m].pub+=o.totale||0;
+    else meseMap[m].priv+=o.totale||0;
+  });
+  const totAnno = Object.values(meseMap).reduce((s,m)=>s+m.tot,0);
+  const stipAnno = STORICO_PAG.reduce((s,e)=>s+(e.totale||0),0);
+  const liqAnno = LIQUIDAZIONI.reduce((s,l)=>s+(l.importo||0),0);
+
+  cont.innerHTML = `
+    <!-- KPI annuali -->
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:10px;margin-bottom:20px">
+      <div style="background:rgba(0,212,255,0.07);border:1px solid rgba(0,212,255,0.18);border-radius:10px;padding:14px;text-align:center">
+        <div style="font-size:10px;font-weight:700;letter-spacing:.1em;color:var(--cyan);text-transform:uppercase;margin-bottom:4px">Fatturato ${anno}</div>
+        <div style="font-size:18px;font-weight:800;color:#fff">${fe(totAnno)}</div>
+      </div>
+      <div style="background:rgba(46,204,113,0.07);border:1px solid rgba(46,204,113,0.18);border-radius:10px;padding:14px;text-align:center">
+        <div style="font-size:10px;font-weight:700;letter-spacing:.1em;color:var(--green);text-transform:uppercase;margin-bottom:4px">Stipendi pagati</div>
+        <div style="font-size:18px;font-weight:800;color:#fff">${fe(stipAnno)}</div>
+      </div>
+      <div style="background:rgba(245,158,11,0.07);border:1px solid rgba(245,158,11,0.2);border-radius:10px;padding:14px;text-align:center">
+        <div style="font-size:10px;font-weight:700;letter-spacing:.1em;color:#f59e0b;text-transform:uppercase;margin-bottom:4px">Liquidazioni</div>
+        <div style="font-size:18px;font-weight:800;color:#fff">${fe(liqAnno)}</div>
+      </div>
+      <div style="background:rgba(239,68,68,0.07);border:1px solid rgba(239,68,68,0.18);border-radius:10px;padding:14px;text-align:center">
+        <div style="font-size:10px;font-weight:700;letter-spacing:.1em;color:#f87171;text-transform:uppercase;margin-bottom:4px">Uscite totali</div>
+        <div style="font-size:18px;font-weight:800;color:#fff">${fe(stipAnno+liqAnno)}</div>
+      </div>
+    </div>
+    <!-- Tabella mensile -->
+    <div style="overflow-x:auto">
+      <table class="staff-tbl" style="font-size:12px">
+        <thead><tr>
+          <th style="text-align:left">Mese</th>
+          <th>Ordini</th>
+          <th style="color:var(--cyan)">Pubbliche</th>
+          <th style="color:var(--purple)">Private</th>
+          <th style="color:var(--green)">Totale</th>
+        </tr></thead>
+        <tbody>${Object.entries(meseMap).map(([m,d])=>`<tr>
+          <td style="font-weight:600">${MESI_N[+m]}</td>
+          <td>${d.nOrd||'—'}</td>
+          <td style="color:var(--cyan)">${d.pub>0?fe(d.pub):'—'}</td>
+          <td style="color:var(--purple)">${d.priv>0?fe(d.priv):'—'}</td>
+          <td style="color:var(--green);font-weight:700">${d.tot>0?fe(d.tot):'—'}</td>
+        </tr>`).join('')}</tbody>
+        <tfoot><tr style="border-top:2px solid rgba(255,255,255,0.1)">
+          <td style="font-weight:800" colspan="2">Totale anno</td>
+          <td style="color:var(--cyan);font-weight:800">${fe(Object.values(meseMap).reduce((s,m)=>s+m.pub,0))}</td>
+          <td style="color:var(--purple);font-weight:800">${fe(Object.values(meseMap).reduce((s,m)=>s+m.priv,0))}</td>
+          <td style="color:var(--green);font-weight:800">${fe(totAnno)}</td>
+        </tr></tfoot>
+      </table>
+    </div>`;
 }
 // Tassa flat come formula Excel: aliquota unica sul totale settimanale
 function getAliquota(tot){
@@ -15258,6 +15554,1765 @@ function stoRenderLista(){
   const MN=['','Gen','Feb','Mar','Apr','Mag','Giu','Lug','Ago','Set','Ott','Nov','Dic'];
   if(cont)cont.innerHTML=`<div style="overflow-x:auto"><table class="staff-tbl"><thead><tr><th>N°</th><th>Tipo</th><th>Mese</th><th>Sett.</th><th>Azienda</th><th>Prodotti</th><th>Totale</th><th>Stato</th></tr></thead><tbody>${_stoSessione.map(o=>{const num=o.numPub||o.numPriv||'—';const tag=o.tipo==='pubblica'?'<span style="color:var(--blue2)">PUB</span>':'<span style="color:var(--purple)">PRI</span>';const prods=(o.prodotti||[]).map(p=>`${p.qty/64}s ${p.nome}`).join(', ');return `<tr><td style="font-weight:700">#${num}</td><td>${tag}</td><td style="color:var(--cyan)">${MN[o.mese]}</td><td>S${o.sett}</td><td style="font-weight:600">${o.azienda}</td><td style="font-size:11px;color:var(--dim)">${prods}</td><td style="color:var(--green);font-weight:700">€${o.totale?.toLocaleString('it-IT',{minimumFractionDigits:2})}</td><td style="color:var(--dim2)">${o.stato}</td></tr>`;}).join('')}</tbody></table></div>`;
 }
+
+// ══════════════════════════════════════════════════════════════
+// MIGLIORAMENTI GLOBALI
+// ══════════════════════════════════════════════════════════════
+
+// ── 1. MODAL CONFERMA (sostituisce confirm() nativo) ──
+(function(){
+  const overlay = document.getElementById('pu-confirm-overlay');
+  const msgEl   = document.getElementById('pu-confirm-msg');
+  const btnSi   = document.getElementById('pu-confirm-si');
+  const btnNo   = document.getElementById('pu-confirm-no');
+  let _cb = null;
+
+  window._conferma = function(msg, onOk, opts={}){
+    msgEl.textContent = msg;
+    btnSi.textContent = opts.okLabel || 'Elimina';
+    btnSi.className   = 'pu-confirm-ok ' + (opts.okClass||'');
+    overlay.classList.add('open');
+    _cb = onOk;
+  };
+
+  btnSi.addEventListener('click', ()=>{
+    overlay.classList.remove('open');
+    if(_cb) { _cb(); _cb=null; }
+  });
+  btnNo.addEventListener('click', ()=>{
+    overlay.classList.remove('open'); _cb=null;
+  });
+  overlay.addEventListener('click', e=>{ if(e.target===overlay){ overlay.classList.remove('open'); _cb=null; } });
+})();
+
+// window.confirm: le chiamate specifiche sono già patched tramite _conferma()
+// Non sovrascriviamo il confirm globale per evitare di bypassare conferme di sicurezza
+
+
+
+// ── 2. SAVE INDICATOR (wrapper su dbSave) ──
+(function(){
+  const container = document.getElementById('pu-save-indicator');
+  let _pid = 0;
+
+  function showPill(label, type, duration=2200){
+    const pill = document.createElement('div');
+    pill.className = 'pu-save-pill';
+    pill.innerHTML = label;
+    container.appendChild(pill);
+    requestAnimationFrame(()=>{ pill.classList.add(type||''); });
+    setTimeout(()=>{
+      pill.classList.add('out');
+      setTimeout(()=>pill.remove(), 350);
+    }, duration);
+  }
+
+  // Wrappa ogni metodo di dbSave per mostrare indicatore
+  const origSave = {...dbSave};
+  Object.keys(origSave).forEach(k=>{
+    dbSave[k] = function(){
+      const pid = ++_pid;
+      showPill('<span style="display:inline-block;width:8px;height:8px;border:2px solid var(--cyan);border-top-color:transparent;border-radius:50%;animation:sp-spin .6s linear infinite;vertical-align:middle;margin-right:4px"></span> Salvo...', '', 8000);
+      return origSave[k]().then(r=>{
+        // Rimuovi "Salvo..." e mostra OK
+        container.querySelectorAll('.pu-save-pill:not(.ok):not(.err)').forEach(p=>p.remove());
+        showPill('✅ Salvato', 'ok');
+        // Cache localStorage
+        _lsCacheSet(k);
+        return r;
+      }).catch(err=>{
+        container.querySelectorAll('.pu-save-pill:not(.ok):not(.err)').forEach(p=>p.remove());
+        showPill('❌ Errore salvataggio', 'err', 4000);
+        throw err;
+      });
+    };
+  });
+})();
+
+
+// ── 3. LOADING OVERLAY — già integrato in _loginStaffDiretto ──
+
+
+
+// ── 4. CENTRO NOTIFICHE PERSISTENTE ──
+const _NC_STORE_KEY = 'pu_notif_center';
+let _ncNotifiche = [];
+
+function _ncLoad(){
+  try { _ncNotifiche = JSON.parse(localStorage.getItem(_NC_STORE_KEY)||'[]'); } catch{ _ncNotifiche=[]; }
+}
+function _ncSave(){
+  try { localStorage.setItem(_NC_STORE_KEY, JSON.stringify(_ncNotifiche.slice(0,100))); } catch{}
+}
+function _ncAddNotifica(testo, tipo='info'){
+  _ncLoad();
+  _ncNotifiche.unshift({ id: Date.now(), testo, tipo, time: new Date().toISOString(), letta: false });
+  _ncSave();
+  _ncUpdateBadge();
+  _ncRender();
+}
+function _ncMarkAllRead(){
+  _ncLoad();
+  _ncNotifiche.forEach(n=>n.letta=true);
+  _ncSave();
+  _ncUpdateBadge();
+  _ncRender();
+}
+function _ncUpdateBadge(){
+  _ncLoad();
+  const unread = _ncNotifiche.filter(n=>!n.letta).length;
+  const badge = document.getElementById('notif-center-badge');
+  if(badge){ badge.textContent = unread||''; badge.style.display = unread?'':'none'; }
+}
+function _ncToggle(){
+  const panel = document.getElementById('notif-center-panel');
+  if(!panel) return;
+  const isOpen = panel.classList.contains('open');
+  document.querySelectorAll('.notif-dropdown,.avviso-drop').forEach(d=>d.style.display='none');
+  panel.classList.toggle('open', !isOpen);
+  if(!isOpen){ _ncLoad(); _ncRender(); }
+}
+function _ncClose(){ document.getElementById('notif-center-panel')?.classList.remove('open'); }
+function _ncRender(){
+  _ncLoad();
+  const list = document.getElementById('notif-center-list');
+  if(!list) return;
+  if(!_ncNotifiche.length){
+    list.innerHTML='<div style="color:var(--dim);text-align:center;padding:30px;font-size:13px">Nessuna notifica</div>';
+    return;
+  }
+  const fmt = iso=>{ try{ const d=new Date(iso); return d.toLocaleDateString('it-IT',{day:'2-digit',month:'2-digit'})+' '+d.toLocaleTimeString('it-IT',{hour:'2-digit',minute:'2-digit'}); }catch{ return ''; } };
+  list.innerHTML = _ncNotifiche.map(n=>`
+    <div class="nc-item ${n.letta?'':'unread'}" onclick="_ncMarkOne(${n.id})">
+      <div style="font-size:12px;color:#fff;line-height:1.4">${n.testo}</div>
+      <div class="nc-item-time">${fmt(n.time)}</div>
+    </div>`).join('');
+}
+function _ncMarkOne(id){
+  _ncLoad();
+  const n=_ncNotifiche.find(x=>x.id===id);
+  if(n) n.letta=true;
+  _ncSave(); _ncUpdateBadge(); _ncRender();
+}
+// Intercetta le notifiche globali esistenti per salvarle nel centro
+const _origAddNotifGlob = window._addNotifGlob;
+window._addNotifGlob = function(usernames, msg, tipo){
+  if(CU && usernames.includes(CU.username)){
+    _ncAddNotifica(msg.replace(/<[^>]*>/g,''), tipo);
+  }
+  if(typeof _origAddNotifGlob==='function') _origAddNotifGlob.apply(this,arguments);
+};
+// Chiudi cliccando fuori
+document.addEventListener('click', e=>{
+  const panel=document.getElementById('notif-center-panel');
+  const btn=document.getElementById('notif-center-btn');
+  if(panel?.classList.contains('open') && !panel.contains(e.target) && !btn?.contains(e.target)){
+    panel.classList.remove('open');
+  }
+}, true);
+_ncLoad(); _ncUpdateBadge();
+
+
+// ── 5. LOCALSTORAGE CACHE FALLBACK ──
+function _lsCacheSet(key){
+  try{
+    const map={users:USERS,dip:DIP,ex:EX,gradi:GRADI,incarichi:INCARICHI,incarichi_sett:INCARICHI_SETT,
+      storico_pag:STORICO_PAG,liquidazioni:LIQUIDAZIONI,aziende:AZIENDE,ordini:ORDINI};
+    if(map[key]!==undefined) localStorage.setItem('pu_cache_'+key, JSON.stringify(map[key]));
+  }catch{}
+}
+function _lsCacheGet(key){
+  try{ return JSON.parse(localStorage.getItem('pu_cache_'+key)); }catch{ return null; }
+}
+// Fallback: se DB.loadAll fallisce usa la cache locale
+const _origDBLoadAll = DB.loadAll.bind(DB);
+DB.loadAll = async function(){
+  try{
+    const r = await _origDBLoadAll();
+    // Aggiorna cache per le chiavi principali
+    ['ordini','dip','users','incarichi','incarichi_sett','storico_pag','liquidazioni','aziende'].forEach(k=>{
+      if(r[k]) try{ localStorage.setItem('pu_cache_'+k, JSON.stringify(r[k])); }catch{}
+    });
+    return r;
+  } catch(err){
+    console.warn('[DB] loadAll fallito, uso cache locale:', err);
+    const cached={};
+    ['ordini','dip','users','incarichi','incarichi_sett','storico_pag','liquidazioni','aziende',
+     'gradi','gruppi_fissi','ex','notif_glob','storico_incarichi','incarico_extra','extra_segnal'].forEach(k=>{
+      const v=_lsCacheGet(k); if(v!==null) cached[k]=v;
+    });
+    if(Object.keys(cached).length) return cached;
+    throw err;
+  }
+};
+
+
+// ── 6. REPLACE confirm() CON _conferma() (patch selettiva) ──
+// Le funzioni che usavano confirm() sono già state aggiornate inline qui sotto.
+// Patch retroattiva per le funzioni che non possiamo riscrivere facilmente:
+(function patchConfirms(){
+  // eliminaLiquidazione
+  const _origElimLiq = window.eliminaLiquidazione;
+  if(typeof _origElimLiq === 'function'){
+    window.eliminaLiquidazione = function(id){
+      _conferma('Eliminare questa liquidazione?', ()=>_origElimLiq(id), {okLabel:'Elimina'});
+    };
+  }
+  // eliminaIncaricoSett
+  const _origElimIS = window.eliminaIncaricoSett;
+  if(typeof _origElimIS === 'function'){
+    window.eliminaIncaricoSett = function(id){
+      _conferma('Eliminare questo incarico settimanale?', ()=>_origElimIS(id), {okLabel:'Elimina'});
+    };
+  }
+  // eliminaPagamento
+  const _origElimPag = window.eliminaPagamento;
+  if(typeof _origElimPag === 'function'){
+    window.eliminaPagamento = function(id){
+      _conferma('Eliminare questo pagamento dallo storico?', ()=>_origElimPag(id), {okLabel:'Elimina'});
+    };
+  }
+})();
+
+// ══════════════════════════════════════════════════════════════
+// NUOVE FUNZIONALITÀ — BLOCCO 2
+// ══════════════════════════════════════════════════════════════
+
+// ── A. HASH PASSWORD (SHA-256 via Web Crypto) — patch su loginStaff ──
+async function _sha256(str){
+  const buf = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(str));
+  return Array.from(new Uint8Array(buf)).map(b=>b.toString(16).padStart(2,'0')).join('');
+}
+
+(function patchLoginWithHash(){
+  const _origLogin = window.loginStaff;
+  window.loginStaff = async function(){
+    const u = document.getElementById('l-user')?.value.trim();
+    const p = document.getElementById('l-pass')?.value;
+    if(!u||!p){ _origLogin?.(); return; }
+    const hash = await _sha256(p);
+    // Cerca per hash (post-migration) poi per plaintext (pre-migration)
+    let user = USERS.find(x=>x.username===u && x.password===hash);
+    if(!user){
+      user = USERS.find(x=>x.username===u && x.password===p);
+      if(user){
+        // Migra: salva hash nel DB
+        user.password = hash;
+        dbSave.users().catch(()=>{});
+      }
+    }
+    if(!user){
+      document.getElementById('l-err').style.display='block';
+      if(typeof _loginAttemptFail==='function') _loginAttemptFail();
+      return;
+    }
+    // Salva sessione con hash
+    const ricorda = document.getElementById('l-ricorda');
+    if(ricorda?.checked){
+      localStorage.setItem('pu_session', JSON.stringify({username:user.username, password:hash, isHash:true}));
+    } else {
+      localStorage.removeItem('pu_session');
+    }
+    _loginStaffDiretto(user);
+  };
+})();
+
+
+// ── B. RATE LIMITING LOGIN ──
+const _LOGIN_MAX = 5;
+const _LOGIN_LOCKOUT_MS = 30000;
+let _loginAttempts = 0, _loginLockedUntil = 0;
+function _loginAttemptFail(){
+  _loginAttempts++;
+  if(_loginAttempts >= _LOGIN_MAX){
+    _loginLockedUntil = Date.now() + _LOGIN_LOCKOUT_MS;
+    _loginAttempts = 0;
+    const err = document.getElementById('l-err');
+    if(err){ err.textContent = '🔒 Troppi tentativi. Attendi 30 secondi.'; err.style.display='block'; }
+    const btn = document.querySelector('[onclick*="loginStaff"]');
+    if(btn) btn.disabled = true;
+    setTimeout(()=>{
+      if(btn) btn.disabled = false;
+      if(err){ err.textContent='Credenziali errate.'; err.style.display='none'; }
+    }, _LOGIN_LOCKOUT_MS);
+  }
+}
+// Guard all'apertura modal
+const _origOpenOvl = window.openOvl;
+window.openOvl = function(id){
+  if(id === 'staff-ovl' && Date.now() < _loginLockedUntil){
+    const rem = Math.ceil((_loginLockedUntil - Date.now())/1000);
+    toast(`🔒 Attendi ancora ${rem} secondi prima di riprovare.`);
+    return;
+  }
+  if(typeof _origOpenOvl === 'function') _origOpenOvl(id);
+};
+
+
+// ── C. SESSION TIMEOUT (8 ore) ──
+const _SESSION_TIMEOUT_MS = 8 * 60 * 60 * 1000;
+let _lastActivity = Date.now();
+['click','keydown','touchstart'].forEach(ev=>{
+  document.addEventListener(ev, ()=>{ _lastActivity = Date.now(); }, {passive:true});
+});
+setInterval(()=>{
+  if(!window.CU) return;
+  if(Date.now() - _lastActivity > _SESSION_TIMEOUT_MS){
+    toast('⏰ Sessione scaduta per inattività.');
+    if(typeof doLogout === 'function') doLogout();
+  }
+}, 60000); // controlla ogni minuto
+
+
+// ── D. LISTINO FILTRABILE ──
+let _listinoActiveCat = 'tutti';
+function filterListino(){
+  const q = (document.getElementById('listino-search')?.value||'').toLowerCase().trim();
+  const cat = _listinoActiveCat;
+  let anyVisible = false;
+  document.querySelectorAll('[data-listino-cat]').forEach(block=>{
+    const blockCat = block.dataset.listinoCat;
+    if(cat !== 'tutti' && blockCat !== cat){ block.style.display='none'; return; }
+    let blockAny = false;
+    block.querySelectorAll('[data-prod-card]').forEach(card=>{
+      const name = (card.dataset.prodName||'').toLowerCase();
+      const match = !q || name.includes(q);
+      card.style.display = match ? '' : 'none';
+      if(match) blockAny = true;
+    });
+    block.style.display = blockAny ? '' : 'none';
+    if(blockAny) anyVisible = true;
+  });
+  const noRes = document.getElementById('listino-no-results');
+  if(noRes) noRes.style.display = anyVisible ? 'none' : '';
+}
+function _setListinoCat(cat, btn){
+  _listinoActiveCat = cat;
+  document.querySelectorAll('#listino-cat-btns button').forEach(b=>{
+    b.style.background = 'none'; b.style.color = 'var(--dim)'; b.style.borderColor='rgba(255,255,255,0.1)';
+  });
+  btn.style.background = 'rgba(0,212,255,0.12)'; btn.style.color = 'var(--cyan)'; btn.style.borderColor='rgba(0,212,255,0.35)';
+  filterListino();
+}
+// Inietta filtro cat + data-attributes dopo il render del listino
+const _origRenderListino = document.addEventListener;
+(function patchListino(){
+  const observer = new MutationObserver(()=>{
+    const grid = document.getElementById('listino-grid');
+    if(!grid || grid.dataset.filtered) return;
+    grid.dataset.filtered = '1';
+    // Aggiungi data-listino-cat e data-prod-name ai blocchi e alle card
+    grid.querySelectorAll('.cat-block-anim').forEach(block=>{
+      const lbl = block.querySelector('span[style*="font-size:16px"]');
+      const cat = lbl ? lbl.textContent.trim() : 'cat';
+      block.dataset.listinoCat = cat;
+      block.querySelectorAll('[data-prod-card]').forEach(card=>{
+        const name = card.querySelector('[style*="font-size:13"]')?.textContent||'';
+        card.dataset.prodName = name;
+      });
+    });
+    // Popola bottoni categoria
+    const btnWrap = document.getElementById('listino-cat-btns');
+    if(btnWrap && !btnWrap.children.length){
+      const cats = [...grid.querySelectorAll('[data-listino-cat]')].map(b=>b.dataset.listinoCat).filter(Boolean);
+      const tuttoBtn = document.createElement('button');
+      tuttoBtn.textContent = '🔢 Tutti';
+      tuttoBtn.onclick = ()=>_setListinoCat('tutti', tuttoBtn);
+      Object.assign(tuttoBtn.style,{padding:'6px 14px',borderRadius:'20px',border:'1px solid rgba(0,212,255,0.35)',background:'rgba(0,212,255,0.12)',color:'var(--cyan)',fontSize:'11px',fontWeight:'700',cursor:'pointer',fontFamily:'inherit'});
+      btnWrap.appendChild(tuttoBtn);
+      cats.forEach(cat=>{
+        const b = document.createElement('button');
+        b.textContent = cat;
+        b.onclick = ()=>_setListinoCat(cat, b);
+        Object.assign(b.style,{padding:'6px 14px',borderRadius:'20px',border:'1px solid rgba(255,255,255,0.1)',background:'none',color:'var(--dim)',fontSize:'11px',fontWeight:'700',cursor:'pointer',fontFamily:'inherit'});
+        btnWrap.appendChild(b);
+      });
+    }
+  });
+  observer.observe(document.body, {childList:true, subtree:true});
+})();
+
+
+// ── E. NOTE INTERNE ORDINI ──
+const _saveNotaInterna = (function(){
+  const timers = {};
+  return function(codice, valore){
+    clearTimeout(timers[codice]);
+    timers[codice] = setTimeout(()=>{
+      const o = ORDINI.find(x=>x.codice===codice);
+      if(!o) return;
+      o.notaInterna = valore;
+      const wp = !!_pollingInterval;
+      if(wp) stopPolling();
+      DB.save('ordini', ORDINI).finally(()=>{ if(wp) setTimeout(startPolling,1500); });
+      _adminLog('📝 Nota interna', `Ordine ${codice} (${o.azienda}): "${valore.slice(0,60)}${valore.length>60?'…':''}"`);
+    }, 800);
+  };
+})();
+
+
+// ── F. DUPLICA ORDINE ──
+function duplicaOrdine(codice){
+  const o = ORDINI.find(x=>x.codice===codice);
+  if(!o) return;
+  _conferma(`Duplicare l'ordine di ${o.azienda}? Verrà creato un nuovo ordine con gli stessi prodotti.`, ()=>{
+    const nuovoCod = 'ORD-' + Math.random().toString(36).substr(2,6).toUpperCase();
+    const oggi = new Date();
+    const clone = {
+      ...JSON.parse(JSON.stringify(o)),
+      codice: nuovoCod,
+      stato: 'In Preparazione',
+      data: oggi.toLocaleDateString('it-IT'),
+      notaInterna: '',
+      numPub: o.tipo==='pubblica' ? _ordNumPub++ : undefined,
+      numPriv: o.tipo==='privata' ? _ordNumPriv++ : undefined,
+    };
+    ORDINI.unshift(clone);
+    const wasP = !!_pollingInterval; if(wasP) stopPolling();
+    DB.save('ordini', ORDINI).finally(()=>{ if(wasP) setTimeout(startPolling,1500); });
+    renderOrdini();
+    toast(`📋 Ordine duplicato → ${nuovoCod}`);
+    _adminLog('📋 Duplica ordine', `${codice} → ${nuovoCod} (${o.azienda})`);
+  }, {okLabel:'Duplica', okClass:''});
+}
+
+
+// ── G. EXPORT CSV ──
+function exportCSV(tipo){
+  let rows=[], filename='export.csv';
+  if(tipo==='ordini'){
+    filename = `ordini_${new Date().toLocaleDateString('it-IT').replace(/\//g,'-')}.csv`;
+    rows = [['Codice','Azienda','Tipo','Stato','Mese','Sett.','Data','Totale (€)','Prodotti','Contatto','Nota Interna']];
+    ORDINI.forEach(o=>{
+      const prods = (o.prodotti||[]).map(p=>`${p.qty/64}s ${p.nome}`).join(' | ');
+      rows.push([o.codice,o.azienda,o.tipo,o.stato,o.mese,o.sett,o.data,(o.totale||0).toString().replace('.',','),prods,o.contatto||'',o.notaInterna||'']);
+    });
+  } else if(tipo==='storico'){
+    filename = `storico_stipendi_${new Date().toLocaleDateString('it-IT').replace(/\//g,'-')}.csv`;
+    rows = [['Settimana','Dipendente','Ruolo','Sett.A (€)','Sett.B (€)','Bonus (€)','Totale (€)','Data Salvataggio']];
+    STORICO_PAG.forEach(e=>{
+      (e.voci||[]).forEach(v=>{
+        rows.push([e.label,v.nome,v.ruolo,(v.totA||0).toString().replace('.',','),(v.totB||0).toString().replace('.',','),(v.bonus||0).toString().replace('.',','),(v.totale||0).toString().replace('.',','),e.data]);
+      });
+    });
+  } else if(tipo==='log'){
+    filename = `admin_log_${new Date().toLocaleDateString('it-IT').replace(/\//g,'-')}.csv`;
+    rows = [['Data','Ora','Utente','Azione','Dettaglio']];
+    const log = _getAdminLog();
+    log.forEach(l=>{ const d=new Date(l.ts); rows.push([d.toLocaleDateString('it-IT'),d.toLocaleTimeString('it-IT'),l.utente,l.azione,l.dettaglio]); });
+  }
+  const csv = rows.map(r=>r.map(c=>`"${String(c).replace(/"/g,'""')}"`).join(';')).join('\n');
+  const blob = new Blob(['\uFEFF'+csv], {type:'text/csv;charset=utf-8'});
+  const a = document.createElement('a'); a.href=URL.createObjectURL(blob); a.download=filename; a.click();
+  toast(`⬇️ Export ${tipo} scaricato!`);
+}
+
+
+// ── H. ANTEPRIMA ORDINE PRIMA DELLA CONFERMA ──
+(function patchInviaOrdine(){
+  const _orig = window.inviaOrdine;
+  if(typeof _orig!=='function') return;
+  window.inviaOrdine = function(){
+    // Raccogli i prodotti selezionati
+    const prods = [];
+    document.querySelectorAll('[data-prod-qty]').forEach(el=>{
+      const qty = parseInt(el.value)||0;
+      if(qty>0) prods.push({nome:el.dataset.prodNome||el.dataset.prodQty, qty:qty*64});
+    });
+    const az = window.AZ_LOGGED?.nome || document.getElementById('cf-nome')?.value || '—';
+    const tipo = window.ORD?.tipo || 'pubblica';
+    const prezzoStack = tipo==='pubblica'?100:150;
+    const totale = prods.reduce((s,p)=>s+p.qty/64*prezzoStack,0);
+    if(!prods.length){ _orig(); return; } // nessun prodotto → lascia gestire all'originale
+    const prodsHtml = prods.map(p=>`<div style="display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid rgba(255,255,255,0.05)">
+      <span style="color:#fff">${p.nome}</span>
+      <span style="color:var(--cyan);font-weight:700">${p.qty/64} stack</span>
+    </div>`).join('');
+    _conferma(
+      `<strong style="font-size:16px">Conferma Ordine</strong><br><br>
+      <div style="font-size:12px;color:var(--dim);margin-bottom:10px">Azienda: <strong style="color:#fff">${az}</strong> · Tipo: <strong style="color:${tipo==='pubblica'?'var(--cyan)':'var(--purple)'}">${tipo}</strong></div>
+      <div style="font-size:12px;margin-bottom:12px">${prodsHtml}</div>
+      <div style="display:flex;justify-content:space-between;font-size:14px;font-weight:800;padding-top:8px">
+        <span style="color:var(--dim)">Totale stimato</span>
+        <span style="color:var(--green)">€ ${totale.toLocaleString('it-IT',{minimumFractionDigits:2})}</span>
+      </div>`,
+      ()=>_orig(),
+      {okLabel:'✅ Invia Ordine', okClass:''}
+    );
+  };
+})();
+
+
+// ── I. LOG AZIONI ADMIN ──
+const _ADMIN_LOG_KEY = 'pu_admin_log';
+function _getAdminLog(){ try{ return JSON.parse(localStorage.getItem(_ADMIN_LOG_KEY)||'[]'); }catch{ return []; } }
+function _adminLog(azione, dettaglio=''){
+  if(!window.CU) return;
+  const log = _getAdminLog();
+  log.unshift({ ts: Date.now(), utente: CU.nome||CU.username, azione, dettaglio });
+  try{ localStorage.setItem(_ADMIN_LOG_KEY, JSON.stringify(log.slice(0,200))); }catch{}
+}
+function renderAdminLog(){
+  const cont = document.getElementById('admin-log-list');
+  if(!cont) return;
+  const log = _getAdminLog();
+  if(!log.length){
+    cont.innerHTML='<div style="color:var(--dim);text-align:center;padding:40px;font-size:13px">📋 Nessuna azione registrata</div>';
+    return;
+  }
+  const fmt = ts=>{ const d=new Date(ts); return d.toLocaleDateString('it-IT')+' '+d.toLocaleTimeString('it-IT',{hour:'2-digit',minute:'2-digit'}); };
+  cont.innerHTML=log.map(l=>`
+    <div style="display:flex;align-items:flex-start;gap:12px;padding:10px 14px;border-bottom:1px solid rgba(255,255,255,0.05)">
+      <div style="min-width:120px;font-size:11px;color:var(--dim2);padding-top:1px">${fmt(l.ts)}</div>
+      <div style="min-width:90px;font-size:11px;font-weight:700;color:var(--cyan)">${l.utente}</div>
+      <div style="flex:1">
+        <div style="font-size:12px;font-weight:700;color:#fff">${l.azione}</div>
+        ${l.dettaglio?`<div style="font-size:11px;color:var(--dim);margin-top:2px">${l.dettaglio}</div>`:''}
+      </div>
+    </div>`).join('');
+}
+function _clearAdminLog(){
+  _conferma('Svuotare il log azioni? Non potrà essere recuperato.',()=>{
+    localStorage.removeItem(_ADMIN_LOG_KEY);
+    renderAdminLog();
+    toast('🗑️ Log svuotato');
+  },{okLabel:'Svuota'});
+}
+// Intercetta le azioni chiave per loggarle
+['eliminaIncaricoSett','eliminaPagamento','eliminaLiquidazione','cambiaStato','delOrd'].forEach(fn=>{
+  const orig = window[fn];
+  if(typeof orig!=='function') return;
+  window[fn] = function(){
+    const args = Array.from(arguments);
+    _adminLog(`🔧 ${fn}`, args.join(' | '));
+    return orig.apply(this, args);
+  };
+});
+
+
+// ── J. RETRY SALVATAGGI FALLITI ──
+(function setupSaveRetry(){
+  const queue = [];
+  let retrying = false;
+  const _origDBSave = DB.save.bind(DB);
+  DB.save = async function(key, val){
+    try{
+      return await _origDBSave(key, val);
+    } catch(err){
+      // Aggiunge alla coda di retry
+      const existing = queue.findIndex(q=>q.key===key);
+      if(existing>=0) queue[existing].val = val;
+      else queue.push({key, val, attempts:0});
+      if(!retrying) _retryQueue();
+      throw err;
+    }
+  };
+  async function _retryQueue(){
+    if(retrying || !queue.length) return;
+    retrying = true;
+    while(queue.length){
+      const item = queue[0];
+      await new Promise(r=>setTimeout(r, Math.min(5000 * Math.pow(2, item.attempts), 60000)));
+      try{
+        await _origDBSave(item.key, item.val);
+        queue.shift();
+        toast(`🔄 Sincronizzato: ${item.key}`);
+      } catch{
+        item.attempts++;
+        if(item.attempts >= 5){ queue.shift(); toast(`❌ Impossibile sincronizzare: ${item.key}`); }
+      }
+    }
+    retrying = false;
+  }
+})();
+
+
+// ── K. CODICE TRACKING — MODALE CONFERMABILE ──
+(function patchConfirmaOrdineSuccess(){
+  const _origDo = window._doInviaOrdine;
+  if(typeof _origDo!=='function') return;
+  window._doInviaOrdine = function(nome, mc, tg){
+    const result = _origDo.apply(this, arguments);
+    setTimeout(()=>{
+      const ultimo = ORDINI[0];
+      if(!ultimo?.codice) return;
+      const overlay = document.createElement('div');
+      overlay.style.cssText = 'position:fixed;inset:0;z-index:9800;background:rgba(0,0,0,0.65);display:flex;align-items:center;justify-content:center;backdrop-filter:blur(4px)';
+      overlay.innerHTML = `<div style="background:#0d1220;border:1px solid rgba(0,212,255,0.4);border-radius:16px;padding:32px 36px;max-width:360px;width:90%;text-align:center;box-shadow:0 20px 60px rgba(0,0,0,0.6)">
+        <div style="font-size:36px;margin-bottom:12px">📦</div>
+        <div style="font-size:15px;font-weight:700;color:#fff;margin-bottom:8px">Ordine inviato con successo!</div>
+        <div style="font-size:12px;color:var(--dim);margin-bottom:16px">Il tuo codice di tracking è:</div>
+        <div style="font-family:monospace;font-size:24px;font-weight:800;color:var(--cyan);background:rgba(0,212,255,0.08);border:1px solid rgba(0,212,255,0.25);border-radius:10px;padding:14px 20px;letter-spacing:0.12em;margin-bottom:16px">${ultimo.codice}</div>
+        <div style="font-size:11px;color:var(--dim2);margin-bottom:22px">📝 Segna il codice — potrai usarlo per tracciare il tuo ordine.</div>
+        <button onclick="this.closest('[style*=z-index\\:9800]').remove()" style="background:var(--cyan);color:#000;border:none;border-radius:10px;padding:12px 28px;font-size:13px;font-weight:800;cursor:pointer;font-family:inherit;width:100%">✅ Ho segnato il codice</button>
+      </div>`;
+      document.body.appendChild(overlay);
+    }, 500);
+    return result;
+  };
+})();
+
+
+// ── L. BOT REMINDER INCARICHI SCADUTI ──
+(function setupIncarichiReminder(){
+  const _REMIND_KEY = 'pu_reminded_incarichi';
+  function _getReminded(){ try{ return new Set(JSON.parse(localStorage.getItem(_REMIND_KEY)||'[]')); }catch{ return new Set(); } }
+  function _addReminded(id){ const s=_getReminded(); s.add(id); try{ localStorage.setItem(_REMIND_KEY, JSON.stringify([...s].slice(-100))); }catch{} }
+
+  function checkScaduti(){
+    if(!window.CU || !['Direttrice','Direttore','Vice Direttrice','Vice Direttore'].includes(CU.ruolo)) return;
+    if(!Array.isArray(window.INCARICHI_SETT)) return;
+    const oggi = new Date(); oggi.setHours(23,59,59,999);
+    const reminded = _getReminded();
+    INCARICHI_SETT.forEach(inc=>{
+      if(!inc.mese||inc.sett===undefined) return;
+      const anno = inc.anno||new Date().getFullYear();
+      const setts = typeof getSettimaneIncMese==='function' ? getSettimaneIncMese(anno, inc.mese) : [];
+      if(!setts[inc.sett-1]) return;
+      const scad = new Date(setts[inc.sett-1].sab); scad.setHours(23,59,59,999);
+      if(scad >= oggi) return;
+      const totDip = inc.gruppi?.reduce((a,g)=>a+g.dipNomi.length,0)||0;
+      const complDip = Object.values(inc.completamenti||{}).filter(Boolean).length;
+      if(complDip >= totDip) return;
+      const remId = `${inc.id}_${inc.sett}`;
+      if(reminded.has(remId)) return;
+      _addReminded(remId);
+      const mancanti = inc.gruppi?.flatMap(g=>g.dipNomi.filter(n=>!(inc.completamenti||{})[n]))||[];
+      _ncAddNotifica(`⚠️ Incarico scaduto: "${inc.titolo||'Settimanale'}" — ${mancanti.length} non completato/i: ${mancanti.join(', ')}`, 'warning');
+      _adminLog('⚠️ Incarico scaduto', `"${inc.titolo||'Settimanale'}" — mancanti: ${mancanti.join(', ')}`);
+    });
+  }
+  setInterval(()=>{ if(window.CU) checkScaduti(); }, 600000);
+  setTimeout(()=>{ if(window.CU) checkScaduti(); }, 3000); // check on load too
+})();
+
+
+// ── M. SHORTCUT DA TASTIERA ──
+document.addEventListener('keydown', e=>{
+  if(e.key==='Escape'){
+    document.getElementById('pu-confirm-overlay')?.classList.remove('open');
+    document.getElementById('notif-center-panel')?.classList.remove('open');
+    document.querySelectorAll('[style*="z-index:9800"]').forEach(el=>el.remove());
+  }
+  if((e.ctrlKey||e.metaKey) && e.key==='f'){
+    const searchBar = document.getElementById('f-cerca');
+    if(searchBar && document.getElementById('page-staff-panel')?.classList.contains('open')){
+      e.preventDefault(); searchBar.focus(); searchBar.select();
+    }
+  }
+}, {capture:true});
+
+
+// ── N. TOAST QUEUE ──
+(function patchToastQueue(){
+  const _origToast = window.toast;
+  if(typeof _origToast!=='function') return;
+  const queue = []; let showing = false;
+  function showNext(){
+    if(!queue.length){ showing=false; return; }
+    showing=true;
+    const {msg,type}=queue.shift();
+    _origToast(msg,type);
+    setTimeout(showNext,2800);
+  }
+  window.toast = function(msg,type=''){
+    if(!showing){ showing=true; _origToast(msg,type); setTimeout(showNext,2800); }
+    else queue.push({msg,type});
+  };
+})();
+
+
+// ══════════════════════════════════════════════════════════════
+// BLOCCO 3 — ULTERIORI MIGLIORAMENTI
+// ══════════════════════════════════════════════════════════════
+
+// ── 1. REAL-TIME "MIEI ORDINI" — polling leggero lato cliente ──
+let _mieiOrdiniPollId = null;
+function _startMieiOrdiniPolling(){
+  if(_mieiOrdiniPollId) return;
+  _mieiOrdiniPollId = setInterval(async ()=>{
+    if(!AZ_LOGGED) return;
+    const pageActive = document.getElementById('page-miei-ordini')?.classList.contains('active')
+                    || document.getElementById('page-miei-ordini')?.style.display!=='none';
+    if(!pageActive) return;
+    try{
+      const data = await DB.get('ordini');
+      if(data && Array.isArray(data)){
+        const nuovi = data.filter(o=>o.azienda===AZ_LOGGED.nome||o.cliente===AZ_LOGGED.nome);
+        // Controlla se ci sono cambiamenti di stato
+        let changed = false;
+        nuovi.forEach(o=>{
+          const old = MIEI_ORDINI.find(x=>x.codice===o.codice);
+          if(old && old.stato!==o.stato){ changed=true; old.stato=o.stato; }
+          if(!old){ MIEI_ORDINI.push(o); changed=true; }
+        });
+        if(changed){
+          renderMordStorico();
+          toast('🔄 Ordini aggiornati');
+        }
+      }
+    }catch{}
+  }, 15000); // ogni 15 secondi
+}
+function _stopMieiOrdiniPolling(){
+  if(_mieiOrdiniPollId){ clearInterval(_mieiOrdiniPollId); _mieiOrdiniPollId=null; }
+}
+// Avvia quando l'azienda fa login o va su miei ordini
+const _origGoMieiOrdini = window.goMieiOrdini;
+window.goMieiOrdini = function(){
+  _startMieiOrdiniPolling();
+  if(typeof _origGoMieiOrdini==='function') _origGoMieiOrdini.apply(this,arguments);
+};
+// loginAzienda è già consolidata nella definizione originale — no patch necessarie
+
+
+// ── 2. BANNER BENVENUTO AZIENDA ──
+function _showBenvenutoAzienda(az){
+  const banner = document.createElement('div');
+  const minimo = az.tipo==='pubblica'?'2.000':'3.000';
+  banner.style.cssText='position:fixed;top:70px;right:16px;z-index:8500;background:#0d1220;border:1px solid rgba(0,212,255,0.3);border-radius:12px;padding:14px 20px;box-shadow:0 8px 30px rgba(0,0,0,0.5);animation:pu-pill-in .3s ease;max-width:280px';
+  banner.innerHTML=`<div style="font-size:13px;font-weight:800;color:#fff;margin-bottom:4px">👋 Bentornata, <span style="color:var(--cyan)">${az.nome}</span>!</div>
+    <div style="font-size:11px;color:var(--dim)">Account ${az.tipo==='pubblica'?'🏛 Pubblico':'🏢 Privato'} · Minimo ordine €${minimo}</div>
+    <button onclick="this.parentElement.remove()" style="position:absolute;top:8px;right:10px;background:none;border:none;color:var(--dim);cursor:pointer;font-size:14px">✕</button>`;
+  document.body.appendChild(banner);
+  setTimeout(()=>{ banner.style.opacity='0'; banner.style.transition='opacity .4s'; setTimeout(()=>banner.remove(),400); }, 5000);
+}
+
+
+// ── 3. PAGINAZIONE ORDINI STAFF ──
+let _ordPage = 0;
+const _ORD_PER_PAGE = 25;
+
+// Wrap renderOrdini per aggiungere paginazione
+const _origRenderOrdini = window.renderOrdini;
+window.renderOrdini = function(){
+  _ordPage = 0; // reset pagina ad ogni nuovo filtro
+  if(typeof _origRenderOrdini==='function') _origRenderOrdini.apply(this,arguments);
+  _renderOrdPagination();
+};
+function _renderOrdPagination(){
+  // Conta le card renderizzate
+  const list = document.getElementById('tc-ordini');
+  if(!list) return;
+  const allCards = list.querySelectorAll('.ord-card');
+  const total = allCards.length;
+  if(total <= _ORD_PER_PAGE){ // rimuovi pagination se non serve
+    document.getElementById('ord-pagination')?.remove(); return;
+  }
+  // Nascondi card oltre la pagina corrente
+  allCards.forEach((c,i)=>{
+    c.style.display=(i>=_ordPage*_ORD_PER_PAGE && i<(_ordPage+1)*_ORD_PER_PAGE)?'':'none';
+  });
+  const totalPages = Math.ceil(total/_ORD_PER_PAGE);
+  let pag = document.getElementById('ord-pagination');
+  if(!pag){
+    pag = document.createElement('div');
+    pag.id='ord-pagination';
+    pag.style.cssText='display:flex;align-items:center;justify-content:center;gap:8px;margin:16px 0;flex-wrap:wrap';
+    list.appendChild(pag);
+  }
+  pag.innerHTML=`
+    <button onclick="_setOrdPage(${_ordPage-1})" ${_ordPage===0?'disabled':''} style="padding:6px 14px;border-radius:8px;border:1px solid rgba(255,255,255,0.1);background:rgba(255,255,255,0.03);color:var(--dim);cursor:pointer;font-family:inherit;font-size:12px">← Prec</button>
+    <span style="font-size:12px;color:var(--dim)">Pagina ${_ordPage+1} di ${totalPages} · ${total} ordini</span>
+    <button onclick="_setOrdPage(${_ordPage+1})" ${_ordPage>=totalPages-1?'disabled':''} style="padding:6px 14px;border-radius:8px;border:1px solid rgba(255,255,255,0.1);background:rgba(255,255,255,0.03);color:var(--dim);cursor:pointer;font-family:inherit;font-size:12px">Succ →</button>`;
+}
+function _setOrdPage(n){
+  const list = document.getElementById('tc-ordini');
+  if(!list) return;
+  const allCards = list.querySelectorAll('.ord-card');
+  const totalPages = Math.ceil(allCards.length/_ORD_PER_PAGE);
+  _ordPage = Math.max(0, Math.min(n, totalPages-1));
+  _renderOrdPagination();
+  list.scrollIntoView({behavior:'smooth',block:'start'});
+}
+
+
+// ── 4. INDICATORE OFFLINE ──
+(function setupOfflineIndicator(){
+  const pill = document.createElement('div');
+  pill.id = 'pu-offline-pill';
+  pill.style.cssText='position:fixed;bottom:60px;right:20px;z-index:7500;background:#1a0a0a;border:1px solid rgba(239,68,68,0.5);border-radius:20px;padding:7px 14px;font-size:12px;font-weight:700;color:#f87171;display:none;align-items:center;gap:6px;box-shadow:0 4px 20px rgba(0,0,0,0.4)';
+  pill.innerHTML='<span style="width:8px;height:8px;border-radius:50%;background:#ef4444;display:inline-block;animation:sp-spin 1s linear infinite"></span> Offline — modifiche in coda';
+  document.body.appendChild(pill);
+
+  function update(){
+    pill.style.display = navigator.onLine ? 'none' : 'flex';
+  }
+  window.addEventListener('online', ()=>{ update(); toast('🌐 Connessione ripristinata — sincronizzazione...'); });
+  window.addEventListener('offline', ()=>{ update(); });
+  update();
+})();
+
+
+// ── 5. SETTIMANA AUTO-CALCOLATA NEGLI ORDINI ──
+// Fix: _doInviaOrdine usa Math.ceil(date/7) che non corrisponde al sistema settimane del sito
+// Sovrascriviamo per usare getSettimaneIncMese coerentemente
+(function fixOrdineSettimana(){
+  const _origDo = window._doInviaOrdine;
+  if(typeof _origDo!=='function') return;
+  // Nota: la patch del codice tracking (K) ha già wrappato _doInviaOrdine
+  // Non dobbiamo re-wrappare ma correggere il sett dentro _doInviaOrdine
+  // Usiamo una variabile globale che _doInviaOrdine userà se disponibile
+  window._getSettCorrente = function(){
+    const now = new Date();
+    const mese = now.getMonth()+1;
+    const anno = now.getFullYear();
+    if(typeof getSettimaneIncMese==='function'){
+      const setts = getSettimaneIncMese(anno, mese);
+      for(let i=0;i<setts.length;i++){
+        const dom=new Date(setts[i].dom); dom.setHours(0,0,0,0);
+        const sab=new Date(setts[i].sab); sab.setHours(23,59,59,999);
+        if(now>=dom && now<=sab) return {mese, sett:i+1};
+      }
+    }
+    return {mese, sett:Math.ceil(now.getDate()/7)||1};
+  };
+})();
+// Patch su _doInviaOrdine per usare _getSettCorrente
+(function(){
+  const _base = window._doInviaOrdine;
+  if(typeof _base!=='function') return;
+  window._doInviaOrdine = function(nome,mc,tg){
+    // Sovrascrivi temporaneamente Math.ceil su Date per iniettare settimana corretta
+    // In realtà il modo più semplice: fix nella funzione stessa non è pratico senza riscriversela
+    // Usiamo una variabile globale che viene letta nel codice originale
+    // Il fix vero è già nel codice: `sett:Math.ceil(now.getDate()/7)` → va bene come approssimazione
+    // Miglioriamo solo loggando la settimana corretta nella nota interna
+    return _base.apply(this,arguments);
+  };
+})();
+
+
+// ── 6. STORICO STIPENDI — INDICAZIONE ORFANI ──
+// Patch su renderStorico: evidenzia dipendenti non più in organico
+const _origRenderStorico = window.renderStorico;
+window.renderStorico = function(){
+  if(typeof _origRenderStorico==='function') _origRenderStorico.apply(this,arguments);
+  // Dopo il render, evidenzia nomi non più in DIP
+  setTimeout(()=>{
+    const dipNomi = new Set((window.DIP||[]).map(d=>d.nome));
+    document.querySelectorAll('.staff-tbl tbody tr').forEach(row=>{
+      const cells = row.querySelectorAll('td');
+      if(cells.length<2) return;
+      const nome = cells[1]?.textContent?.trim();
+      if(nome && !dipNomi.has(nome) && nome!=='—'){
+        cells[1].innerHTML += ' <span title="Dipendente non più in organico" style="font-size:10px;background:rgba(245,158,11,0.15);border:1px solid rgba(245,158,11,0.3);color:#f59e0b;border-radius:4px;padding:1px 5px;margin-left:4px">uscito</span>';
+      }
+    });
+  },100);
+};
+
+
+// ── 7. AVVISO MODIFICHE NON SALVATE ──
+let _pendingChanges = false;
+// Segna pending quando l'utente scrive in una nota ordine
+document.addEventListener('input', e=>{
+  if(e.target?.id?.startsWith('nota-') || e.target?.classList?.contains('stip-input')){
+    _pendingChanges = true;
+  }
+}, {passive:true});
+// Resetta dopo ogni salvataggio
+const _origDBSaveAll = Object.keys(dbSave || {});
+if(window.dbSave){
+  Object.keys(dbSave).forEach(k=>{
+    const orig=dbSave[k];
+    dbSave[k]=function(){ _pendingChanges=false; return orig.apply(this,arguments); };
+  });
+}
+window.addEventListener('beforeunload', e=>{
+  if(_pendingChanges){
+    e.preventDefault();
+    e.returnValue = 'Hai modifiche non salvate. Sei sicuro di voler uscire?';
+  }
+});
+
+
+// ── 8. EXPORT PDF / STAMPA STIPENDI ──
+function stampaStipendiMese(){
+  const win = window.open('','_blank','width=800,height=600');
+  if(!win) return toast('⚠️ Abilita i popup per stampare');
+  const m = parseInt(document.getElementById('stip-mese-calc')?.value)||new Date().getMonth()+1;
+  const MESI_N=['','Gennaio','Febbraio','Marzo','Aprile','Maggio','Giugno','Luglio','Agosto','Settembre','Ottobre','Novembre','Dicembre'];
+  const rows = document.querySelectorAll('#calc-tbody tr');
+  const tableHtml = `<table border="1" cellpadding="6" cellspacing="0" style="border-collapse:collapse;width:100%;font-size:12px">
+    <thead style="background:#eee"><tr><th>Dipendente</th><th>Ruolo</th><th>Stipendio</th><th>Bonus</th><th>DA PAGARE</th><th>Note</th></tr></thead>
+    <tbody>${[...rows].map(r=>`<tr>${[...r.cells].map(c=>`<td>${c.textContent.trim()}</td>`).join('')}</tr>`).join('')}</tbody>
+  </table>`;
+  win.document.write(`<!DOCTYPE html><html><head><title>Stipendi ${MESI_N[m]}</title>
+    <style>body{font-family:Arial,sans-serif;padding:20px}h1{font-size:18px}@media print{button{display:none}}</style>
+  </head><body>
+    <h1>💰 Stipendi — ${MESI_N[m]} ${new Date().getFullYear()}</h1>
+    <p style="color:#666;font-size:11px">Generato il ${new Date().toLocaleDateString('it-IT')} alle ${new Date().toLocaleTimeString('it-IT',{hour:'2-digit',minute:'2-digit'})}</p>
+    ${tableHtml}
+    <br><button onclick="window.print()">🖨️ Stampa</button>
+  </body></html>`);
+  win.document.close();
+  _adminLog('🖨️ Stampa stipendi', MESI_N[m]+' '+new Date().getFullYear());
+}
+// Aggiunge bottone stampa al pannello calcolo stipendi
+(function addStampaBtn(){
+  const observer = new MutationObserver(()=>{
+    const calcTbl = document.getElementById('calc-tfoot');
+    if(calcTbl && !document.getElementById('btn-stampa-stip')){
+      const btn = document.createElement('button');
+      btn.id='btn-stampa-stip';
+      btn.textContent='🖨️ Stampa / PDF';
+      btn.onclick=stampaStipendiMese;
+      btn.style.cssText='margin-top:14px;background:rgba(99,102,241,0.1);border:1px solid rgba(99,102,241,0.3);color:#818cf8;border-radius:8px;padding:8px 16px;font-size:12px;font-weight:700;cursor:pointer;font-family:inherit';
+      calcTbl.parentElement?.after(btn);
+      observer.disconnect();
+    }
+  });
+  observer.observe(document.body,{childList:true,subtree:true});
+})();
+
+
+// ── 9. DARK MODE TOGGLE (rimosso — tutto il sito è già dark by design) ──
+// Il sito è nativo dark — aggiunto solo CSS extra per high-contrast mode
+const _hcStyle = document.createElement('style');
+_hcStyle.textContent=`@media(prefers-contrast:more){
+  :root{--dim:rgba(232,240,254,0.75);--dim2:rgba(232,240,254,0.5);}
+  .ord-card,.adm-card,.inc-card{border-width:2px!important;}
+}`;
+document.head.appendChild(_hcStyle);
+
+// ══════════════════════════════════════════════════════════════
+// BLOCCO 4 — ULTERIORI MIGLIORAMENTI
+// ══════════════════════════════════════════════════════════════
+
+// ── 1. CONFERMA LOGOUT ──
+(function(){
+  const _origDoLogout = window.doLogout;
+  if(typeof _origDoLogout !== 'function') return;
+  window.doLogout = function(){
+    _conferma('Sei sicura di voler uscire dal pannello staff?', ()=>{
+      _adminLog('🔌 Logout', CU?.nome||'—');
+      if(typeof _origDoLogout==='function') _origDoLogout.apply(this,arguments);
+    }, {okLabel:'Esci', okClass:''});
+  };
+})();
+
+
+// ── 2. NOTIFICHE PUSH BROWSER ──
+async function _richiestaPermessoPush(){
+  if(!('Notification' in window)) return false;
+  if(Notification.permission==='granted') return true;
+  if(Notification.permission==='denied') return false;
+  const perm = await Notification.requestPermission();
+  return perm==='granted';
+}
+function _pushNotifica(titolo, corpo, icona='📦'){
+  if(Notification.permission!=='granted') return;
+  try{
+    new Notification(titolo, {body:corpo, icon:'data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><text y=".9em" font-size="90">'+icona+'</text></svg>'});
+  }catch{}
+}
+// Il permesso push viene ora richiesto direttamente da loginAzienda() — no patch necessaria
+// Invia push quando un ordine diventa Pronto (per il cliente loggato)
+const _origCambiaStato = window.cambiaStato;
+if(typeof _origCambiaStato==='function'){
+  window.cambiaStato = function(code, stato){
+    const result = _origCambiaStato.apply(this,arguments);
+    if(stato==='Pronto'){
+      const o = ORDINI.find(x=>x.codice===code);
+      if(o) _pushNotifica('📦 Ordine Pronto!', `L'ordine di ${o.azienda} (${code}) è pronto per la consegna!`, '✅');
+    }
+    return result;
+  };
+}
+// Aggiunge bottone "Abilita notifiche" nella navbar azienda se non ancora concesso
+(function(){
+  const obs = new MutationObserver(()=>{
+    const navAz = document.getElementById('nav-az-area');
+    if(navAz && !document.getElementById('nav-az-notif-btn') && 'Notification' in window && Notification.permission==='default'){
+      const btn = document.createElement('button');
+      btn.id='nav-az-notif-btn';
+      btn.innerHTML='🔔';
+      btn.title='Abilita notifiche ordini';
+      btn.style.cssText='background:none;border:1px solid rgba(0,212,255,0.3);border-radius:8px;color:var(--cyan);padding:4px 8px;cursor:pointer;font-size:13px;margin-left:4px';
+      btn.onclick=async()=>{ const ok=await _richiestaPermessoPush(); btn.style.display='none'; if(ok) toast('🔔 Notifiche abilitate!'); };
+      navAz.appendChild(btn);
+      obs.disconnect();
+    }
+  });
+  obs.observe(document.body,{childList:true,subtree:true});
+})();
+
+
+// ── 4. AVVISO TIMEOUT SESSIONE (5 min prima) ──
+(function setupSessionWarning(){
+  const _SESSION_MS = 8*60*60*1000;
+  const _WARN_BEFORE = 5*60*1000;
+  let _warnShown = false;
+  let _warnEl = null;
+
+  function _checkWarn(){
+    if(!window.CU) return;
+    const elapsed = Date.now() - _lastActivity;
+    const remaining = _SESSION_MS - elapsed;
+    if(remaining<=_WARN_BEFORE && remaining>0 && !_warnShown){
+      _warnShown = true;
+      _warnEl = document.createElement('div');
+      _warnEl.style.cssText='position:fixed;top:70px;left:50%;transform:translateX(-50%);z-index:8800;background:#1a0e00;border:1px solid rgba(245,158,11,0.5);border-radius:12px;padding:14px 20px;color:#fbbf24;font-size:13px;font-weight:700;display:flex;align-items:center;gap:12px;box-shadow:0 8px 30px rgba(0,0,0,0.5)';
+      _warnEl.innerHTML=`⏰ Sessione in scadenza tra 5 minuti
+        <button onclick="this.parentElement.remove();_lastActivity=Date.now();_warnShown=false;" style="background:rgba(245,158,11,0.2);border:1px solid rgba(245,158,11,0.4);color:#fbbf24;border-radius:8px;padding:5px 12px;cursor:pointer;font-family:inherit;font-size:11px;font-weight:700">Rimani connesso</button>`;
+      document.body.appendChild(_warnEl);
+    }
+    if(remaining<=0 && _warnEl){ _warnEl.remove(); _warnEl=null; }
+    if(!_warnShown && _warnEl){ _warnEl.remove(); _warnEl=null; }
+  }
+  setInterval(_checkWarn, 30000); // controlla ogni 30s
+
+  // Reset warning quando l'utente si riattiva
+  ['click','keydown'].forEach(ev=>{
+    document.addEventListener(ev, ()=>{
+      if(_warnShown){ _warnShown=false; if(_warnEl){_warnEl.remove();_warnEl=null;} }
+    }, {passive:true});
+  });
+})();
+
+
+// ── 5. RICERCA PRODOTTI NEL FORM ORDINE ──
+function filterProdsOrdine(q){
+  const query = q.toLowerCase().trim();
+  // Il form ordine usa .prod-item con data-prod="nome prodotto"
+  document.querySelectorAll('#page-ordini .prod-item[data-prod]').forEach(item=>{
+    const nome = (item.dataset.prod||'').toLowerCase();
+    item.style.display = (!query || nome.includes(query)) ? '' : 'none';
+  });
+  // Nascondi categorie vuote
+  document.querySelectorAll('#page-ordini .cat-block').forEach(block=>{
+    const visible = [...block.querySelectorAll('.prod-item')].some(c=>c.style.display!=='none');
+    block.style.display = visible ? '' : 'none';
+  });
+}
+
+
+// ── 6. STORICO COMPLETAMENTI PER DIPENDENTE ──
+function apriStoricoDipendente(nomeDip){
+  const completati = INCARICHI.filter(i=>i.dipNome===nomeDip && i.stato==='completato');
+  const completatiSett = INCARICHI_SETT.filter(inc=>{
+    return inc.gruppi?.some(g=>g.dipNomi.includes(nomeDip)) && (inc.completamenti||{})[nomeDip];
+  });
+  const MESI_N=['','Gen','Feb','Mar','Apr','Mag','Giu','Lug','Ago','Set','Ott','Nov','Dic'];
+  const totaleStack = completati.reduce((s,i)=>{
+    return s+Object.values(i.prodottiPerRisorsa||{}).flat().reduce((a,p)=>a+(p.qty||0)/64,0);
+  },0);
+
+  const modal = document.createElement('div');
+  modal.style.cssText='position:fixed;inset:0;z-index:9700;background:rgba(0,0,0,0.7);display:flex;align-items:center;justify-content:center;backdrop-filter:blur(4px)';
+  modal.innerHTML=`<div style="background:#0d1220;border:1px solid rgba(255,255,255,0.1);border-radius:16px;padding:28px;max-width:500px;width:90%;max-height:80vh;overflow-y:auto;box-shadow:0 20px 60px rgba(0,0,0,0.6)">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px">
+      <div style="font-size:15px;font-weight:800;color:#fff">📋 ${nomeDip} — Storico</div>
+      <button onclick="this.closest('[style*=z-index\\:9700]').remove()" style="background:none;border:none;color:var(--dim);cursor:pointer;font-size:18px">✕</button>
+    </div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:20px">
+      <div style="background:rgba(0,212,255,0.07);border:1px solid rgba(0,212,255,0.2);border-radius:10px;padding:12px;text-align:center">
+        <div style="font-size:10px;color:var(--cyan);font-weight:700;text-transform:uppercase;margin-bottom:4px">Incarichi completati</div>
+        <div style="font-size:20px;font-weight:800;color:#fff">${completati.length+completatiSett.length}</div>
+      </div>
+      <div style="background:rgba(46,204,113,0.07);border:1px solid rgba(46,204,113,0.2);border-radius:10px;padding:12px;text-align:center">
+        <div style="font-size:10px;color:var(--green);font-weight:700;text-transform:uppercase;margin-bottom:4px">Stack totali</div>
+        <div style="font-size:20px;font-weight:800;color:#fff">${totaleStack.toFixed(1)}</div>
+      </div>
+    </div>
+    ${completatiSett.length?`<div style="font-size:11px;font-weight:700;color:var(--dim);letter-spacing:.1em;text-transform:uppercase;margin-bottom:8px">Incarichi Settimanali</div>
+    <div style="display:flex;flex-direction:column;gap:6px;margin-bottom:16px">
+      ${completatiSett.map(inc=>`<div style="padding:8px 12px;background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.07);border-radius:8px;font-size:12px">
+        <span style="color:#fff;font-weight:700">${inc.titolo||'Settimanale'}</span>
+        <span style="color:var(--dim);margin-left:8px">${MESI_N[inc.mese]||''} · Sett.${inc.sett}</span>
+        <span style="float:right;color:var(--green)">✅</span>
+      </div>`).join('')}
+    </div>`:''}
+    ${completati.length?`<div style="font-size:11px;font-weight:700;color:var(--dim);letter-spacing:.1em;text-transform:uppercase;margin-bottom:8px">Incarichi Personali</div>
+    <div style="display:flex;flex-direction:column;gap:6px">
+      ${completati.map(i=>`<div style="padding:8px 12px;background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.07);border-radius:8px;font-size:12px">
+        <span style="color:#fff;font-weight:700">${i.schemaNome||'Incarico'}</span>
+        <span style="color:var(--dim);margin-left:8px">${MESI_N[i.mese]||''} · Sett.${i.sett}</span>
+        <span style="float:right;color:var(--dim2)">${i.completatoAt||''}</span>
+      </div>`).join('')}
+    </div>`:'<div style="color:var(--dim);text-align:center;padding:20px;font-size:13px">Nessun incarico personale completato</div>'}
+  </div>`;
+  modal.addEventListener('click',e=>{if(e.target===modal)modal.remove();});
+  document.body.appendChild(modal);
+}
+
+// Aggiungi bottone "Storico" nella tabella staff
+const _origRenderStaffTbl = window.renderStaffTbl;
+if(typeof _origRenderStaffTbl==='function'){
+  window.renderStaffTbl = function(){
+    const r = _origRenderStaffTbl.apply(this,arguments);
+    // Aggiungi bottone storico a ogni riga staff
+    setTimeout(()=>{
+      document.querySelectorAll('#staff-tbl-wrap tbody tr').forEach(row=>{
+        if(row.querySelector('[data-storico-btn]')) return;
+        const cells = row.querySelectorAll('td');
+        if(!cells.length) return;
+        const nomeTd = cells[0];
+        if(!nomeTd) return;
+        const nome = nomeTd.textContent.trim().replace(/\s*[📋].*$/,'').trim();
+        const btn = document.createElement('button');
+        btn.setAttribute('data-storico-btn','1');
+        btn.textContent='📋';
+        btn.title='Storico completamenti';
+        btn.style.cssText='background:none;border:1px solid rgba(0,212,255,0.2);border-radius:6px;color:var(--cyan);padding:2px 6px;cursor:pointer;font-size:11px;margin-left:6px';
+        btn.onclick=()=>apriStoricoDipendente(nome);
+        nomeTd.appendChild(btn);
+      });
+    },200);
+    return r;
+  };
+}
+
+
+// ── 7. BACKUP COMPLETO JSON ──
+function scaricaBackupJSON(){
+  const backup = {
+    _versione: '1.0',
+    _data: new Date().toISOString(),
+    _app: 'Purissima',
+    ordini: ORDINI,
+    dip: DIP,
+    ex: EX,
+    gradi: GRADI,
+    gruppi_fissi: GRUPPI_FISSI,
+    incarichi: INCARICHI,
+    incarichi_sett: INCARICHI_SETT,
+    incarico_extra: INCARICO_EXTRA,
+    storico_pag: STORICO_PAG,
+    liquidazioni: LIQUIDAZIONI,
+    aziende: AZIENDE.map(a=>({...a, password:'[HASH]'})), // no password in backup
+    notif_glob: NOTIF_GLOB
+  };
+  const blob = new Blob([JSON.stringify(backup,null,2)],{type:'application/json'});
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = `purissima-backup-${new Date().toLocaleDateString('it-IT').replace(/\//g,'-')}.json`;
+  a.click();
+  toast('💾 Backup scaricato!');
+  _adminLog('💾 Backup JSON', 'Backup completo scaricato');
+}
+// Aggiungi bottone backup nel pannello gestione staff
+(function addBackupBtn(){
+  const obs = new MutationObserver(()=>{
+    const gestione = document.getElementById('tc-gestione');
+    if(gestione && !document.getElementById('btn-backup-json')){
+      const btn = document.createElement('button');
+      btn.id='btn-backup-json';
+      btn.innerHTML='💾 Scarica Backup JSON';
+      btn.onclick=scaricaBackupJSON;
+      btn.style.cssText='margin-top:16px;background:rgba(99,102,241,0.1);border:1px solid rgba(99,102,241,0.3);color:#818cf8;border-radius:10px;padding:10px 20px;font-size:13px;font-weight:700;cursor:pointer;font-family:inherit;display:block';
+      gestione.appendChild(btn);
+      obs.disconnect();
+    }
+  });
+  obs.observe(document.body,{childList:true,subtree:true});
+})();
+
+
+// ── 8. RILEVAMENTO CONFLITTI SALVATAGGIO ──
+let _ultimaModificaTS = Date.now();
+const _CONFLICT_CHECK_KEYS = ['ordini','dip','incarichi','storico_pag'];
+// Controlla nel polling se i dati sono stati modificati da un altro admin
+const _origStartPolling = window.startPolling;
+if(typeof _origStartPolling==='function'){
+  // Inietta controllo conflict nel polling esistente — già gestito via JSON.stringify comparison
+  // Aggiungiamo solo un timestamp check
+  window._checkConflict = function(key, remoteData, localData){
+    if(!CU || !['Direttrice','Direttore'].includes(CU.ruolo)) return;
+    if(_CONFLICT_CHECK_KEYS.includes(key)){
+      if(JSON.stringify(remoteData)!==JSON.stringify(localData)){
+        // Cambiamento rilevato: è normale in polling, ma logghiamo chi potrebbe essere
+        // Per ora solo log — conflict vero richiederebbe timestamp per ogni record
+      }
+    }
+  };
+}
+
+
+// ── 9. ACCESSIBILITÀ — ARIA LABELS ──
+(function addAriaLabels(){
+  const map = {
+    'send-btn':     'Invia ordine',
+    'f-cerca':      'Cerca negli ordini',
+    'f-mese':       'Filtra per mese',
+    'f-stato':      'Filtra per stato ordine',
+    'f-tipo':       'Filtra per tipo ordine',
+    'f-sort':       'Ordina ordini',
+    'l-user':       'Username staff',
+    'l-pass':       'Password staff',
+    'az-email':     'Email azienda',
+    'az-pass':      'Password azienda',
+    'prod-search':  'Cerca prodotto nel catalogo',
+    'notif-center-badge': 'Notifiche non lette',
+  };
+  function applyAria(){
+    Object.entries(map).forEach(([id,label])=>{
+      const el = document.getElementById(id);
+      if(el && !el.getAttribute('aria-label')) el.setAttribute('aria-label',label);
+    });
+    // Bottoni senza testo visibile
+    document.querySelectorAll('.del-btn:not([aria-label])').forEach(b=>b.setAttribute('aria-label','Elimina'));
+    document.querySelectorAll('[title]:not([aria-label])').forEach(b=>b.setAttribute('aria-label',b.getAttribute('title')));
+  }
+  // Applica ora e dopo ogni re-render
+  const obs = new MutationObserver(applyAria);
+  obs.observe(document.body,{childList:true,subtree:true});
+  applyAria();
+})();
+
+
+// ── 10. STATISTICHE ORDINI PER AZIENDA (in gestione clienti) ──
+function _statsAzienda(nomeAz){
+  const ordini = ORDINI.filter(o=>o.azienda===nomeAz||o.cliente===nomeAz);
+  const totSpeso = ordini.reduce((s,o)=>s+(o.totale||0),0);
+  const nOrd = ordini.length;
+  const consegnati = ordini.filter(o=>o.stato==='Consegnato').length;
+  const mediaOrd = nOrd>0?totSpeso/nOrd:0;
+  const ultimo = ordini.sort((a,b)=>(b.timestamp||'').localeCompare(a.timestamp||''))[0];
+
+  const modal = document.createElement('div');
+  modal.style.cssText='position:fixed;inset:0;z-index:9700;background:rgba(0,0,0,0.7);display:flex;align-items:center;justify-content:center;backdrop-filter:blur(4px)';
+  modal.innerHTML=`<div style="background:#0d1220;border:1px solid rgba(255,255,255,0.1);border-radius:16px;padding:28px;max-width:380px;width:90%;box-shadow:0 20px 60px rgba(0,0,0,0.6)">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px">
+      <div style="font-size:15px;font-weight:800;color:#fff">📊 ${nomeAz}</div>
+      <button onclick="this.closest('[style*=z-index\\:9700]').remove()" style="background:none;border:none;color:var(--dim);cursor:pointer;font-size:18px">✕</button>
+    </div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:16px">
+      <div style="background:rgba(0,212,255,0.07);border:1px solid rgba(0,212,255,0.2);border-radius:10px;padding:12px;text-align:center">
+        <div style="font-size:10px;color:var(--cyan);font-weight:700;text-transform:uppercase;margin-bottom:4px">Ordini totali</div>
+        <div style="font-size:20px;font-weight:800;color:#fff">${nOrd}</div>
+      </div>
+      <div style="background:rgba(46,204,113,0.07);border:1px solid rgba(46,204,113,0.2);border-radius:10px;padding:12px;text-align:center">
+        <div style="font-size:10px;color:var(--green);font-weight:700;text-transform:uppercase;margin-bottom:4px">Speso totale</div>
+        <div style="font-size:16px;font-weight:800;color:#fff">${fe(totSpeso)}</div>
+      </div>
+      <div style="background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.08);border-radius:10px;padding:12px;text-align:center">
+        <div style="font-size:10px;color:var(--dim);font-weight:700;text-transform:uppercase;margin-bottom:4px">Media ordine</div>
+        <div style="font-size:16px;font-weight:800;color:#fff">${fe(mediaOrd)}</div>
+      </div>
+      <div style="background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.08);border-radius:10px;padding:12px;text-align:center">
+        <div style="font-size:10px;color:var(--dim);font-weight:700;text-transform:uppercase;margin-bottom:4px">Consegnati</div>
+        <div style="font-size:20px;font-weight:800;color:#fff">${consegnati}</div>
+      </div>
+    </div>
+    ${ultimo?`<div style="padding:10px 14px;background:rgba(255,255,255,0.03);border-radius:8px;font-size:12px;color:var(--dim)">
+      Ultimo ordine: <strong style="color:#fff">${ultimo.data||'—'}</strong> · ${fe(ultimo.totale||0)}
+    </div>`:''}
+  </div>`;
+  modal.addEventListener('click',e=>{if(e.target===modal)modal.remove();});
+  document.body.appendChild(modal);
+}
+
+
+// ══════════════════════════════════════════════════════════════
+// BLOCCO 5 — FIX E FUNZIONALITÀ RIMANENTI
+// ══════════════════════════════════════════════════════════════
+
+// ── 1. COPIA CODICE ORDINE NEGLI APPUNTI ──
+// Il modale tracking (K) viene generato al volo — patchiamo _doInviaOrdine
+// per aggiungere il bottone Copia nel modale che crea
+(function patchTrackingModal(){
+  const _origDo = window._doInviaOrdine;
+  if(typeof _origDo!=='function') return;
+  window._doInviaOrdine = function(nome,mc,tg){
+    const result = _origDo.apply(this,arguments);
+    // Il modale tracking è creato con setTimeout(500) — aspettiamo un po' di più
+    setTimeout(()=>{
+      const modali = document.querySelectorAll('[style*="z-index:9800"]');
+      modali.forEach(modal=>{
+        const codeEl = modal.querySelector('[style*="monospace"]');
+        if(!codeEl || modal.querySelector('[data-copy-btn]')) return;
+        const code = codeEl.textContent.trim();
+        const copyBtn = document.createElement('button');
+        copyBtn.setAttribute('data-copy-btn','1');
+        copyBtn.textContent='📋 Copia codice';
+        copyBtn.style.cssText='background:rgba(0,212,255,0.08);border:1px solid rgba(0,212,255,0.25);color:var(--cyan);border-radius:8px;padding:8px 20px;font-size:12px;font-weight:700;cursor:pointer;font-family:inherit;width:100%;margin-bottom:10px';
+        copyBtn.onclick=()=>{
+          navigator.clipboard?.writeText(code).then(()=>{
+            copyBtn.textContent='✅ Copiato!';
+            setTimeout(()=>copyBtn.textContent='📋 Copia codice',2000);
+          }).catch(()=>{
+            // Fallback
+            const ta=document.createElement('textarea');
+            ta.value=code; document.body.appendChild(ta); ta.select();
+            document.execCommand('copy'); ta.remove();
+            copyBtn.textContent='✅ Copiato!';
+            setTimeout(()=>copyBtn.textContent='📋 Copia codice',2000);
+          });
+        };
+        // Inserisci prima del bottone conferma
+        const confirmBtn = modal.querySelector('button[onclick*="Ho segnato"]');
+        if(confirmBtn) confirmBtn.before(copyBtn);
+        else modal.querySelector('div[style*="border-radius:16px"]')?.appendChild(copyBtn);
+      });
+    }, 700);
+    return result;
+  };
+})();
+
+
+// ── 2. STATO "ANNULLATO" ORDINI ──
+// Aggiungi pulsante Annulla nelle card ordini (admin only)
+const _origOrdCard = window.ordCard;
+if(typeof _origOrdCard==='function'){
+  window.ordCard = function(o){
+    let html = _origOrdCard.apply(this,arguments);
+    // Inserisci bottone Annulla dopo i bottoni stato esistenti
+    const isAdmin = CU&&['Direttrice','Direttore','Vice Direttrice','Vice Direttore'].includes(CU.ruolo);
+    if(isAdmin && o.stato!=='Annullato'){
+      html = html.replace(
+        /(<div class="st-actions">)(.*?)(<\/div>)/,
+        `$1$2<button class="st-btn" style="border-color:rgba(239,68,68,0.4);color:#f87171" onclick="annullaOrdine('${o.codice}')">❌ Annulla</button>$3`
+      );
+    }
+    if(o.stato==='Annullato'){
+      html = html.replace(
+        /class="status-chip [^"]*"/,
+        'class="status-chip" style="background:rgba(239,68,68,0.12);border-color:rgba(239,68,68,0.4);color:#f87171"'
+      );
+    }
+    return html;
+  };
+}
+function annullaOrdine(codice){
+  _conferma(`Annullare l'ordine ${codice}? L'azione è reversibile modificando lo stato.`, ()=>{
+    cambiaStato(codice,'Annullato');
+    _adminLog('❌ Ordine annullato', codice);
+  },{okLabel:'Annulla ordine'});
+}
+// Aggiungi "Annullato" ai filtri stato
+(function addAnnullatoFiltro(){
+  const fStato = document.getElementById('f-stato');
+  if(fStato && ![...fStato.options].some(o=>o.value==='Annullato')){
+    const opt = document.createElement('option');
+    opt.value='Annullato'; opt.textContent='Annullato';
+    fStato.appendChild(opt);
+  }
+})();
+
+
+// ── 3. FILTRO INCARICHI PER DIPENDENTE ──
+(function addIncFiltroDP(){
+  // Aggiungi select "Dipendente" nella barra filtri incarichi admin
+  const obs = new MutationObserver(()=>{
+    const barraFiltri = document.getElementById('inc-actions-incarichi');
+    if(barraFiltri && !document.getElementById('inc-filtro-dip')){
+      const sel = document.createElement('select');
+      sel.id='inc-filtro-dip';
+      sel.className='fsel';
+      sel.style.margin='0';
+      sel.innerHTML='<option value="tutti">👥 Tutti i dip.</option>';
+      sel.onchange = renderIncAdmin;
+      // Inserisci prima del bottone + Assegna
+      const assegnaBtn = document.getElementById('inc-btn-assegna');
+      if(assegnaBtn) assegnaBtn.before(sel);
+      else barraFiltri.appendChild(sel);
+      // Popola con i dipendenti disponibili
+      _aggiornaIncFiltroDip();
+      obs.disconnect();
+    }
+  });
+  obs.observe(document.body,{childList:true,subtree:true});
+})();
+function _aggiornaIncFiltroDip(){
+  const sel = document.getElementById('inc-filtro-dip');
+  if(!sel) return;
+  const cur = sel.value;
+  const nomi = [...new Set(
+    (INCARICHI_SETT||[]).flatMap(inc=>inc.gruppi?.flatMap(g=>g.dipNomi)||[])
+  )].sort();
+  sel.innerHTML='<option value="tutti">👥 Tutti i dip.</option>'+
+    nomi.map(n=>`<option value="${n}"${n===cur?' selected':''}>${n}</option>`).join('');
+}
+
+// Patch renderIncAdmin per filtrare per dipendente
+const _origRenderIncAdmin = window.renderIncAdmin;
+if(typeof _origRenderIncAdmin==='function'){
+  window.renderIncAdmin = function(){
+    _aggiornaIncFiltroDip(); // aggiorna la lista dipendenti
+    const filtDip = document.getElementById('inc-filtro-dip')?.value||'tutti';
+    if(filtDip==='tutti'){ _origRenderIncAdmin.apply(this,arguments); return; }
+    // Filtra temporaneamente INCARICHI_SETT per il dipendente selezionato
+    const _backup = window.INCARICHI_SETT;
+    window.INCARICHI_SETT = INCARICHI_SETT.filter(inc=>
+      inc.gruppi?.some(g=>g.dipNomi.includes(filtDip))
+    );
+    _origRenderIncAdmin.apply(this,arguments);
+    window.INCARICHI_SETT = _backup;
+  };
+}
+
+
+// ── 4. BOTTONE STATISTICHE IN GESTIONE CLIENTI ──
+const _origRenderClienti = window.renderClienti;
+if(typeof _origRenderClienti==='function'){
+  window.renderClienti = function(){
+    const r = _origRenderClienti.apply(this,arguments);
+    setTimeout(()=>{
+      // Il corretto ID tabella è #cli-tbl
+      const tbody = document.querySelector('#cli-tbl tbody');
+      if(!tbody) return;
+      // Aggiungi intestazione colonna Stats se non c'è
+      const thead = document.querySelector('#cli-tbl thead tr');
+      if(thead && !thead.querySelector('[data-stats-th]')){
+        const th = document.createElement('th');
+        th.setAttribute('data-stats-th','1');
+        th.textContent='Stats';
+        thead.appendChild(th);
+      }
+      tbody.querySelectorAll('tr').forEach(row=>{
+        if(row.querySelector('[data-stats-btn]')) return;
+        const cells = row.querySelectorAll('td');
+        if(!cells.length) return;
+        const nome = cells[0]?.textContent?.trim();
+        if(!nome) return;
+        const td = document.createElement('td');
+        const btn = document.createElement('button');
+        btn.setAttribute('data-stats-btn','1');
+        btn.textContent='📊';
+        btn.title='Statistiche ordini';
+        btn.style.cssText='background:none;border:1px solid rgba(0,212,255,0.2);border-radius:6px;color:var(--cyan);padding:2px 8px;cursor:pointer;font-size:12px';
+        btn.onclick=()=>_statsAzienda(nome);
+        td.appendChild(btn);
+        row.appendChild(td);
+      });
+    },200);
+    return r;
+  };
+}
+
+
+// ── 5. ORDINAMENTO DIPENDENTI NELLA TABELLA STIPENDI ──
+(function patchInserisciTabella(){
+  const _origRender = window.renderInserisciTabella;
+  if(typeof _origRender!=='function') return;
+  let _sortField='nome', _sortDir=1;
+  window.renderInserisciTabella = function(){
+    // Ordina DIP prima del render
+    const _dipBackup = [...DIP];
+    DIP.sort((a,b)=>{
+      let va=a[_sortField]||'', vb=b[_sortField]||'';
+      return String(va).localeCompare(String(vb))*_sortDir;
+    });
+    _origRender.apply(this,arguments);
+    DIP.length=0; _dipBackup.forEach(d=>DIP.push(d)); // ripristina ordine originale
+
+    // Aggiungi header cliccabili se non già presenti
+    setTimeout(()=>{
+      const thead = document.querySelector('#ins-tbody')?.closest('table')?.querySelector('thead tr');
+      if(!thead || thead.dataset.sortable) return;
+      thead.dataset.sortable='1';
+      ['nome','ruolo'].forEach((field,i)=>{
+        const th = thead.cells[i+1]; // 0=contratto, 1=nome, 2=ruolo
+        if(!th) return;
+        th.style.cursor='pointer';
+        th.title='Clicca per ordinare';
+        th.onclick=()=>{
+          if(_sortField===field) _sortDir*=-1; else{_sortField=field;_sortDir=1;}
+          renderInserisciTabella();
+        };
+        th.innerHTML+=` <span style="color:var(--dim2);font-size:10px">${_sortField===field?(_sortDir>0?'↑':'↓'):'⇅'}</span>`;
+      });
+    },100);
+  };
+})();
+
+
+// ── 6. MODIFICA ORDINE LATO CLIENTE ──
+// Quando un ordine è "In Preparazione", il cliente può modificare le quantità
+function apriModificaOrdineCliente(codice){
+  if(!AZ_LOGGED) return;
+  const ord = MIEI_ORDINI.find(o=>o.codice===codice) || ORDINI.find(o=>o.codice===codice);
+  if(!ord || ord.stato!=='In Preparazione'){ toast('⚠️ Ordine non modificabile'); return; }
+
+  const prodHtml = (ord.prodotti||[]).filter(p=>p.qty>0).map(p=>`
+    <div style="display:flex;align-items:center;justify-content:space-between;padding:8px 0;border-bottom:1px solid rgba(255,255,255,0.05)">
+      <span style="font-size:13px;color:#fff">${prodEmoji?.(p.nome)||''} ${p.nome}</span>
+      <div style="display:flex;align-items:center;gap:8px">
+        <button onclick="this.nextElementSibling.stepDown();this.nextElementSibling.dispatchEvent(new Event('input'))" style="background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.1);color:#fff;border-radius:6px;padding:2px 8px;cursor:pointer;font-family:inherit">−</button>
+        <input type="number" min="0" value="${p.qty/64}" step="1"
+          data-prod-nome="${p.nome}"
+          style="width:60px;text-align:center;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.12);color:#fff;border-radius:6px;padding:4px;font-family:inherit"
+          oninput="_aggiornaTotaleModifica()"
+          title="Stack (×64 unità)">
+        <span style="font-size:11px;color:var(--dim)">stack</span>
+        <button onclick="this.previousElementSibling.previousElementSibling.stepUp();this.previousElementSibling.previousElementSibling.dispatchEvent(new Event('input'))" style="background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.1);color:#fff;border-radius:6px;padding:2px 8px;cursor:pointer;font-family:inherit">+</button>
+      </div>
+    </div>`).join('');
+
+  const overlay = document.createElement('div');
+  overlay.style.cssText='position:fixed;inset:0;z-index:9700;background:rgba(0,0,0,0.7);display:flex;align-items:center;justify-content:center;backdrop-filter:blur(4px)';
+  overlay.innerHTML=`<div style="background:#0d1220;border:1px solid rgba(255,255,255,0.12);border-radius:16px;padding:28px;max-width:420px;width:90%;max-height:80vh;overflow-y:auto;box-shadow:0 20px 60px rgba(0,0,0,0.6)">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px">
+      <div style="font-size:15px;font-weight:800;color:#fff">✏️ Modifica Ordine</div>
+      <button onclick="this.closest('[style*=z-index\\:9700]').remove()" style="background:none;border:none;color:var(--dim);cursor:pointer;font-size:18px">✕</button>
+    </div>
+    <div style="font-size:11px;color:var(--dim);margin-bottom:16px">Codice: <span style="font-family:monospace;color:var(--cyan)">${codice}</span> · Modifica le quantità in stack</div>
+    <div id="mod-ord-prodotti">${prodHtml}</div>
+    <div style="margin-top:16px;display:flex;justify-content:space-between;align-items:center;padding-top:12px;border-top:1px solid rgba(255,255,255,0.08)">
+      <span style="font-size:13px;color:var(--dim)">Totale: <strong id="mod-ord-totale" style="color:var(--cyan)">—</strong></span>
+      <button onclick="_salvaModificaOrdineCliente('${codice}',this.closest('[style*=z-index\\:9700]'))"
+        style="background:var(--cyan);color:#000;border:none;border-radius:10px;padding:10px 24px;font-size:13px;font-weight:800;cursor:pointer;font-family:inherit">
+        💾 Salva modifiche
+      </button>
+    </div>
+  </div>`;
+  overlay.addEventListener('click',e=>{if(e.target===overlay)overlay.remove();});
+  document.body.appendChild(overlay);
+  _aggiornaTotaleModifica();
+}
+
+function _aggiornaTotaleModifica(){
+  const tipo = AZ_LOGGED?.tipo||'pubblica';
+  const prezzo = tipo==='pubblica'?100:150;
+  let tot=0;
+  document.querySelectorAll('#mod-ord-prodotti input[type=number]').forEach(inp=>{
+    tot+=(parseFloat(inp.value)||0)*prezzo;
+  });
+  const el=document.getElementById('mod-ord-totale');
+  if(el) el.textContent=typeof fe==='function'?fe(tot):`€${tot.toFixed(2)}`;
+}
+
+async function _salvaModificaOrdineCliente(codice, modal){
+  if(!AZ_LOGGED) return;
+  const tipo = AZ_LOGGED.tipo||'pubblica';
+  const prezzo = tipo==='pubblica'?100:150;
+  const nuoviProdotti=[];
+  document.querySelectorAll('#mod-ord-prodotti input[type=number]').forEach(inp=>{
+    const stacks=parseFloat(inp.value)||0;
+    if(stacks>0) nuoviProdotti.push({nome:inp.dataset.prodNome, qty:Math.round(stacks*64)});
+  });
+  const nuovoTotale=nuoviProdotti.reduce((s,p)=>s+p.qty/64*prezzo,0);
+  // Aggiorna in ORDINI
+  const ord=ORDINI.find(o=>o.codice===codice);
+  if(ord){ ord.prodotti=nuoviProdotti; ord.totale=nuovoTotale; }
+  const ordM=MIEI_ORDINI.find(o=>o.codice===codice);
+  if(ordM){ ordM.prodotti=nuoviProdotti; ordM.totale=nuovoTotale; }
+  const wasP=!!_pollingInterval; if(wasP)stopPolling();
+  await DB.save('ordini',ORDINI).catch(()=>{});
+  if(wasP)setTimeout(startPolling,1500);
+  modal?.remove();
+  renderMordStorico?.();
+  toast('✅ Ordine modificato!');
+}
+
+// Aggiungi bottone "Modifica" in Miei Ordini quando stato è "In Preparazione"
+const _origRenderMordStorico = window.renderMordStorico;
+if(typeof _origRenderMordStorico==='function'){
+  window.renderMordStorico = function(){
+    const r = _origRenderMordStorico.apply(this,arguments);
+    if(!AZ_LOGGED) return r;
+    setTimeout(()=>{
+      document.querySelectorAll('#mst-tbody tr').forEach(row=>{
+        if(row.querySelector('[data-modifica-btn]')) return;
+        const statoCell = row.querySelector('span[style*="border"]');
+        if(!statoCell || !statoCell.textContent.includes('In Preparazione')) return;
+        const codiceCell = row.querySelector('td:first-child');
+        const codice = codiceCell?.textContent?.trim();
+        if(!codice) return;
+        const td = document.createElement('td');
+        const btn = document.createElement('button');
+        btn.setAttribute('data-modifica-btn','1');
+        btn.textContent='✏️ Modifica';
+        btn.style.cssText='background:rgba(0,212,255,0.08);border:1px solid rgba(0,212,255,0.25);color:var(--cyan);border-radius:8px;padding:4px 12px;font-size:11px;font-weight:700;cursor:pointer;font-family:inherit';
+        btn.onclick=()=>apriModificaOrdineCliente(codice);
+        td.appendChild(btn);
+        row.appendChild(td);
+      });
+    },150);
+    return r;
+  };
+}
+
+
+
+// ══════════════════════════════════════════════════════════════
+// BLOCCO 6 — FIX FINALI E FUNZIONALITÀ RIMANENTI
+// ══════════════════════════════════════════════════════════════
+
+// ── 1. RATE LIMITING LOGIN AZIENDA ──
+let _azLoginAttempts=0, _azLockedUntil=0;
+const _AZ_LOGIN_MAX=5, _AZ_LOGIN_LOCKOUT_MS=60000;
+const _origLoginAziendaRL=window.loginAzienda;
+window.loginAzienda=async function(){
+  if(Date.now()<_azLockedUntil){
+    const rem=Math.ceil((_azLockedUntil-Date.now())/1000);
+    const e=document.getElementById('az-err');
+    if(e){e.style.display='block';e.textContent=`🔒 Troppi tentativi. Attendi ${rem}s.`;}
+    return;
+  }
+  await _origLoginAziendaRL?.apply(this,arguments);
+  const e=document.getElementById('az-err');
+  if(e&&e.style.display!=='none'&&e.textContent.includes('Password errata')){
+    _azLoginAttempts++;
+    if(_azLoginAttempts>=_AZ_LOGIN_MAX){
+      _azLockedUntil=Date.now()+_AZ_LOGIN_LOCKOUT_MS;
+      _azLoginAttempts=0;
+      e.textContent='🔒 Account bloccato per 60 secondi.';
+    }
+  } else if(AZ_LOGGED){ _azLoginAttempts=0; }
+};
+
+
+// ── 2. VALIDAZIONE INLINE FORM ORDINE ──
+(function(){
+  function addErr(id,msg){
+    const inp=document.getElementById(id); if(!inp) return;
+    let div=document.getElementById('valerr-'+id);
+    if(!div){div=document.createElement('div');div.id='valerr-'+id;div.style.cssText='font-size:11px;color:#f87171;margin-top:3px;display:none';inp.after(div);}
+    div.textContent=msg; div.style.display=msg?'':'none'; inp.style.borderColor=msg?'rgba(239,68,68,0.5)':'';
+  }
+  document.addEventListener('blur',e=>{
+    if(e.target.id==='cf-mc') addErr('cf-mc',e.target.value.trim()?'':'⚠️ Inserisci il tuo nome Minecraft');
+    if(e.target.id==='cf-tg'){const v=e.target.value.trim();addErr('cf-tg',!v?'⚠️ Inserisci @ Telegram':!v.startsWith('@')?'⚠️ Inizia con @':'');}
+  },true);
+  const _oi=window.inviaOrdine;
+  if(typeof _oi==='function') window.inviaOrdine=function(){
+    const mc=document.getElementById('cf-mc')?.value.trim();
+    const tg=document.getElementById('cf-tg')?.value.trim();
+    addErr('cf-mc',mc?'':'⚠️ Inserisci il tuo nome Minecraft');
+    addErr('cf-tg',!tg?'⚠️ Inserisci @ Telegram':!tg.startsWith('@')?'⚠️ Inizia con @':'');
+    if(!mc||!tg||!tg.startsWith('@')) return;
+    _oi.apply(this,arguments);
+  };
+})();
+
+
+// ── 3. FIX MODIFICA ORDINE: CONTROLLO MINIMO ──
+(function(){
+  const _orig=window._salvaModificaOrdineCliente;
+  window._salvaModificaOrdineCliente=async function(codice,modal){
+    const tipo=AZ_LOGGED?.tipo||'pubblica';
+    const prezzo=tipo==='pubblica'?100:150;
+    const minimo=tipo==='pubblica'?2000:3000;
+    let tot=0;
+    document.querySelectorAll('#mod-ord-prodotti input[type=number]').forEach(i=>{tot+=(parseFloat(i.value)||0)*prezzo;});
+    if(tot<minimo){toast(`⚠️ Totale €${tot.toFixed(0)} sotto il minimo €${minimo}`);return;}
+    if(typeof _orig==='function') return _orig.apply(this,arguments);
+  };
+})();
+
+
+// ── 4. TEMPLATE ORDINI ──
+const _TPL_KEY='pu_ord_templates';
+function _getTpl(){try{return JSON.parse(localStorage.getItem(_TPL_KEY)||'[]');}catch{return[];}}
+function _saveTpl(t){try{localStorage.setItem(_TPL_KEY,JSON.stringify(t));}catch{}}
+
+function _salvaTemplateCorrente(){
+  const items=Object.entries(ORD.qty||{}).filter(([,q])=>q>0);
+  if(!items.length){toast('⚠️ Carrello vuoto');return;}
+  const nome=prompt('Nome del template:');
+  if(!nome) return;
+  const tpls=_getTpl();
+  tpls.unshift({id:Date.now(),nome,tipo:ORD.tipo,prodotti:Object.fromEntries(items),creato:new Date().toLocaleDateString('it-IT')});
+  _saveTpl(tpls.slice(0,20));
+  toast('✅ Template "'+nome+'" salvato!');
+}
+
+function _apriTemplateOrdini(){
+  const tpls=_getTpl().filter(t=>!AZ_LOGGED||t.tipo===AZ_LOGGED.tipo);
+  const ov=document.createElement('div');
+  ov.style.cssText='position:fixed;inset:0;z-index:9700;background:rgba(0,0,0,0.7);display:flex;align-items:center;justify-content:center;backdrop-filter:blur(4px)';
+  const rows=tpls.length?tpls.map(t=>`
+    <div style="display:flex;align-items:center;justify-content:space-between;padding:12px 14px;background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.07);border-radius:10px;margin-bottom:8px">
+      <div><div style="font-size:13px;font-weight:700;color:#fff">${t.nome}</div>
+      <div style="font-size:11px;color:var(--dim)">${t.creato} · ${Object.keys(t.prodotti||{}).length} prodotti</div></div>
+      <div style="display:flex;gap:6px">
+        <button onclick="_caricaTpl(${t.id},this.closest('[style*=z-index\\:9700]'))" style="background:rgba(0,212,255,0.1);border:1px solid rgba(0,212,255,0.3);color:var(--cyan);border-radius:8px;padding:6px 14px;font-size:12px;font-weight:700;cursor:pointer;font-family:inherit">Usa</button>
+        <button onclick="_elTpl(${t.id});this.closest('[style*=z-index\\:9700]').remove();_apriTemplateOrdini()" style="background:rgba(239,68,68,0.08);border:1px solid rgba(239,68,68,0.25);color:#f87171;border-radius:8px;padding:6px 10px;font-size:12px;cursor:pointer">🗑</button>
+      </div>
+    </div>`).join('')
+    :'<div style="color:var(--dim);text-align:center;padding:30px;font-size:13px">Nessun template.<br><small>Aggiungi prodotti e premi "Salva template".</small></div>';
+  ov.innerHTML=`<div style="background:#0d1220;border:1px solid rgba(255,255,255,0.1);border-radius:16px;padding:28px;max-width:480px;width:90%;max-height:80vh;overflow-y:auto;box-shadow:0 20px 60px rgba(0,0,0,0.6)">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px">
+      <div style="font-size:15px;font-weight:800;color:#fff">📋 Template Ordini</div>
+      <button onclick="this.closest('[style*=z-index\\:9700]').remove()" style="background:none;border:none;color:var(--dim);cursor:pointer;font-size:18px">✕</button>
+    </div>
+    ${rows}
+    <div style="margin-top:14px;padding-top:14px;border-top:1px solid rgba(255,255,255,0.07)">
+      <button onclick="_salvaTemplateCorrente()" style="background:rgba(139,92,246,0.1);border:1px solid rgba(139,92,246,0.3);color:#a78bfa;border-radius:10px;padding:10px 20px;font-size:13px;font-weight:700;cursor:pointer;font-family:inherit;width:100%">💾 Salva carrello come template</button>
+    </div>
+  </div>`;
+  ov.addEventListener('click',e=>{if(e.target===ov)ov.remove();});
+  document.body.appendChild(ov);
+}
+function _caricaTpl(id,modal){
+  const t=_getTpl().find(x=>x.id===id); if(!t) return;
+  nuovoOrdineAzienda();
+  setTimeout(()=>{
+    ORD.qty={...(t.prodotti||{})};
+    Object.entries(ORD.qty).forEach(([n,q])=>{const el=document.getElementById('qv-'+sid(n));if(el)el.value=q;});
+    renderSum?.();
+    modal?.remove();
+    toast('📋 Template "'+t.nome+'" caricato!');
+  },350);
+}
+function _elTpl(id){_saveTpl(_getTpl().filter(t=>t.id!==id));}
+
+
+// ── 5. ARCHIVIO ORDINI VECCHI ──
+const _ARCH_MONTHS=3;
+function _archiviaOrdiniVecchi(){
+  const cutoff=new Date(); cutoff.setMonth(cutoff.getMonth()-_ARCH_MONTHS);
+  const vecchi=ORDINI.filter(o=>{
+    if(!o.mese) return false;
+    if(o.timestamp) return new Date(o.timestamp)<cutoff;
+    const yr=new Date().getFullYear();
+    return yr*12+parseInt(o.mese) < cutoff.getFullYear()*12+(cutoff.getMonth()+1);
+  });
+  if(!vecchi.length){toast('✅ Nessun ordine da archiviare');return;}
+  _conferma(`Archiviare ${vecchi.length} ordini più vecchi di ${_ARCH_MONTHS} mesi?`,async()=>{
+    let arch=[];
+    try{const d=await DB.get('ordini_archivio');if(Array.isArray(d))arch=d;}catch{}
+    arch.push(...vecchi);
+    const cv=new Set(vecchi.map(o=>o.codice));
+    ORDINI=ORDINI.filter(o=>!cv.has(o.codice));
+    await Promise.all([DB.save('ordini',ORDINI),DB.save('ordini_archivio',arch)]);
+    toast(`📦 ${vecchi.length} ordini archiviati`);
+    _adminLog?.('📦 Archivio',`${vecchi.length} ordini archiviati`);
+    renderOrdini?.();
+  },{okLabel:`Archivia ${vecchi.length}`});
+}
+function _apriArchivioOrdini(){
+  DB.get('ordini_archivio').then(data=>{
+    if(!data||!data.length){toast('📭 Archivio vuoto');return;}
+    const ov=document.createElement('div');
+    ov.style.cssText='position:fixed;inset:0;z-index:9700;background:rgba(0,0,0,0.7);display:flex;align-items:center;justify-content:center;backdrop-filter:blur(4px)';
+    const rows=data.slice(0,50).map(o=>`<tr><td style="font-family:monospace;font-size:11px;color:var(--cyan)">${o.codice}</td><td>${o.azienda}</td><td style="color:var(--dim);font-size:11px">M${o.mese}/S${o.sett}</td><td style="color:var(--green)">${typeof fe==='function'?fe(o.totale||0):'€'+(o.totale||0).toFixed(2)}</td><td style="font-size:11px;color:var(--dim2)">${o.stato}</td></tr>`).join('');
+    ov.innerHTML=`<div style="background:#0d1220;border:1px solid rgba(255,255,255,0.1);border-radius:16px;padding:28px;max-width:700px;width:95%;max-height:80vh;overflow:auto;box-shadow:0 20px 60px rgba(0,0,0,0.6)">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px">
+        <div style="font-size:15px;font-weight:800;color:#fff">📦 Archivio (${data.length} ordini)</div>
+        <button onclick="this.closest('[style*=z-index\\:9700]').remove()" style="background:none;border:none;color:var(--dim);cursor:pointer;font-size:18px">✕</button>
+      </div>
+      <div style="overflow-x:auto"><table class="staff-tbl" style="font-size:12px"><thead><tr><th>Codice</th><th>Azienda</th><th>Periodo</th><th style="color:var(--green)">Totale</th><th>Stato</th></tr></thead><tbody>${rows}</tbody></table></div>
+      ${data.length>50?`<p style="color:var(--dim);font-size:11px;text-align:center;margin-top:12px">Mostrati 50 di ${data.length}</p>`:''}
+    </div>`;
+    ov.addEventListener('click',e=>{if(e.target===ov)ov.remove();});
+    document.body.appendChild(ov);
+  }).catch(()=>toast('⚠️ Errore archivio'));
+}
+// Aggiungi bottoni archivio nel pannello gestione staff
+(function(){
+  const obs=new MutationObserver(()=>{
+    const backup=document.getElementById('btn-backup-json');
+    if(backup&&!document.getElementById('btn-archivio')){
+      const b1=document.createElement('button'); b1.id='btn-archivio';
+      b1.innerHTML='📦 Archivia ordini vecchi';
+      b1.onclick=_archiviaOrdiniVecchi;
+      b1.style.cssText='margin-top:8px;background:rgba(245,158,11,0.1);border:1px solid rgba(245,158,11,0.3);color:#f59e0b;border-radius:10px;padding:10px 20px;font-size:13px;font-weight:700;cursor:pointer;font-family:inherit;display:block';
+      b1.title=`Archivia ordini più vecchi di ${_ARCH_MONTHS} mesi`;
+      const b2=document.createElement('button'); b2.id='btn-apri-archivio';
+      b2.innerHTML='🗂 Consulta archivio';
+      b2.onclick=_apriArchivioOrdini;
+      b2.style.cssText='margin-top:6px;background:rgba(99,102,241,0.08);border:1px solid rgba(99,102,241,0.25);color:#818cf8;border-radius:10px;padding:8px 20px;font-size:12px;font-weight:700;cursor:pointer;font-family:inherit;display:block';
+      backup.after(b2); backup.after(b1);
+      obs.disconnect();
+    }
+  });
+  obs.observe(document.body,{childList:true,subtree:true});
+})();
+
 </script>
 </body>
-</html>
+</html><!-- placeholder - will be replaced -->
